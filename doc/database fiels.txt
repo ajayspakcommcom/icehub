@@ -1,0 +1,97 @@
+user 
+	firstName,
+	lastName,
+	Email,
+	Mobile,
+	Dob,
+	City,
+	hospitalName, 
+	aboutYourSelf,
+	imageUrl,
+	createdBy, 
+	createdDate,
+	updatedBy, 
+	updatedDate,
+	deletedBy,
+	deletedDate
+	
+
+homeBanner
+	title,
+	paragraph,
+	imageUrl,
+	createdBy, 
+	createdDate,
+	updatedBy, 
+	updatedDate,
+	deletedBy,
+	deletedDate
+	
+	
+announcementBanner 
+	title,
+	linkUrl, 
+	imageUrl,
+	createdBy, 
+	createdDate,
+	updatedBy, 
+	updatedDate,
+	deletedBy,
+	deletedDate
+	
+
+taskType 
+	name,
+	createdDate,
+	updatedBy, 
+	updatedDate,
+	deletedBy,
+	deletedDate
+	
+task
+  title,
+  blogParagraph,
+  csDiagnosis,
+  csTreatment,
+  csQuestion1,
+  csQuestion2,
+  csDoctorName,
+  videoUrl,
+  infographic1,
+  infographic2,
+  infographic3,
+  infographic4,
+  infographic5,
+  infographic6,
+  createdDate,
+  updatedBy, 
+  updatedDate,
+  deletedBy,
+  deletedDate
+
+
+userTask 
+   user,
+   task,
+   completed,
+   completionDate,
+   likes,
+   createdDate,
+   updatedBy, 
+   updatedDate,
+   deletedBy,
+   deletedDate,
+   isApproved, 
+   isApprovedDate
+
+	
+
+
+
+
+
+
+
+	
+
+	

@@ -1,0 +1,48 @@
+/your-nextjs-project
+|-- /src
+    |-- /pages
+        |-- index.tsx
+        |-- _app.tsx
+        |-- ...
+    |-- /components
+        |-- /Header
+            |-- index.tsx
+            |-- styles.module.css
+        |-- /Footer
+            |-- index.tsx
+            |-- styles.module.css
+        |-- ...
+    |-- /services
+        |-- userService.ts
+        |-- productService.ts
+        |-- ...
+    |-- /logic
+        |-- userLogic.ts
+        |-- productLogic.ts
+        |-- ...
+    |-- /models
+        |-- user.ts
+        |-- product.ts
+        |-- ...
+    |-- /utils
+        |-- dateUtils.ts
+        |-- apiUtils.ts
+        |-- ...
+    |-- /public
+        |-- /images
+        |-- /styles
+        |-- ...
+    |-- /styles
+        |-- globals.css
+        |-- ...
+    |-- /hooks
+        |-- useAuth.ts
+        |-- useFetch.ts
+        |-- ...
+    |-- /context
+        |-- UserContext.tsx
+        |-- ProductContext.tsx
+        |-- ...
+|-- package.json
+|-- tsconfig.json
+|-- ...

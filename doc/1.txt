@@ -1,0 +1,33 @@
+/my-next-app
+|-- /public                   # Static files like images, fonts, etc.
+|-- /src
+    |-- /components           # Reusable components
+        |-- /common           # Common components like buttons, inputs, etc.
+        |-- /layout           # Layout components like headers, footers, etc.
+        |-- /sections         # Larger sections or specific feature components
+    |-- /pages                # Next.js pages
+        |-- _app.tsx          # Custom App component
+        |-- _document.tsx     # Custom Document component
+        |-- /api              # API routes for server-side logic
+            |-- /customers
+                |-- [id].ts
+                |-- index.ts
+    |-- /models               # TypeScript interfaces or types
+    |-- /services             # Services for API calls, business logic
+    |-- /hooks                # Custom React hooks
+    |-- /store                # State management (Redux, Zustand, etc.)
+    |-- /utils                # Utility functions and helpers
+    |-- /styles               # Global styles, CSS/SCSS modules
+    |-- /lib                  # Library code and reusable utilities
+    |-- /contexts             # React contexts for global state
+    |-- /tests                # Test files
+|-- /node_modules
+|-- /environments            # Environment-specific configurations
+|-- .env.local               # Local environment variables
+|-- .env.production          # Production environment variables
+|-- .eslintrc.js             # ESLint configuration
+|-- .prettierrc              # Prettier configuration
+|-- tsconfig.json            # TypeScript configuration
+|-- next.config.js           # Next.js configuration
+|-- package.json
+|-- README.md
