@@ -109,12 +109,8 @@ const LoginForm: React.FC<LoginFormProps> = () => {
                     style={{ marginBottom: '16px' }}
                 />
 
-                <div className="text-right forgot-text">
-                    <Link href="/forgot-password">Forgot password ?</Link>
-                </div>
-
                 <Box display="flex">
-                    <Button type="submit" variant="contained" size="large" fullWidth > {loading ? "Processing.." : "Login"} </Button>
+                    <Button type="submit" variant="contained" size="large" fullWidth className="ice-btn"> {loading ? "Processing.." : "Sign in"} </Button>
                 </Box>
 
             </form>

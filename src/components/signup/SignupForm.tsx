@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { TextField, Button, Typography, Container, Box } from '@mui/material';
+import { TextField, Button, Grid, Container, Box } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Link from 'next/link';
@@ -15,28 +15,29 @@ const Index: React.FC = () => {
     const initialValues: User = {
         email: '',
         password: '',
-        profession: '',
-        experienceYears: 0,
-        bio: '',
+        confirmPassword: '',
+        firstName: '',
+        lastName: '',
         phoneNumber: '',
-        location: '',
-        state: '',
         city: '',
+        hospitalName: '',
         type: 'CREATE'
     };
 
     const handleSubmit = async (user: User) => {
 
-        try {
-            const userResponse = await createUser(user);
-            console.log('User created successfully:', userResponse);
-            formik.resetForm();
-        } catch (err: any) {
-            console.log('Error during user creation:', err.response.data.error);
-            if (err.response.data.error) {
-                setError(err.response.data.errorDetail);
-            }
-        }
+        console.log(user);
+
+        // try {
+        //     const userResponse = await createUser(user);
+        //     console.log('User created successfully:', userResponse);
+        //     formik.resetForm();
+        // } catch (err: any) {
+        //     console.log('Error during user creation:', err.response.data.error);
+        //     if (err.response.data.error) {
+        //         setError(err.response.data.errorDetail);
+        //     }
+        // }
 
     };
 
@@ -53,147 +54,142 @@ const Index: React.FC = () => {
     });
 
     return (
-        <Container maxWidth="xs">
-            <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
-                <Typography variant="h5" align="center" gutterBottom>Signup</Typography>
-
+        <>
+            <form className='register-form' onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
                 {error && <p>{error}</p>}
+                <Grid container columnSpacing={2}>
+                    <Grid item xs={12}>
+                        <TextField
+                            type="email"
+                            label="Email"
+                            name="email"
+                            variant="outlined"
+                            fullWidth
+                            margin="normal"
+                            value={formik.values.email}
+                            onChange={formik.handleChange}
+                            error={formik.touched.email && Boolean(formik.errors.email)}
+                            helperText={formik.touched.email && formik.errors.email}
+                        />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <TextField
+                            type="password"
+                            label="Password"
+                            name="password"
+                            variant="outlined"
+                            fullWidth
+                            margin="normal"
+                            value={formik.values.password}
+                            onChange={formik.handleChange}
+                            error={formik.touched.password && Boolean(formik.errors.password)}
+                            helperText={formik.touched.password && formik.errors.password}
+                            className='odd-input'
+                        />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <TextField
+                            type="password"
+                            label="Confirm Password"
+                            name="confirmPassword"
+                            variant="outlined"
+                            fullWidth
+                            margin="normal"
+                            value={formik.values.confirmPassword}
+                            onChange={formik.handleChange}
+                            error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
+                            helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
+                            className='even-input'
+                        />
+                    </Grid>
 
-                <TextField
-                    type="email"
-                    label="Email"
-                    name="email"
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                    value={formik.values.email}
-                    onChange={formik.handleChange}
-                    error={formik.touched.email && Boolean(formik.errors.email)}
-                    helperText={formik.touched.email && formik.errors.email}
-                />
+                    <Grid item xs={6}>
+                        <TextField
+                            type="text"
+                            label="First Name"
+                            name="firstName"
+                            variant="outlined"
+                            fullWidth
+                            margin="normal"
+                            value={formik.values.firstName}
+                            onChange={formik.handleChange}
+                            error={formik.touched.firstName && Boolean(formik.errors.firstName)}
+                            helperText={formik.touched.firstName && formik.errors.firstName}
+                        />
+                    </Grid>
 
-                <TextField
-                    type="password"
-                    label="Password"
-                    name="password"
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                    value={formik.values.password}
-                    onChange={formik.handleChange}
-                    error={formik.touched.password && Boolean(formik.errors.password)}
-                    helperText={formik.touched.password && formik.errors.password}
-                />
+                    <Grid item xs={6}>
+                        <TextField
+                            type="text"
+                            label="Last Name"
+                            name="lastName"
+                            variant="outlined"
+                            fullWidth
+                            margin="normal"
+                            value={formik.values.lastName}
+                            onChange={formik.handleChange}
+                            error={formik.touched.lastName && Boolean(formik.errors.lastName)}
+                            helperText={formik.touched.lastName && formik.errors.lastName}
+                        />
+                    </Grid>
 
-                <TextField
-                    type="text"
-                    label="Profession"
-                    name="profession"
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                    value={formik.values.profession}
-                    onChange={formik.handleChange}
-                    error={formik.touched.profession && Boolean(formik.errors.profession)}
-                    helperText={formik.touched.profession && formik.errors.profession}
-                />
+                    <Grid item xs={6}>
+                        <TextField
+                            type="text"
+                            label="Phone Number"
+                            name="phoneNumber"
+                            variant="outlined"
+                            fullWidth
+                            margin="normal"
+                            value={formik.values.phoneNumber}
+                            onChange={formik.handleChange}
+                            error={formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)}
+                            helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
+                        />
+                    </Grid>
 
-                <TextField
-                    type="number"
-                    label="Experience Years"
-                    name="experienceYears"
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                    value={formik.values.experienceYears}
-                    onChange={formik.handleChange}
-                    error={
-                        formik.touched.experienceYears &&
-                        Boolean(formik.errors.experienceYears)
-                    }
-                    helperText={
-                        formik.touched.experienceYears &&
-                        formik.errors.experienceYears
-                    }
-                />
+                    <Grid item xs={6}>
+                        <TextField
+                            type="text"
+                            label="City"
+                            name="city"
+                            variant="outlined"
+                            fullWidth
+                            margin="normal"
+                            value={formik.values.city}
+                            onChange={formik.handleChange}
+                            error={formik.touched.city && Boolean(formik.errors.city)}
+                            helperText={formik.touched.city && formik.errors.city}
+                        />
+                    </Grid>
 
-                <TextField
-                    type="text"
-                    label="Bio"
-                    name="bio"
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                    value={formik.values.bio}
-                    onChange={formik.handleChange}
-                    error={formik.touched.bio && Boolean(formik.errors.bio)}
-                    helperText={formik.touched.bio && formik.errors.bio}
-                />
+                    <Grid item xs={12}>
+                        <TextField
+                            type="text"
+                            label="Hospital Name"
+                            name="hospitalName"
+                            variant="outlined"
+                            fullWidth
+                            margin="normal"
+                            value={formik.values.hospitalName}
+                            onChange={formik.handleChange}
+                            error={formik.touched.hospitalName && Boolean(formik.errors.hospitalName)}
+                            helperText={formik.touched.hospitalName && formik.errors.hospitalName}
+                        />
+                    </Grid>
 
-                <TextField
-                    type="tel"
-                    label="Phone Number"
-                    name="phoneNumber"
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                    value={formik.values.phoneNumber}
-                    onChange={formik.handleChange}
-                    error={formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)}
-                    helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
-                />
+                    <Grid item xs={12}>
+                        <Box display="flex" justifyContent="space-between">
+                            <Button type="submit" variant="contained" color="primary" fullWidth className="ice-btn" >
+                                Signup
+                            </Button>
+                        </Box>
+                    </Grid>
 
-                <TextField
-                    type="text"
-                    label="Location"
-                    name="location"
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                    value={formik.values.location}
-                    onChange={formik.handleChange}
-                    error={formik.touched.location && Boolean(formik.errors.location)}
-                    helperText={formik.touched.location && formik.errors.location}
-                />
-
-                <TextField
-                    type="text"
-                    label="State"
-                    name="state"
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                    value={formik.values.state}
-                    onChange={formik.handleChange}
-                    error={formik.touched.state && Boolean(formik.errors.state)}
-                    helperText={formik.touched.state && formik.errors.state}
-                />
-
-                <TextField
-                    type="text"
-                    label="City"
-                    name="city"
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                    value={formik.values.city}
-                    onChange={formik.handleChange}
-                    error={formik.touched.city && Boolean(formik.errors.city)}
-                    helperText={formik.touched.city && formik.errors.city}
-                />
-
-                <Link href="/login" className='signup'>Login</Link>
-
-                <Box display="flex" justifyContent="space-between">
-                    <Button type="reset" variant="contained" color="inherit" style={{ width: '48%' }}>
-                        Reset
-                    </Button>
-                    <Button type="submit" variant="contained" color="primary" style={{ width: '48%' }}>
-                        Signup
-                    </Button>
-                </Box>
+                </Grid>
             </form>
-        </Container>
+
+        </>
     );
 };
 

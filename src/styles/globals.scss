@@ -19,10 +19,18 @@ body {
     }
 }
 
+p {
+    font-size: 14px;
+}
 
 .responsive-img {
     max-width: 100%;
     height: auto;
+
+    &.center {
+        display: block;
+        margin: auto;
+    }
 }
 
 .text-right {
@@ -48,6 +56,120 @@ body {
 
     &>div {
         width: 50%;
-        background-color: red;
+        position: relative;
+
+        &>img {
+            width: 100%;
+            height: 100%;
+            min-height: 100%;
+        }
+    }
+}
+
+.login-wrapper {
+    .banner-carousel {
+        height: 100%;
+
+        .carousel {
+            height: inherit;
+
+            &.carousel-slider {
+                height: inherit;
+
+                &>.slider-wrapper {
+                    height: inherit;
+
+                    &>.slider {
+                        height: inherit;
+
+                        &>.slide {
+                            height: inherit;
+
+                            &>.content {
+                                height: inherit;
+                                position: relative;
+
+                                &>img {
+                                    height: inherit;
+                                }
+
+                                .text-part {
+
+                                    position: absolute;
+                                    top: 25%;
+                                    left: 12%;
+                                    line-height: 34px;
+                                    color: #fff;
+
+                                    & * {
+                                        margin: 0 0;
+                                    }
+
+
+
+                                    color: #fff;
+
+                                    p {
+                                        font-family: 'regular';
+                                        font-size: 25px;
+                                        text-align: left;
+                                    }
+
+                                    h2 {
+                                        text-transform: uppercase;
+                                        font-family: 'extra-bold';
+                                        text-align: left;
+                                        font-size: 50px;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            .control-dots {
+                .dot {
+                    background-color: #fff;
+                    opacity: 1;
+
+                    &.selected {
+                        width: 20px;
+                        background-color: #18bdce;
+                        border-radius: 20px;
+                    }
+                }
+            }
+        }
+    }
+
+    .login-form-wrapper {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+
+
+
+    }
+}
+
+.ice-btn {
+    background-color: #18bdce !important;
+    text-transform: none !important;
+    font-family: "regular" !important;
+    height: 50px;
+
+    &:hover {
+        background-color: #18bdce !important;
+        opacity: 0.8 !important;
+    }
+}
+
+.register-form {
+    width: 500px;
+
+    .ice-btn {
+        margin-top: 15px;
     }
 }

@@ -1,32 +1,37 @@
 "use client";
-
 import React from "react";
-import Link from "next/link";
-import Toast from "@/components/Toast";
-import { Box, Button, Grid, TextField, Typography, Card, CardContent } from "@mui/material";
-import LoginForm from '../components/login/login';
-import Image from 'next/image';
+import BannerCarouselImage from "@/models/BannerCarouselImage";
+import Image from "next/image";
+import dynamic from 'next/dynamic';
+
+const BannerCarousel = dynamic(() => import('@/components/carousel/banner-carousel'));
+const LoginForm = dynamic(() => import('@/components/login/login'));
+const FormHeading = dynamic(() => import('@/components/form-heading/form-heading'));
+const FormFooter = dynamic(() => import('@/components/form-footer/form-footer'));
+
+
+const images: BannerCarouselImage[] = [
+  { id: 1, imageUrl: '1.png' },
+  { id: 2, imageUrl: '1.png' },
+  { id: 3, imageUrl: '1.png' },
+];
 
 
 export default function SignInOne() {
-
-
 
   return (
     <>
       <div className="login-wrapper">
         <div>
-          {/* <Image
-            src={require('../../../public/images/banner/1.png')}
-            alt="Description of the image"
-            width={500}
-            height={300}
-          /> */}
+          <BannerCarousel images={images} />
         </div>
         <div>
-          <Typography variant="h2" align="left" gutterBottom>Login</Typography>
-          <p> Don't have an account? <Link href="/signup" title=""> Sign Up </Link> </p>
-          <LoginForm />
+          <div className="login-form-wrapper">
+            <Image src={require('../../public/images/logo.png')} alt="Description of the image" className="responsive-img center" />
+            <FormHeading heading={'Sign in'} />
+            <LoginForm />
+            <FormFooter linkText={'Sign Up'} linkUrl={'/signup'} />
+          </div>
         </div>
       </div>
     </>

@@ -39,6 +39,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-email": "^2.0.0",
+    "react-responsive-carousel": "^3.2.23",
     "react-toastify": "^10.0.4",
     "rippleui": "^1.12.1",
     "sass": "^1.70.0",

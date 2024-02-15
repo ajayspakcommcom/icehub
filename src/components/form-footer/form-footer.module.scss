@@ -1,0 +1,45 @@
+.links {
+    text-align: center;
+    padding: 15px 0;
+
+    * {
+        color: #808080;
+        font-size: 12px;
+    }
+
+    a {
+        color: #18bdce;
+        font-family: 'semi-bold';
+    }
+
+    ul {
+        list-style: none;
+        padding: 0 0;
+        margin-bottom: 0 0;
+        display: flex;
+        justify-content: center;
+
+        li {
+            margin-right: 15px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            span {
+                display: inline-block;
+                width: 4px;
+                height: 4px;
+                background-color: #808080;
+                border-radius: 50px;
+            }
+
+            a {
+                text-decoration: none;
+                color: #808080;
+                font-size: 12px;
+                font-family: 'regular';
+            }
+        }
+    }
+}
