@@ -1,4 +1,4 @@
-.notification-wrapper {
+.profile-wrapper {
     width: 40px;
     height: 40px;
     background-color: #fff;
@@ -8,11 +8,13 @@
     align-items: center;
     cursor: pointer;
     position: relative;
+    margin-left: 15px;
 
 
     &>img {
-        width: 25px;
-        height: 25px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50px;
     }
 
     &:hover {
@@ -26,8 +28,8 @@
         display: none;
         background-color: #fff;
         border-radius: 10px;
-        width: 300px;
-        min-height: 200px;
+        width: 200px;
+        min-height: 100px;
         position: absolute;
         top: calc(100% + 20px);
         z-index: 999;
@@ -61,20 +63,27 @@
             &>li {
                 display: flex;
                 cursor: pointer;
-                margin-bottom: 15px;
+                margin-bottom: 10px;
+
+                &:nth-child(2) {
+                    div {
+                        width: 100%;
+                        background-color: #d4d4d4;
+                        height: 2px;
+                        border-radius: 50px;
+                    }
+                }
 
                 &>div {
                     &:first-child {
-                        background-color: #f0f2f5;
-                        border-radius: 50px;
-                        width: 40px;
-                        height: 40px;
                         display: flex;
                         justify-content: center;
                         align-items: center;
 
                         img {
-                            width: 25px;
+                            width: 40px;
+                            border-radius: 50px;
+                            height: 40px;
                         }
                     }
 
@@ -93,22 +102,33 @@
                         p {
                             font-family: 'regular';
                             margin: 0;
-                            color: #808080;
+                            color: #18bdce;
                             font-size: 12px;
                         }
                     }
-
-                    &:last-child {
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        width: 30px;
-                    }
-
                 }
 
                 &:last-child {
                     margin-bottom: 0;
+
+                    &>div {
+
+                        &:first-child {
+                            background-color: #f0f2f5;
+                            border-radius: 50px;
+                            width: 40px;
+                            height: 40px;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+
+                            &>img {
+                                width: 25px;
+                                height: 25px;
+                                border-radius: 0;
+                            }
+                        }
+                    }
                 }
             }
         }
