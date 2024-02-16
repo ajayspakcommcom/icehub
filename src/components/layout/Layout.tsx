@@ -3,7 +3,7 @@ import React, { FC, ReactNode } from 'react';
 import dynamic from 'next/dynamic';
 import { Container } from '@mui/material';
 
-const Header = dynamic(() => import('./Header'), {ssr: true});
+const Header = dynamic(() => import('./Header'), { ssr: true });
 const Footer = dynamic(() => import('./Footer'), { ssr: true });
 
 interface LayoutProps {

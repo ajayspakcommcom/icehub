@@ -28,11 +28,10 @@ const LoginForm: React.FC<LoginFormProps> = () => {
         console.log("The query is", searchParam.get("error"));
     }, []);
 
-
     /**************************ajay************************/
     const initialValues: User = {
-        email: 'manish@gmail.com',
-        password: '123456'
+        email: '',
+        password: ''
     };
 
 

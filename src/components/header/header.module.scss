@@ -1,0 +1,15 @@
+.header-wrapper {
+    background-image: linear-gradient(to right, #25306a, #18bdce);
+    padding: 10px 0;
+
+    .flex-v-center {
+        display: flex;
+        align-items: center;
+    }
+
+    .flex-h-end {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+}
