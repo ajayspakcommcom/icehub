@@ -16,7 +16,6 @@ const widgetLiabraryData: WidgetLiabrary[] = [
     { id: 5, heading: 'Link 5', text: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam' }
 ];
 
-
 const LiabraryWidget: React.FC<LiabraryWidgetProps> = () => {
     return (
         <div className={style['liabrary-wrapper']}>

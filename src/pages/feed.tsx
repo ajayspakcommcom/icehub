@@ -11,7 +11,7 @@ const LiabraryWidget = dynamic(() => import('@/components/liabrary-widget/liabra
 
 
 
-export default function SignInOne() {
+export default function Feed() {
 
   return (
     <>
