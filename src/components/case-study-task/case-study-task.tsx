@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { Box, Button } from '@mui/material';
+import { Button } from '@mui/material';
 import axios from 'axios';
-
-
 
 interface CaseStudyTaskProps {
   heading: string;
@@ -64,12 +62,12 @@ const CaseStudyTask: React.FC<CaseStudyTaskProps> = ({ heading, diagnosis, treat
 
   const saveContent = async () => {
     console.log('content', content);
-    // try {
-    //   const response = await axios.post('http://example.com/save', content);
-    //   console.log('Saved:', response.data);
-    // } catch (error) {
-    //   console.error('Error saving:', error);
-    // }
+    try {
+      const response = await axios.post('http://example.com/save', content);
+      console.log('Saved:', response.data);
+    } catch (error) {
+      console.error('Error saving:', error);
+    }
   };
 
   return (

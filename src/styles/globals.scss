@@ -399,12 +399,17 @@ p {
     }
 }
 
+.flex-h-end {
+    justify-content: flex-end !important;
+}
+
 [contenteditable]:focus {
     outline: 1px solid rgba(30, 121, 190, 0.2);
 }
 
 .case-study-task-wrapper {
     background-color: #fff;
+    padding: 30px 0;
 
     #content {
         max-width: 700px;
@@ -660,6 +665,128 @@ p {
     }
 }
 
-.flex-h-end {
-    justify-content: flex-end !important;
+.blog-task-wrapper {
+    background-color: #fff;
+    padding: 30px 0;
+
+    .blog-theme-wrapper {
+        min-width: 700px;
+        max-width: 700px;
+        margin: auto auto;
+
+        ul {
+            list-style: none;
+            padding: 0 0;
+            margin: 0 0 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+
+            &>li {
+                width: 150px;
+                cursor: pointer;
+                margin-right: 15px;
+
+                img {
+                    border-radius: 10px;
+                }
+            }
+        }
+    }
+
+    #content {
+        min-width: 700px;
+        max-width: 700px;
+        margin: auto auto;
+        min-height: 700px;
+        width: 100%;
+        border-radius: 10px;
+
+        .h1 {
+            font-family: "arial";
+            margin: 0 0;
+            padding: 30px 20px;
+            text-align: left;
+            font-size: 40px;
+            font-weight: 200;
+            width: 100%;
+            box-sizing: border-box;
+            outline: 0;
+            border: 0;
+            background: transparent;
+        }
+
+        #paragraph {
+            font-family: "arial";
+            font-size: 14px;
+            margin: 0 0;
+            width: 100%;
+            border: 0;
+            outline: 0;
+            scrollbar-color: transparent transparent;
+            line-height: 25px;
+            padding: 0 30px 20px;
+            box-sizing: border-box;
+            background: transparent;
+            min-height: 600px;
+        }
+
+        &.white-theme {
+            background-image: url('../../public/images/blog/1.jpg');
+            background-size: cover;
+            background-position: center;
+
+            .h1 {
+                color: #000;
+            }
+
+            #paragraph {
+                color: #000;
+            }
+        }
+
+
+        &.black-theme {
+            background-image: url('../../public/images/blog/2.jpg');
+            background-size: cover;
+            background-position: center;
+
+            .h1 {
+                color: #fff;
+            }
+
+            #paragraph {
+                color: #fff;
+            }
+        }
+
+        &.pink-theme {
+            background-image: url('../../public/images/blog/3.jpg');
+            background-size: cover;
+            background-position: center;
+
+            .h1 {
+                color: #000;
+            }
+
+            #paragraph {
+                color: #000;
+            }
+        }
+
+
+    }
+
+    .btn-wrapper {
+        max-width: 700px;
+        min-width: 700px;
+        margin: auto auto;
+        text-align: center;
+        padding: 15px 0;
+
+        button {
+            width: 200px;
+        }
+    }
+
 }
