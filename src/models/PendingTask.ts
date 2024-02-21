@@ -4,4 +4,5 @@ export default interface PendingTask {
     imageType?: string,
     taskName?: string,
     taskContent?: string
+    type?: string;
 }

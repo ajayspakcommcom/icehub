@@ -2,6 +2,7 @@ import React from 'react';
 import style from './header.module.scss';
 import { Container, Grid, TextField } from '@mui/material';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 import dynamic from 'next/dynamic';
 const Notification = dynamic(() => import('@/components/notification/notification'));
@@ -11,14 +12,20 @@ interface HeaderProps {
     //title?: string;
 }
 
-
 const Header: React.FC<HeaderProps> = () => {
+
+    const router = useRouter();
+
+    const navigationHandler = () => {
+        router.push('/feed');
+    };
+
     return (
         <header className={style['header-wrapper']}>
             <Container>
                 <Grid container>
                     <Grid item xs={3} className={style['flex-v-center']}>
-                        <Image src={require('../../../public/images/feed-logo.png')} alt="Logo" layout="responsive responsive-img" />
+                        <Image src={require('../../../public/images/feed-logo.png')} alt="Logo" layout="responsive responsive-img" className='pointer' onClick={navigationHandler} />
                     </Grid>
                     <Grid item xs={6} className={style['flex-v-center']}>
                         <div className={`${style['search-input']}`}>

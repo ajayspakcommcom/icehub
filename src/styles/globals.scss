@@ -804,3 +804,15 @@ p {
     padding-left: 15px;
     width: 100%;
 }
+
+.loader-wrapper {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pointer {
+    cursor: pointer !important;
+}

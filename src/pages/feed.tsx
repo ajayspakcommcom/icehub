@@ -10,6 +10,8 @@ const FeedFilter = dynamic(() => import('@/components/feed-filter/feed-filter'))
 const AnnouncementBanner = dynamic(() => import('@/components/announcement-banner/announcement-banner'));
 const FeedItem = dynamic(() => import('@/components/feed-item/feed-item'));
 const LiabraryWidget = dynamic(() => import('@/components/liabrary-widget/liabrary-widget'));
+const Loading = dynamic(() => import('@/components/loading/loading'));
+
 
 
 
@@ -18,10 +20,8 @@ export default function Feed() {
   const { data: session, status } = useSession({ required: true });
 
 
-
-
   if (status === 'loading') {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   if (!session) {
