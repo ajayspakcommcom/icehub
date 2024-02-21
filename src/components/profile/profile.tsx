@@ -19,7 +19,7 @@ const Profile: React.FC<ProfileProps> = () => {
     const userData = session?.user as User;
 
     useEffect(() => {
-        console.log('data', userData);
+        console.log('data', session);
 
         return () => console.log();
 

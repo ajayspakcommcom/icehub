@@ -165,7 +165,8 @@ const taskTypeSchema = new mongoose.Schema({
     },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        default: null
     },
     createdDate: {
         type: Date,
@@ -173,14 +174,16 @@ const taskTypeSchema = new mongoose.Schema({
     },
     updatedBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        default: null
     },
     updatedDate: {
         type: Date
     },
     deletedBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        default: null
     },
     deletedDate: {
         type: Date
@@ -199,48 +202,55 @@ const taskSchema = new mongoose.Schema({
     },
     blogParagraph: {
         type: String,
-        required: true
+        default: null
     },
     csDiagnosis: {
         type: String,
-        required: true
+        default: null
     },
     csTreatment: {
         type: String,
-        required: true
+        default: null
     },
     csQuestion1: {
         type: String,
-        required: true
+        default: null
     },
     csQuestion2: {
         type: String,
-        required: true
+        default: null
     },
     csDoctorName: {
         type: String,
-        required: true
+        default: null
     },
     videoUrl: {
-        type: String
+        type: String,
+        default: null
     },
     infographic1: {
-        type: String
+        type: String,
+        default: null
     },
     infographic2: {
-        type: String
+        type: String,
+        default: null
     },
     infographic3: {
-        type: String
+        type: String,
+        default: null
     },
     infographic4: {
-        type: String
+        type: String,
+        default: null
     },
     infographic5: {
-        type: String
+        type: String,
+        default: null
     },
     infographic6: {
-        type: String
+        type: String,
+        default: null
     },
     dueDate: {
         type: Date,
@@ -248,17 +258,21 @@ const taskSchema = new mongoose.Schema({
     },
     taskType: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'TaskType', required: true
+        ref: 'TaskType',
+        required: true
     },
     selectedBlog: {
-        type: String
+        type: String,
+        default: null
     },
     selectedInfographic: {
-        type: String
+        type: String,
+        default: null
     },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        default: null
     },
     createdDate: {
         type: Date,
@@ -266,17 +280,21 @@ const taskSchema = new mongoose.Schema({
     },
     updatedBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        default: null
     },
     updatedDate: {
-        type: Date
+        type: Date,
+        default: null
     },
     deletedBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        default: null
     },
     deletedDate: {
-        type: Date
+        type: Date,
+        default: null
     }
 });
 
@@ -315,17 +333,21 @@ const userTaskSchema = new mongoose.Schema({
     },
     updatedBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        default: null
     },
     updatedDate: {
-        type: Date
+        type: Date,
+        default: null
     },
     deletedBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        default: null
     },
     deletedDate: {
-        type: Date
+        type: Date,
+        default: null
     },
     approvedByAdmin: {
         type: Boolean,
