@@ -4,11 +4,17 @@ import dynamic from 'next/dynamic';
 import { Container, Grid } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { fetchList } from "@/services/task";
 
 const Header = dynamic(() => import('@/components/header/header'));
 const FeedItem = dynamic(() => import('@/components/feed-item/feed-item'));
 const TaskStatusComp = dynamic(() => import('@/components/task-status/task-status'));
 const Loading = dynamic(() => import('@/components/loading/loading'));
+
+interface Session {
+  token: string;
+  user: any
+}
 
 
 export default function TastStatus() {
@@ -16,9 +22,18 @@ export default function TastStatus() {
   const { data: session, status } = useSession({ required: true });
   const router = useRouter();
 
+  const sessionData = session as Session | null;
+
   useEffect(() => {
 
-    console.log('query', router.query.type);
+    console.log('query', sessionData?.token);
+
+    const fetchPendingTask = async () => {
+      const resp = await fetchList(sessionData?.token!);
+      console.log(resp);
+    };
+
+    fetchPendingTask();
 
     return () => console.log('');
   }, [router]);
