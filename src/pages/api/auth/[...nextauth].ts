@@ -22,6 +22,26 @@ export type CustomUser = {
   avatar?: string | null;
 };
 
+// export type CustomUser = {
+//   id?: string | null;
+//   firstName: string,
+//   lastName: string,
+//   email: string | null,
+//   password: string,
+//   phoneNumber: string,
+//   dob: Date | null,
+//   city: string,
+//   hospitalName: string,
+//   aboutYourSelf: null,
+//   imageUrl: null,
+//   specialization: string,
+//   designation: string,
+//   createdBy: null,
+//   updatedBy: null,
+//   deletedBy: null,
+//   createdDate: Date,
+// };
+
 export default NextAuth({
   pages: {
     signIn: "/login"
@@ -77,8 +97,6 @@ export default NextAuth({
     async session({ session, token, user }: { session: any; token: any; user: User }) {
       session.user = token.user as CustomUser;
       session.token = token.accessToken;
-      console.clear();
-      console.log('token', token);
       return session;
     }
   },

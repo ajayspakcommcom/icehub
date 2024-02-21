@@ -67,6 +67,9 @@ const Index: React.FC = () => {
         <>
             <form className='register-form' onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
                 {error && <p className='error-text'>{error}</p>}
+
+
+
                 <Grid container columnSpacing={2}>
                     <Grid item xs={12}>
                         <TextField

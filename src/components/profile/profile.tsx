@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import style from './profile.module.scss';
 import Image from 'next/image';
+import { signOut, useSession } from 'next-auth/react';
+import User from '@/models/User';
+
 
 // import dynamic from 'next/dynamic';
 // const ViewMoreButton = dynamic(() => import('@/components/view-more/view-more'));
@@ -9,7 +12,19 @@ interface ProfileProps {
     //title?: string;
 }
 
+
 const Profile: React.FC<ProfileProps> = () => {
+
+    const { data: session } = useSession({ required: true });
+    const userData = session?.user as User;
+
+    useEffect(() => {
+        console.log('data', userData);
+
+        return () => console.log();
+
+    }, []);
+
     return (
         <>
             <div className={style['profile-wrapper']}>
@@ -23,7 +38,7 @@ const Profile: React.FC<ProfileProps> = () => {
                             </div>
                             <div>
                                 <div>
-                                    <strong>{'Doctor Name'}</strong>
+                                    <strong>{`${userData.firstName} ${userData.lastName}`} </strong>
                                     <p>{'View Profile'}</p>
                                 </div>
                             </div>
@@ -37,7 +52,7 @@ const Profile: React.FC<ProfileProps> = () => {
                             </div>
                             <div>
                                 <div>
-                                    <strong>{'Log Out'}</strong>
+                                    <strong onClick={() => signOut({ callbackUrl: '/login', redirect: true })}>{'Log Out'}</strong>
                                 </div>
                             </div>
                         </li>

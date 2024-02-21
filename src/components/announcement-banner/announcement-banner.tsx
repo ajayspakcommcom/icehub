@@ -37,7 +37,7 @@ const AnnouncementBanner: React.FC<AnnouncementBannerProps> = () => {
             <div className={'announcement-banner-wrapper'}>
                 <Carousel {...setting}>
                     {images.map((image) => (
-                        <div className={`content`}>
+                        <div key={image.id} className={`content`}>
                             <img key={image.id} src={`../../../images/announcement-banner/1.png`} />
                             <div className="text-part"><p>Announcement Banner</p></div>
                         </div>

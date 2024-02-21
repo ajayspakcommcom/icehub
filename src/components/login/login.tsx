@@ -12,6 +12,10 @@ import User from '@/models/User';
 import { authUser } from "@/services/auth";
 import loginSchema from "@/validation/loginSchema";
 
+
+import dynamic from 'next/dynamic';
+const ErrorMessage = dynamic(() => import('@/components/error-message/error-message'));
+
 interface LoginFormProps {
 
 }
@@ -30,8 +34,8 @@ const LoginForm: React.FC<LoginFormProps> = () => {
 
     /**************************ajay************************/
     const initialValues: User = {
-        email: '',
-        password: ''
+        email: 'ajay@spakcomm.com',
+        password: '123'
     };
 
 
@@ -42,11 +46,10 @@ const LoginForm: React.FC<LoginFormProps> = () => {
             if (resp.status == 200) {
                 //const response = resp.data;
                 console.log("The response is ", resp);
-                console.log("The response is ", user);
                 signIn("credentials", {
                     email: user.email,
                     password: user.password,
-                    callbackUrl: "/",
+                    callbackUrl: "/feed",
                     redirect: true,
                 });
             } else if (resp.status == 400) {
@@ -55,6 +58,10 @@ const LoginForm: React.FC<LoginFormProps> = () => {
         } catch (err: any) {
             console.log(err.response.data.error);
             setError(err.response.data.error);
+
+            setTimeout(() => {
+                setError(null);
+            }, 3000);
         }
 
 
@@ -77,8 +84,7 @@ const LoginForm: React.FC<LoginFormProps> = () => {
             <Toast />
             <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
 
-                {errors && <p className="text-error text-center">{errors}</p>}
-
+                {errors && <ErrorMessage message={errors} />}
                 <TextField
                     type="text"
                     label="Email"
@@ -111,6 +117,8 @@ const LoginForm: React.FC<LoginFormProps> = () => {
                 <Box display="flex">
                     <Button type="submit" variant="contained" size="large" fullWidth className="ice-btn"> {loading ? "Processing.." : "Sign in"} </Button>
                 </Box>
+
+
 
             </form>
         </>

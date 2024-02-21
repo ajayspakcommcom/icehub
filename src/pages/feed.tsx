@@ -2,6 +2,8 @@
 import React from "react";
 import dynamic from 'next/dynamic';
 import { Container, Grid } from "@mui/material";
+import { getSession, useSession, signOut, } from 'next-auth/react';
+
 
 const Header = dynamic(() => import('@/components/header/header'));
 const FeedFilter = dynamic(() => import('@/components/feed-filter/feed-filter'));
@@ -12,6 +14,23 @@ const LiabraryWidget = dynamic(() => import('@/components/liabrary-widget/liabra
 
 
 export default function Feed() {
+
+  const { data: session, status } = useSession({ required: true });
+
+
+
+
+  if (status === 'loading') {
+    return <div>Loading...</div>;
+  }
+
+  if (!session) {
+    return (
+      <>
+        <div>You must be logged in to view this content.</div>
+      </>
+    )
+  }
 
   return (
     <>
