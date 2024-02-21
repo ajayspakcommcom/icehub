@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { TextField, Button, Grid, Container, Box, FormControl, Select, MenuItem, FormHelperText, InputLabel } from '@mui/material';
+import dynamic from 'next/dynamic';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Link from 'next/link';
@@ -8,12 +9,13 @@ import User from '@/models/User';
 import { createUser } from '@/services/user';
 import signUpSchema from '@/validation/signUpSchema';
 import { getSpecializations } from '@/libs/common';
+const SuccessMessage = dynamic(() => import('@/components/success-message/success-message'));
 
 const Index: React.FC = () => {
 
     const [error, setError] = React.useState<any>();
-
     const sepcializations: string[] = getSpecializations();
+    const [success, setSuccess] = React.useState<string | null>(null);
 
     const initialValues: User = {
         email: '',
@@ -35,6 +37,12 @@ const Index: React.FC = () => {
             const userResponse = await createUser(user);
             console.log('User created successfully:', userResponse);
             formik.resetForm();
+            setSuccess(userResponse.data.message);
+
+            setTimeout(() => {
+                setSuccess(null);
+            }, 3000);
+
         } catch (err: any) {
             console.log('Error during user creation:', err.response.data.error);
             if (err.response.data.error) {
@@ -206,6 +214,9 @@ const Index: React.FC = () => {
                             </Button>
                         </Box>
                     </Grid>
+
+                    {success && <div className='registration-success'><SuccessMessage message={success} /></div>}
+
 
                 </Grid>
             </form>

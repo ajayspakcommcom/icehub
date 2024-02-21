@@ -67,7 +67,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
           });
 
 
-          res.status(200).json({ message: 'User Created' });
+          res.status(200).json({ message: 'You have been successfully registered.' });
         } catch (error: any) {
 
           if (error instanceof Error.ValidationError) {
