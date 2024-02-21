@@ -7,8 +7,7 @@ import { Error as MongooseError } from 'mongoose';
 import { verifyToken } from './libs/verifyToken';
 import runMiddleware from './libs/runMiddleware';
 import Cors from 'cors';
-import { TaskType } from './models/TaskType';
-
+import { UserTask } from './models/UserTask';
 
 interface ApiResponse {
   message?: string;
@@ -37,10 +36,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         case 'CREATE':
           try {
 
-            const taskType = await TaskType.create({ name: req.body.name });
+            const task = await UserTask.create({
 
-            res.status(200).json({ message: 'Task Type have been successfully created.' });
-          } catch (error: any) {
+            });
+
+            res.status(200).json({ message: 'User Task have been successfully created.' });
+          }
+          catch (error: any) {
 
             if (error instanceof Error.ValidationError) {
               return res.status(400).json({ error: `Validation Error`, errorDetail: error.message });
@@ -50,23 +52,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
               return res.status(400).json({ error: `Cast Error`, errorDetail: error.message });
             }
 
-            if (typeof error === 'object' && error !== null && 'code' in error && (error as any).code === 11000) {
-
-              const errorMessage = (error as any).errmsg;
-
-              if (errorMessage.includes('name_1')) {
-                return res.status(400).json({ error: 'Duplicate Name', errorDetail: 'The Task type name is already in use. Please choose a different name.' });
-              }
-              else {
-                res.status(500).json({ error: 'Internal Error', errorDetail: error });
-              }
-            }
           }
 
           break;
         case 'LIST':
           try {
-            const dataList = await TaskType.find({}).exec();
+            const dataList = await UserTask.find({}).exec();
             res.status(200).json({ data: dataList });
           } catch (error: any) {
 

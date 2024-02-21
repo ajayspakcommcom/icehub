@@ -196,8 +196,58 @@ module.exports = TaskType;
 //========================================================================================================================================================================
 
 const taskSchema = new mongoose.Schema({
-    title: {
+    name: {
         type: String,
+        required: true
+    },
+    taskType: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'TaskType',
+        required: true
+    },
+    createdBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        default: null
+    },
+    createdDate: {
+        type: Date,
+        default: Date.now
+    },
+    updatedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        default: null
+    },
+    updatedDate: {
+        type: Date,
+        default: null
+    },
+    deletedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        default: null
+    },
+    deletedDate: {
+        type: Date,
+        default: null
+    }
+});
+
+const Task = mongoose.models.Task || mongoose.model('Task', taskSchema);
+module.exports = Task;
+
+//========================================================================================================================================================================
+
+const userTaskSchema = new mongoose.Schema({
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    task: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Task',
         required: true
     },
     blogParagraph: {
@@ -256,11 +306,6 @@ const taskSchema = new mongoose.Schema({
         type: Date,
         required: true
     },
-    taskType: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'TaskType',
-        required: true
-    },
     selectedBlog: {
         type: String,
         default: null
@@ -269,60 +314,12 @@ const taskSchema = new mongoose.Schema({
         type: String,
         default: null
     },
-    createdBy: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        default: null
-    },
-    createdDate: {
-        type: Date,
-        default: Date.now
-    },
-    updatedBy: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        default: null
-    },
-    updatedDate: {
-        type: Date,
-        default: null
-    },
-    deletedBy: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        default: null
-    },
-    deletedDate: {
-        type: Date,
-        default: null
-    }
-});
-
-const Task = mongoose.models.Task || mongoose.model('Task', taskSchema);
-module.exports = Task;
-
-//========================================================================================================================================================================
-
-const userTaskSchema = new mongoose.Schema({
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
-    },
-    task: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Task',
-        required: true
-    },
     completed: {
         type: Boolean,
         default: false
     },
     completionDate: { type: Date },
-    likes: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    }],
+    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null }],
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
