@@ -5,3 +5,5 @@ export const preventDefaultIfEnterHandler = (event: KeyboardEvent): void => {
         event.preventDefault();
     }
 };
+
+export const getSpecializations = (): string[] => ['Cardiologist', 'Dermatologist', 'Gynecologist', 'Pediatrician', 'Orthopedic Surgeon', 'Neurologist'];

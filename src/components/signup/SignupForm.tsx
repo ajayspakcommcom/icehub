@@ -1,16 +1,19 @@
 
 import React, { useState } from 'react';
-import { TextField, Button, Grid, Container, Box } from '@mui/material';
+import { TextField, Button, Grid, Container, Box, FormControl, Select, MenuItem, FormHelperText, InputLabel } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Link from 'next/link';
 import User from '@/models/User';
 import { createUser } from '@/services/user';
 import signUpSchema from '@/validation/signUpSchema';
+import { getSpecializations } from '@/libs/common';
 
 const Index: React.FC = () => {
 
     const [error, setError] = React.useState<any>();
+
+    const sepcializations: string[] = getSpecializations();
 
     const initialValues: User = {
         email: '',
@@ -21,24 +24,23 @@ const Index: React.FC = () => {
         phoneNumber: '',
         city: '',
         hospitalName: '',
+        designation: 'User',
+        specialization: '',
         type: 'CREATE'
     };
 
     const handleSubmit = async (user: User) => {
 
-        console.log(user);
-
-        // try {
-        //     const userResponse = await createUser(user);
-        //     console.log('User created successfully:', userResponse);
-        //     formik.resetForm();
-        // } catch (err: any) {
-        //     console.log('Error during user creation:', err.response.data.error);
-        //     if (err.response.data.error) {
-        //         setError(err.response.data.errorDetail);
-        //     }
-        // }
-
+        try {
+            const userResponse = await createUser(user);
+            console.log('User created successfully:', userResponse);
+            formik.resetForm();
+        } catch (err: any) {
+            console.log('Error during user creation:', err.response.data.error);
+            if (err.response.data.error) {
+                setError(err.response.data.errorDetail);
+            }
+        }
     };
 
     const handleReset = () => {
@@ -56,7 +58,7 @@ const Index: React.FC = () => {
     return (
         <>
             <form className='register-form' onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
-                {error && <p>{error}</p>}
+                {error && <p className='error-text'>{error}</p>}
                 <Grid container columnSpacing={2}>
                     <Grid item xs={12}>
                         <TextField
@@ -163,7 +165,7 @@ const Index: React.FC = () => {
                         />
                     </Grid>
 
-                    <Grid item xs={12}>
+                    <Grid item xs={6}>
                         <TextField
                             type="text"
                             label="Hospital Name"
@@ -176,6 +178,25 @@ const Index: React.FC = () => {
                             error={formik.touched.hospitalName && Boolean(formik.errors.hospitalName)}
                             helperText={formik.touched.hospitalName && formik.errors.hospitalName}
                         />
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <FormControl fullWidth variant="outlined" margin="normal">
+                            <InputLabel id="specialization-label"><span className={formik.touched.specialization && formik.errors.specialization ? 'error-label' : ''}>Designation</span></InputLabel>
+                            <Select
+                                labelId="specialization-label"
+                                id="specialization"
+                                name="specialization"
+                                value={formik.values.specialization}
+                                onChange={formik.handleChange}
+                                label="Specialization"
+                                error={formik.touched.specialization && Boolean(formik.errors.specialization)}>
+                                {sepcializations.map(option => (<MenuItem key={option} value={option}>{option}</MenuItem>))}
+                            </Select>
+                            {formik.touched.specialization && formik.errors.specialization && (<FormHelperText className='error-text'>
+                                <span className={formik.touched.specialization && formik.errors.specialization ? 'error-text' : ''}>{formik.errors.specialization}</span>
+                            </FormHelperText>)}
+                        </FormControl>
                     </Grid>
 
                     <Grid item xs={12}>

@@ -27,7 +27,7 @@ const BannerCarousel: React.FC<BannerCarouselProps> = ({ images }) => {
         <Carousel {...setting}>
 
             {images.map((image) => (
-                <div className="content">
+                <div className="content" key={image.id}>
                     <img key={image.id} src={`../../../images/banner/${image.imageUrl}`} width={500} height={300} />
                     <div className="text-part">
                         <p>Welcome to</p>

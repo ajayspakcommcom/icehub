@@ -16,10 +16,11 @@ export const fetchUser = async (id: number): Promise<User> => {
 };
 
 // Function to create a new customer
-export const createUser = async (userData: User): Promise<User> => {
+export const createUser = async (userData: User): Promise<any> => {
+    console.log();
     try {
         const response = await apiClient.post<User>('/user', userData);
-        return response.data;
+        return response;
     } catch (err: unknown) {
         console.error('Error creating user:', err);
         // Handle or transform the error as needed

@@ -35,6 +35,15 @@ const userSchema = new Schema({
     imageUrl: {
         type: String
     },
+    specialization: {
+        type: String,
+        required: true,
+        enum: ['Cardiologist', 'Dermatologist', 'Gynecologist', 'Pediatrician', 'Orthopedic Surgeon', 'Neurologist']
+    },
+    designation: {
+        type: String,
+        enum: ['Admin', 'User']
+    },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
@@ -279,11 +288,13 @@ module.exports = Task;
 const userTaskSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User', required: true
+        ref: 'User',
+        required: true
     },
     task: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Task', required: true
+        ref: 'Task',
+        required: true
     },
     completed: {
         type: Boolean,

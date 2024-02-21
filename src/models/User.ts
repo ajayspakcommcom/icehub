@@ -8,5 +8,7 @@ export default interface User {
     phoneNumber?: string;
     city?: string;
     hospitalName?: string;
+    designation?: string;
+    specialization?: string;
     type?: string
 }
