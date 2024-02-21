@@ -2,8 +2,11 @@ import React from 'react';
 import { getSession, useSession, signOut, } from 'next-auth/react';
 import { Button, Container } from '@mui/material';
 import { useRouter } from 'next/router';
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
+import dynamic from 'next/dynamic';
+
+const Header = dynamic(() => import('@/components/layout/Header'));
+const Footer = dynamic(() => import('@/components/layout/Footer'));
+const Loading = dynamic(() => import('@/components/loading/loading'));
 
 
 export default function Home() {
@@ -16,7 +19,7 @@ export default function Home() {
   };
 
   if (status === 'loading') {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   if (!session) {

@@ -68,7 +68,10 @@ export default NextAuth({
 
     async jwt({ token, user }: { token: JWT; user: any }) {
       if (user) {
-        token.accessToken = jwt.sign({ userId: user.id }, process.env.JWT_SECRET as string, { expiresIn: '1h' });
+        token.accessToken = jwt.sign(
+          { userId: user.id },
+          process.env.JWT_SECRET as string,
+          { expiresIn: '1h' });
         token.user = user;
       }
 

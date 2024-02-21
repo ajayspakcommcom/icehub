@@ -1,14 +1,39 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import dynamic from 'next/dynamic';
 import { Container, Grid } from "@mui/material";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 const Header = dynamic(() => import('@/components/header/header'));
 const FeedItem = dynamic(() => import('@/components/feed-item/feed-item'));
 const TaskStatusComp = dynamic(() => import('@/components/task-status/task-status'));
+const Loading = dynamic(() => import('@/components/loading/loading'));
 
 
 export default function TastStatus() {
+
+  const { data: session, status } = useSession({ required: true });
+  const router = useRouter();
+
+  useEffect(() => {
+
+    console.log('query', router.query.type);
+
+    return () => console.log('');
+  }, [router]);
+
+  if (status === 'loading') {
+    return <Loading />;
+  }
+
+  if (!session) {
+    return (
+      <>
+        <div>You must be logged in to view this content.</div>
+      </>
+    )
+  }
 
   return (
     <>
