@@ -79,10 +79,6 @@ const userTaskSchema = new mongoose.Schema({
     type: String,
     default: null
   },
-  dueDate: {
-    type: Date,
-    required: true
-  },
   selectedBlog: {
     type: String,
     default: null
@@ -95,11 +91,12 @@ const userTaskSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
-  completionDate: { type: Date },
+  completionDate: { type: Date, default: null },
   likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null }],
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
+    ref: 'User',
+    default: null
   },
   createdDate: {
     type: Date,

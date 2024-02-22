@@ -26,7 +26,8 @@ const TaskStatusItem: React.FC<TaskStatusItemProps> = ({ id, title, imageUrl, ty
             pathname: '/create-task',
             query: {
                 type: type.toLowerCase(),
-                userId: getUserData()?._id
+                userId: getUserData()?._id,
+                taskTitle: title
             },
         });
     };

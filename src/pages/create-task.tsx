@@ -20,6 +20,9 @@ export default function CreateTask() {
 
         console.log('query', router.query.type);
         console.log('query', router.query.userId);
+        console.log('taskTitle', router.query.taskTitle);
+
+
 
         return () => console.log('');
     }, [router]);
@@ -48,8 +51,8 @@ export default function CreateTask() {
                 <Container>
                     <Grid container>
                         <Grid item xs={12}>
-                            {router.query.type === 'case study' && <CaseStudyTask heading={`Case Study Header Here?`} diagnosis={treatmentContent} treatment={diagnosisContent} elongated={`30`} intake={`60`} />}
-                            {router.query.type === 'blog' && <BlogTask heading={`Blog a Title`} paragraph={paragraphContent} selectedLayout={'white-theme'} />}
+                            {router.query.type === 'case study' && <CaseStudyTask heading={`${router.query.taskTitle}`} diagnosis={treatmentContent} treatment={diagnosisContent} elongated={`30`} intake={`60`} />}
+                            {router.query.type === 'blog' && <BlogTask heading={`${router.query.taskTitle}`} paragraph={paragraphContent} selectedLayout={'white-theme'} />}
                             {router.query.type === 'infographic' && <h1>Infographic</h1>}
                             {router.query.type === 'video' && <h1>Video</h1>}
                         </Grid>
