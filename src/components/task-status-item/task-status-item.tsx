@@ -9,12 +9,12 @@ type TaskStatusItemProps = {
     title: string;
     imageUrl: string;
     type: string;
-    date: Date;
+    dueDate: Date;
     isDisabled: boolean;
 };
 
 
-const TaskStatusItem: React.FC<TaskStatusItemProps> = ({ id, title, imageUrl, type, date, isDisabled }) => {
+const TaskStatusItem: React.FC<TaskStatusItemProps> = ({ id, title, imageUrl, type, dueDate, isDisabled }) => {
 
 
     return (
@@ -30,7 +30,7 @@ const TaskStatusItem: React.FC<TaskStatusItemProps> = ({ id, title, imageUrl, ty
             </div>
             <div>
                 <div>
-                    <p>{formatDateToDDMMYYYY(date)}</p>
+                    <p>{formatDateToDDMMYYYY(dueDate)}</p>
                 </div>
             </div>
             <div>

@@ -7,3 +7,31 @@ export const preventDefaultIfEnterHandler = (event: KeyboardEvent): void => {
 };
 
 export const getSpecializations = (): string[] => ['Cardiologist', 'Dermatologist', 'Gynecologist', 'Pediatrician', 'Orthopedic Surgeon', 'Neurologist'];
+
+export const getTaskTypeImage = (taskTypeId: string): string | undefined => {
+    switch (taskTypeId) {
+        case '65d5d6a17b554092c5e3c22b':
+            return 'blog.png';
+        case '65d5d6aa7b554092c5e3c22f':
+            return 'infographic.png';
+        case '65d5d6b37b554092c5e3c233':
+            return 'case-study.png';
+        case '65d5d6b87b554092c5e3c237':
+            return 'video.png';
+        default:
+            return 'blog.png';
+    }
+}
+
+export const getTaskTypeName = (taskTypeId: string): string | undefined => {
+    switch (taskTypeId) {
+        case '65d5d6a17b554092c5e3c22b':
+            return 'Blog';
+        case '65d5d6aa7b554092c5e3c22f':
+            return 'Infographic';
+        case '65d5d6b37b554092c5e3c233':
+            return 'Case Study';
+        case '65d5d6b87b554092c5e3c237':
+            return 'Video';
+    }
+}
