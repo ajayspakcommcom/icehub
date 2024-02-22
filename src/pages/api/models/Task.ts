@@ -10,20 +10,26 @@ const taskSchema = new mongoose.Schema({
     ref: 'TaskType',
     required: true
   },
-  createdBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    default: null
-  },
   dueDate: {
     type: Date,
     require: true
   },
   assignedTo: [{
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true
+    },
+    isSubmitted: {
+      type: Boolean,
+      default: false
+    }
+  }],
+  createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true
-  }],
+    default: null
+  },
   createdDate: {
     type: Date,
     default: Date.now

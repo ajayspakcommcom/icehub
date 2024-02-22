@@ -26,10 +26,10 @@ export default function TastStatus() {
 
   useEffect(() => {
 
-    console.log('query', sessionData?.token);
+    console.log('token', localStorage.getItem('token'));
 
     const fetchPendingTask = async () => {
-      const resp = await fetchList(sessionData?.token!);
+      const resp = await fetchList(localStorage.getItem('token')!);
       console.log(resp);
     };
 

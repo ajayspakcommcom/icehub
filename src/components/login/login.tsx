@@ -46,6 +46,7 @@ const LoginForm: React.FC<LoginFormProps> = () => {
             if (resp.status == 200) {
                 //const response = resp.data;
                 console.log("The response is ", resp);
+                localStorage.setItem("token", resp.data.token);
                 signIn("credentials", {
                     email: user.email,
                     password: user.password,

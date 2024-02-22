@@ -1,6 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import connectToMongoDB from './libs/mongodb';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import mongoose from 'mongoose';
 
 import { Error } from 'mongoose';
 import { Error as MongooseError } from 'mongoose';
@@ -36,15 +37,34 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         case 'CREATE':
           try {
 
+            console.log(req.body);
+
+            // post man json
+            //  {
+            //   type: "CREATE",
+            //   name: "Create Blog 1",
+            //   taskType: "65d5d6a17b554092c5e3c22b",
+            //   dueDate: "2024-02-25T00:00:00.000Z",
+            //   assignedTo: [
+            //     { user: "65d5b4efeba6623d9fad01a1", isSubmitted: true },
+            //     { user: "65d5b9a3eba6623d9fad01c4", isSubmitted: false }
+            //   ],
+            //   createdBy: "65d5c37aeba6623d9fad0211"
+            // }
+
             const task = await Task.create({
               name: req.body.name,
               taskType: req.body.taskType,
               dueDate: req.body.dueDate,
-              assignedTo: req.body.assignedTo,
+              assignedTo: req.body.assignedTo.map((item: { user: string, isSubmitted: boolean }) => ({
+                user: new mongoose.Types.ObjectId(item.user),
+                isSubmitted: item.isSubmitted
+              })),
+
               createdBy: req.body.createdBy
             });
 
-            res.status(200).json({ message: 'Task have been successfully created.' });
+            res.status(201).json({ message: 'Task have been successfully created.' });
           }
           catch (error: any) {
 
