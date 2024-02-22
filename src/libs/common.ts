@@ -11,13 +11,13 @@ export const getSpecializations = (): string[] => ['Cardiologist', 'Dermatologis
 
 export const getTaskTypeImage = (taskTypeId: string): string | undefined => {
     switch (taskTypeId) {
-        case '65d5d6a17b554092c5e3c22b':
+        case '65d734098abbb6154ff8afea':
             return 'blog.png';
-        case '65d5d6aa7b554092c5e3c22f':
+        case '65d7345d8abbb6154ff8afec':
             return 'infographic.png';
-        case '65d5d6b37b554092c5e3c233':
+        case '65d734678abbb6154ff8aff0':
             return 'case-study.png';
-        case '65d5d6b87b554092c5e3c237':
+        case '65d734618abbb6154ff8afee':
             return 'video.png';
         default:
             return 'blog.png';
@@ -26,13 +26,13 @@ export const getTaskTypeImage = (taskTypeId: string): string | undefined => {
 
 export const getTaskTypeName = (taskTypeId: string): string | undefined => {
     switch (taskTypeId) {
-        case '65d5d6a17b554092c5e3c22b':
+        case '65d734098abbb6154ff8afea':
             return 'Blog';
-        case '65d5d6aa7b554092c5e3c22f':
+        case '65d7345d8abbb6154ff8afec':
             return 'Infographic';
-        case '65d5d6b37b554092c5e3c233':
+        case '65d734678abbb6154ff8aff0':
             return 'Case Study';
-        case '65d5d6b87b554092c5e3c237':
+        case '65d734618abbb6154ff8afee':
             return 'Video';
     }
 }

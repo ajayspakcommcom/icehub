@@ -39,7 +39,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
             const taskType = await TaskType.create({ name: req.body.name });
 
-            res.status(200).json({ message: 'Task Type have been successfully created.' });
+            res.status(201).json({ message: 'Task Type have been successfully created.' });
           } catch (error: any) {
 
             if (error instanceof Error.ValidationError) {
