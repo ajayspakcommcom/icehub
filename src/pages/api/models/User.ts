@@ -1,6 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
 
-
 const userSchema = new Schema({
   firstName: {
     type: String,
@@ -68,7 +67,8 @@ const userSchema = new Schema({
     default: null
   },
   updatedDate: {
-    type: Date
+    type: Date,
+    default: null
   },
   deletedBy: {
     type: mongoose.Schema.Types.ObjectId,
@@ -76,7 +76,8 @@ const userSchema = new Schema({
     default: null
   },
   deletedDate: {
-    type: Date
+    type: Date,
+    default: null
   }
 });
 

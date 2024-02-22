@@ -250,7 +250,15 @@ const userTaskSchema = new mongoose.Schema({
         ref: 'Task',
         required: true
     },
+    blogTitle: {
+        type: String,
+        default: null
+    },
     blogParagraph: {
+        type: String,
+        default: null
+    },
+    caseStudyTitle: {
         type: String,
         default: null
     },
@@ -274,7 +282,15 @@ const userTaskSchema = new mongoose.Schema({
         type: String,
         default: null
     },
+    videoTitle: {
+        type: String,
+        default: null
+    },
     videoUrl: {
+        type: String,
+        default: null
+    },
+    infographicTitle: {
         type: String,
         default: null
     },
@@ -318,8 +334,18 @@ const userTaskSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    completionDate: { type: Date },
+    completionDate: {
+        type: Date,
+        default: null
+    },
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null }],
+    approvedByAdmin: {
+        type: Boolean,
+        default: false
+    },
+    rejectionReason: {
+        type: String
+    },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
@@ -345,13 +371,6 @@ const userTaskSchema = new mongoose.Schema({
     deletedDate: {
         type: Date,
         default: null
-    },
-    approvedByAdmin: {
-        type: Boolean,
-        default: false
-    },
-    rejectionReason: {
-        type: String
     }
 });
 

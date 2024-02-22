@@ -35,7 +35,7 @@ const LoginForm: React.FC<LoginFormProps> = () => {
     /**************************ajay************************/
     const initialValues: User = {
         email: 'ajay@spakcomm.com',
-        password: '123'
+        password: '12345'
     };
 
 

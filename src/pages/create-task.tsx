@@ -19,6 +19,7 @@ export default function CreateTask() {
     useEffect(() => {
 
         console.log('query', router.query.type);
+        console.log('query', router.query.userId);
 
         return () => console.log('');
     }, [router]);
@@ -35,8 +36,6 @@ export default function CreateTask() {
         )
     }
 
-
-
     const treatmentContent = `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.`;
     const diagnosisContent = `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.`;
     const paragraphContent = `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.`;
@@ -49,8 +48,10 @@ export default function CreateTask() {
                 <Container>
                     <Grid container>
                         <Grid item xs={12}>
-                            {router.query.type === 'cs' && <CaseStudyTask heading={`Case Study Header Here?`} diagnosis={treatmentContent} treatment={diagnosisContent} elongated={`30`} intake={`60`} />}
+                            {router.query.type === 'case study' && <CaseStudyTask heading={`Case Study Header Here?`} diagnosis={treatmentContent} treatment={diagnosisContent} elongated={`30`} intake={`60`} />}
                             {router.query.type === 'blog' && <BlogTask heading={`Blog a Title`} paragraph={paragraphContent} selectedLayout={'white-theme'} />}
+                            {router.query.type === 'infographic' && <h1>Infographic</h1>}
+                            {router.query.type === 'video' && <h1>Video</h1>}
                         </Grid>
                     </Grid>
                 </Container>

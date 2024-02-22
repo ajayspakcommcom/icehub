@@ -59,7 +59,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
             lastName: req.body.lastName,
             email: req.body.email,
             password: hashedPassword,
-            phoneNumber: req.body.lastName,
+            phoneNumber: req.body.phoneNumber,
             city: req.body.city,
             hospitalName: req.body.hospitalName,
             specialization: req.body.specialization,

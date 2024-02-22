@@ -5,6 +5,7 @@ import PendingTask from '@/models/PendingTask';
 import { useRouter } from 'next/router';
 
 import dynamic from 'next/dynamic';
+import { getUserData } from '@/libs/common';
 const ViewMoreButton = dynamic(() => import('@/components/view-more/view-more'));
 
 interface NotificationProps {
@@ -25,14 +26,14 @@ const notificationData: PendingTask[] = [
         imageType: 'case-study.png',
         taskName: 'Creata a Case Study',
         taskContent: 'Lorem Ipsum',
-        type: 'cs'
+        type: 'case study'
     },
     {
         id: 3,
         imageType: 'infographic.png',
         taskName: 'Create a Infrographic',
         taskContent: 'Lorem Ipsum',
-        type: 'in'
+        type: 'infographic'
     },
     {
         id: 4,
@@ -49,7 +50,13 @@ const Notification: React.FC<NotificationProps> = () => {
     const router = useRouter();
 
     const navigationHandler = (type: string) => {
-        router.push(`/create-task?type=${type}`);
+        router.push({
+            pathname: '/create-task',
+            query: {
+                type: type,
+                userId: getUserData()?._id
+            },
+        });
     };
 
     return (

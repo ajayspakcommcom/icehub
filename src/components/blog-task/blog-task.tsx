@@ -43,12 +43,12 @@ const BlogTask: React.FC<BlogProps> = ({ heading, paragraph, selectedLayout }) =
 
   const saveContent = async () => {
     console.log('content', content);
-    try {
-      const response = await axios.post('http://example.com/save', content);
-      console.log('Saved:', response.data);
-    } catch (error) {
-      console.error('Error saving:', error);
-    }
+    // try {
+    //   const response = await axios.post('http://example.com/save', content);
+    //   console.log('Saved:', response.data);
+    // } catch (error) {
+    //   console.error('Error saving:', error);
+    // }
   };
 
   const changeThemeHandler = (event: React.MouseEvent<HTMLImageElement>): void => {

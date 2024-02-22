@@ -3,8 +3,6 @@ import { TabContext, TabList, TabPanel } from '@mui/lab';
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 
-import { v4 as uuidv4 } from 'uuid';
-
 import dynamic from 'next/dynamic';
 import { fetchList } from '@/services/task';
 import { getTaskTypeImage, getTaskTypeName } from '@/libs/common';
@@ -103,7 +101,7 @@ const TaskStatus: React.FC<TaskStatusProps> = () => {
                     <div className='task-content'>
                         <TaskStatusItemHeader />
                         <div className='body'>
-                            {/* <ul>
+                            <ul>
                                 <TaskStatusItem id={'1'} title={`Task 1`} imageUrl={`blog.png`} type={`Create a blog`} dueDate={new Date()} isDisabled={false} />
                                 <TaskStatusItem id={'2'} title={`Task 2`} imageUrl={`blog.png`} type={`Create a blog`} dueDate={new Date()} isDisabled={true} />
                                 <TaskStatusItem id={'3'} title={`Task 3`} imageUrl={`blog.png`} type={`Create a blog`} dueDate={new Date()} isDisabled={false} />
@@ -112,7 +110,7 @@ const TaskStatus: React.FC<TaskStatusProps> = () => {
                                 <TaskStatusItem id={'6'} title={`Task 6`} imageUrl={`blog.png`} type={`Create a blog`} dueDate={new Date()} isDisabled={true} />
                                 <TaskStatusItem id={'7'} title={`Task 7`} imageUrl={`blog.png`} type={`Create a blog`} dueDate={new Date()} isDisabled={true} />
                                 <TaskStatusItem id={'8'} title={`Task 8`} imageUrl={`blog.png`} type={`Create a blog`} dueDate={new Date()} isDisabled={false} />
-                            </ul> */}
+                            </ul>
                         </div>
                     </div>
                 </TabPanel>
@@ -120,7 +118,7 @@ const TaskStatus: React.FC<TaskStatusProps> = () => {
                     <div className='task-content'>
                         <TaskStatusItemHeader />
                         <div className='body'>
-                            {/* <ul>
+                            <ul>
                                 <TaskStatusItem id={'1'} title={`Task 1`} imageUrl={`blog.png`} type={`Create a blog`} dueDate={new Date()} isDisabled={true} />
                                 <TaskStatusItem id={'2'} title={`Task 2`} imageUrl={`blog.png`} type={`Create a blog`} dueDate={new Date()} isDisabled={true} />
                                 <TaskStatusItem id={'3'} title={`Task 3`} imageUrl={`blog.png`} type={`Create a blog`} dueDate={new Date()} isDisabled={true} />
@@ -129,7 +127,7 @@ const TaskStatus: React.FC<TaskStatusProps> = () => {
                                 <TaskStatusItem id={'6'} title={`Task 6`} imageUrl={`blog.png`} type={`Create a blog`} dueDate={new Date()} isDisabled={true} />
                                 <TaskStatusItem id={'7'} title={`Task 7`} imageUrl={`blog.png`} type={`Create a blog`} dueDate={new Date()} isDisabled={true} />
                                 <TaskStatusItem id={'8'} title={`Task 8`} imageUrl={`blog.png`} type={`Create a blog`} dueDate={new Date()} isDisabled={true} />
-                            </ul> */}
+                            </ul>
                         </div>
                     </div>
                 </TabPanel>

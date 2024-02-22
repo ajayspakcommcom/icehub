@@ -3,6 +3,8 @@ import { TabContext, TabList, TabPanel } from '@mui/lab';
 import React from 'react';
 import Image from 'next/image';
 import { formatDateToDDMMYYYY } from '@/utils/common';
+import { useRouter } from 'next/router';
+import { getUserData } from '@/libs/common';
 
 type TaskStatusItemProps = {
     id: string;
@@ -16,9 +18,22 @@ type TaskStatusItemProps = {
 
 const TaskStatusItem: React.FC<TaskStatusItemProps> = ({ id, title, imageUrl, type, dueDate, isDisabled }) => {
 
+    const router = useRouter();
+
+    const navigationHandler = (type: string) => {
+        //console.log('type: ' + type.toLowerCase());
+        router.push({
+            pathname: '/create-task',
+            query: {
+                type: type.toLowerCase(),
+                userId: getUserData()?._id
+            },
+        });
+    };
+
 
     return (
-        <li className={`${isDisabled ? 'disabled' : ''}`} id={`${id}`}>
+        <li className={`${isDisabled ? 'disabled' : ''}`} id={`${id}`} onClick={() => navigationHandler(type)}>
             <div>
                 <div>
                     <Image src={require(`../../../public/images/icons/${imageUrl}`)} alt={`${title}`} className='responsive-img' />
