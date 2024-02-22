@@ -37,19 +37,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         case 'CREATE':
           try {
 
-            console.log(req.body);
-
             // post man json
-            //  {
-            //   type: "CREATE",
-            //   name: "Create Blog 1",
-            //   taskType: "65d5d6a17b554092c5e3c22b",
-            //   dueDate: "2024-02-25T00:00:00.000Z",
-            //   assignedTo: [
-            //     { user: "65d5b4efeba6623d9fad01a1", isSubmitted: true },
-            //     { user: "65d5b9a3eba6623d9fad01c4", isSubmitted: false }
-            //   ],
-            //   createdBy: "65d5c37aeba6623d9fad0211"
+            // const postmanObj = {
+            //   "type": "CREATE",
+            //   "name": "Create Blog 1",
+            //   "taskType": "65d5d6a17b554092c5e3c22b",
+            //   "dueDate": "2024-02-25T00:00:00.000Z",
+            //   "assignedTo": [
+            //             { "user": "65d5b4efeba6623d9fad01a1", "isSubmitted": true },
+            //             { "user": "65d5b9a3eba6623d9fad01c4", "isSubmitted": false }
+            //           ],
+            //   "createdBy": "65d5c37aeba6623d9fad0211"
             // }
 
             const task = await Task.create({
@@ -60,7 +58,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                 user: new mongoose.Types.ObjectId(item.user),
                 isSubmitted: item.isSubmitted
               })),
-
               createdBy: req.body.createdBy
             });
 
@@ -82,7 +79,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
           try {
             const dataList = await Task.find({}).exec();
             res.status(200).json({ data: dataList });
-          } catch (error: any) {
+          }
+          catch (error: any) {
 
             if (error instanceof MongooseError) {
               return res.status(500).json({ error: 'Database Error', errorDetail: error });

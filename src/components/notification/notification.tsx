@@ -79,7 +79,7 @@ const Notification: React.FC<NotificationProps> = () => {
                         )}
                     </ul>
 
-                    <ViewMoreButton linkUrl={'/tast-status'} />
+                    <ViewMoreButton linkUrl={'/task-status'} />
 
                 </div>
 
