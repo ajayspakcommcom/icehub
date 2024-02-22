@@ -74,7 +74,7 @@ const CaseStudyTask: React.FC<CaseStudyTaskProps> = ({ heading, diagnosis, treat
     <div className='case-study-task-wrapper'>
 
       <div id="content">
-        <input type='text' id='heading' className='h1' maxLength={25} minLength={5} onChange={changeHandler} value={content.heading} />
+        <input type='text' id='heading' className='h1' maxLength={25} minLength={5} onChange={changeHandler} value={content.heading} disabled={true} />
 
         <div className='banner-image-wrapper'>
           <table cellSpacing="0" cellPadding="0">

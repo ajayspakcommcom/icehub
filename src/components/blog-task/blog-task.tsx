@@ -87,7 +87,7 @@ const BlogTask: React.FC<BlogProps> = ({ heading, paragraph, selectedLayout }) =
       </div>
 
       <div id="content" className={selectedTheme}>
-        <input type='text' id='heading' className='h1' maxLength={25} minLength={5} onChange={changeHandler} value={content.heading} />
+        <input type='text' id='heading' className='h1' maxLength={25} minLength={5} onChange={changeHandler} value={content.heading} disabled={true} />
         <div>
           <textarea id="paragraph" name="paragraph" rows={6} onChange={changeHandler} value={content.paragraph}></textarea>
         </div>
