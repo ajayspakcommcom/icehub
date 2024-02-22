@@ -34,7 +34,7 @@ const TaskStatusItem: React.FC<TaskStatusItemProps> = ({ id, title, imageUrl, ty
                 </div>
             </div>
             <div>
-                <Image src={require('../../../public/images/icons/edit.png')} alt='' className='responsive-img' />
+                <Image src={require('../../../public/images/icons/edit.png')} alt={title} className='responsive-img' />
             </div>
         </li>
     );

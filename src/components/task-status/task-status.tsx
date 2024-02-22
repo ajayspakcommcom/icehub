@@ -12,8 +12,6 @@ const TaskStatusItem = dynamic(() => import('@/components/task-status-item/task-
 const TaskStatusItemHeader = dynamic(() => import('@/components/task-status-item/task-status-item-header'));
 
 
-
-
 type TaskStatusProps = {
 
 };
@@ -87,17 +85,15 @@ const TaskStatus: React.FC<TaskStatusProps> = () => {
                         <div className='body'>
                             <ul>
                                 {taskList.map((task: Task) => (
-                                    <>
-                                        <TaskStatusItem
-                                            key={task._id}
-                                            id={task._id}
-                                            title={task.name}
-                                            imageUrl={getTaskTypeImage(task.taskType)!}
-                                            type={getTaskTypeName(task.taskType)!}
-                                            dueDate={task.dueDate}
-                                            isDisabled={false}
-                                        />
-                                    </>
+                                    <TaskStatusItem
+                                        key={task._id}
+                                        id={task._id}
+                                        title={task.name}
+                                        imageUrl={getTaskTypeImage(task.taskType)!}
+                                        type={getTaskTypeName(task.taskType)!}
+                                        dueDate={task.dueDate}
+                                        isDisabled={false}
+                                    />
                                 ))}
                             </ul>
                         </div>

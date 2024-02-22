@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Task from '../models/Task';
+import { getUserData } from '@/libs/common';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -10,7 +11,7 @@ const apiClient = axios.create({
 
 export const fetchList = async (token: string): Promise<any> => {
     try {
-        const response = await apiClient.post('/task', { type: "LIST" }, {
+        const response = await apiClient.post('/task', { type: "LIST", userId: getUserData()?._id }, {
             headers: {
                 Authorization: `Bearer ${token}`
             }

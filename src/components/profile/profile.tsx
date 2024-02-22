@@ -25,6 +25,12 @@ const Profile: React.FC<ProfileProps> = () => {
 
     }, []);
 
+    const logoutHandler = () => {
+        window.localStorage.removeItem('token');
+        window.localStorage.removeItem('userData');
+        signOut({ callbackUrl: '/login', redirect: true });
+    };
+
     return (
         <>
             <div className={style['profile-wrapper']}>
@@ -52,7 +58,7 @@ const Profile: React.FC<ProfileProps> = () => {
                             </div>
                             <div>
                                 <div>
-                                    <strong onClick={() => signOut({ callbackUrl: '/login', redirect: true })}>{'Log Out'}</strong>
+                                    <strong onClick={() => logoutHandler()}>{'Log Out'}</strong>
                                 </div>
                             </div>
                         </li>

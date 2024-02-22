@@ -1,3 +1,4 @@
+import UserData from "@/models/UserData";
 
 export const preventDefaultIfEnterHandler = (event: KeyboardEvent): void => {
     console.log('User pressed: ', event.key);
@@ -35,3 +36,20 @@ export const getTaskTypeName = (taskTypeId: string): string | undefined => {
             return 'Video';
     }
 }
+
+export const getUserData = (): UserData | null => {
+    const userDataObj = localStorage.getItem('userData');
+    if (userDataObj) {
+        try {
+            const userData: UserData = JSON.parse(userDataObj);
+            return userData;
+        } catch (error) {
+            console.error('Error parsing user data:', error);
+            return null;
+        }
+    } else {
+        console.error('No user data found in localStorage');
+        return null;
+    }
+};
+

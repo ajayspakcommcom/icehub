@@ -23,6 +23,10 @@ const taskSchema = new mongoose.Schema({
     isSubmitted: {
       type: Boolean,
       default: false
+    },
+    createdDate: {
+      type: Date,
+      default: null
     }
   }],
   createdBy: {

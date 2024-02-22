@@ -54,9 +54,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
               name: req.body.name,
               taskType: req.body.taskType,
               dueDate: req.body.dueDate,
-              assignedTo: req.body.assignedTo.map((item: { user: string, isSubmitted: boolean }) => ({
+              assignedTo: req.body.assignedTo.map((item: { user: string, isSubmitted: boolean, createdDate: Date }) => ({
                 user: new mongoose.Types.ObjectId(item.user),
-                isSubmitted: item.isSubmitted
+                isSubmitted: item.isSubmitted,
+                createdDate: item.createdDate
               })),
               createdBy: req.body.createdBy
             });
@@ -77,7 +78,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
           break;
         case 'LIST':
           try {
-            const dataList = await Task.find({}).exec();
+            console.log(req.body);
+            const dataList = await Task.find({ 'assignedTo.user': req.body.userId }).exec();
             res.status(200).json({ data: dataList });
           }
           catch (error: any) {
