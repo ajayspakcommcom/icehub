@@ -9,9 +9,9 @@ const apiClient = axios.create({
 });
 
 
-export const fetchList = async (token: string): Promise<any> => {
+export const submittedTaskList = async (token: string): Promise<any> => {
     try {
-        const response = await apiClient.post('/user-task', { type: "LIST", userId: getUserData()?._id }, {
+        const response = await apiClient.post('/user-task', { type: "SUBMITTED-USER-TASK", userId: getUserData()?._id }, {
             headers: {
                 Authorization: `Bearer ${token}`
             }

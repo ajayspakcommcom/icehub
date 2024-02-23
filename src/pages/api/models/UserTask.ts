@@ -87,7 +87,7 @@ const userTaskSchema = new mongoose.Schema({
     type: String,
     default: null
   },
-  completed: {
+  submitted: {
     type: Boolean,
     default: false
   },

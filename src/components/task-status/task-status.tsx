@@ -3,8 +3,9 @@ import { TabContext, TabList, TabPanel } from '@mui/lab';
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
-import { fetchList } from '@/services/task';
+import { assignedTaskList } from '@/services/task';
 import { getTaskTypeImage, getTaskTypeName, getUserData } from '@/libs/common';
+import { submittedTaskList } from '@/services/user-task';
 const TaskStatusItem = dynamic(() => import('@/components/task-status-item/task-status-item'));
 const TaskStatusItemHeader = dynamic(() => import('@/components/task-status-item/task-status-item-header'));
 
@@ -50,21 +51,14 @@ const TaskStatus: React.FC<TaskStatusProps> = () => {
 
 
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchAssignedTaskList = async () => {
             try {
-                const response = await fetchList(localStorage.getItem('token')!);
-                console.log("response", response);
-
+                const response = await assignedTaskList(localStorage.getItem('token')!);
                 const taskData = response.data.data;
-
-                console.log('taskData', taskData);
-
                 const formattedTasks = taskData.map((task: any) => ({
                     ...task,
                     userCreatedTask: task.assignedTo.find((assignee: any) => assignee.user === getUserData()?._id)
                 }));
-
-                console.log(formattedTasks);
 
                 setTaskList(formattedTasks);
                 //setLoading(false);
@@ -74,7 +68,15 @@ const TaskStatus: React.FC<TaskStatusProps> = () => {
             }
         };
 
-        fetchData();
+        fetchAssignedTaskList();
+
+
+        const fetchSubmittedTaskList = async () => {
+            const resp = await submittedTaskList(localStorage.getItem('token')!);
+            console.log('Subbmiited Task: ', resp);
+        };
+
+        fetchSubmittedTaskList();
 
         return () => {
             setTaskList([]);

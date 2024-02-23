@@ -20,15 +20,17 @@ const TaskStatusItem: React.FC<TaskStatusItemProps> = ({ id, title, imageUrl, ty
 
     const navigationHandler = (type: string) => {
 
-        router.push({
-            pathname: '/create-task',
-            query: {
-                type: type?.toLowerCase(),
-                userId: getUserData()?._id,
-                taskId: id,
-                taskTitle: title
-            },
-        });
+        if (!isDisabled) {
+            router.push({
+                pathname: '/create-task',
+                query: {
+                    type: type?.toLowerCase(),
+                    userId: getUserData()?._id,
+                    taskId: id,
+                    taskTitle: title
+                },
+            });
+        }
     };
 
 

@@ -76,7 +76,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
           }
 
           break;
-        case 'LIST':
+        case 'ASSIGEND-TASK-LIST':
           try {
             const dataList = await Task.find({ 'assignedTo.user': req.body.userId }).exec();
             res.status(200).json({ data: dataList });

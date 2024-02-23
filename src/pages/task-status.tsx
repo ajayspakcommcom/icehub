@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import { Container, Grid } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { fetchList } from "@/services/task";
+
 
 const Header = dynamic(() => import('@/components/header/header'));
 const FeedItem = dynamic(() => import('@/components/feed-item/feed-item'));
@@ -26,14 +26,25 @@ export default function TastStatus() {
 
   useEffect(() => {
 
-    console.log('token', localStorage.getItem('token'));
+    //console.log('token', localStorage.getItem('token'));
 
-    const fetchPendingTask = async () => {
-      const resp = await fetchList(localStorage.getItem('token')!);
-      console.log(resp);
-    };
+    // const fetchAssignedTaskList = async () => {
+    //   const resp = await assignedTaskList(localStorage.getItem('token')!);
+    //   console.log(resp);
+    // };
 
-    fetchPendingTask();
+    // fetchAssignedTaskList();
+
+
+    // const fetchSubmittedTaskList = async () => {
+    //   const resp = await submittedTaskList(localStorage.getItem('token')!);
+    //   console.log('Subbmiited Task: ', resp);
+    // };
+
+    // fetchSubmittedTaskList();
+
+
+
 
     return () => console.log('');
   }, [router]);

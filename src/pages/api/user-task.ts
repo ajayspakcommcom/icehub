@@ -57,7 +57,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
             let taskData: any = {
               user: req.body.userId,
-              task: req.body.taskId
+              task: req.body.taskId,
+              submitted: true
             };
 
             switch (req.body.createTaskType) {
@@ -115,11 +116,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
           }
 
           break;
-        case 'LIST':
+        case 'SUBMITTED-USER-TASK':
           try {
-            const dataList = await UserTask.find({}).exec();
+            const dataList = await UserTask.find({ user: req.body.userId, submitted: true }).exec();
             res.status(200).json({ data: dataList });
-          } catch (error: any) {
+          }
+          catch (error: any) {
 
             if (error instanceof MongooseError) {
               return res.status(500).json({ error: 'Database Error', errorDetail: error });
