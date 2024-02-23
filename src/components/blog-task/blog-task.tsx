@@ -1,31 +1,41 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Button } from '@mui/material';
-import axios from 'axios';
+import { createUserTask } from '@/services/user-task';
+import Task from '@/models/Task';
+
 
 interface BlogProps {
-  heading: string;
-  paragraph: string;
-  selectedLayout: string;
+  userId: string;
+  taskId: string;
+  blogTitle: string;
+  blogParagraph: string;
+  selectedBlog: string;
+  createTaskType: string,
 }
 
-const BlogTask: React.FC<BlogProps> = ({ heading, paragraph, selectedLayout }) => {
 
-  const [content, setContent] = useState({ heading, paragraph, selectedLayout });
+const BlogTask: React.FC<BlogProps> = ({ createTaskType, userId, taskId, blogTitle, blogParagraph, selectedBlog }) => {
 
-  const [selectedTheme, setSelectedTheme] = useState<string>(selectedLayout);
+  const [content, setContent] = useState({ createTaskType, userId, taskId, blogTitle, blogParagraph, selectedBlog });
+
+
+
+  const [selectedTheme, setSelectedTheme] = useState<string>(selectedBlog);
 
   const changeHandler = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
 
-    if (event.target.id.toLowerCase() === 'heading') {
+    console.log(event.target.id.toLowerCase());
+
+    if (event.target.id.toLowerCase() === 'blogtitle') {
       setContent(previousState => {
-        return { ...previousState, heading: event.target.value }
+        return { ...previousState, blogTitle: event.target.value }
       });
     }
 
-    if (event.target.id.toLowerCase() === 'paragraph') {
+    if (event.target.id.toLowerCase() === 'blogparagraph') {
       setContent(previousState => {
-        return { ...previousState, paragraph: event.target.value }
+        return { ...previousState, blogParagraph: event.target.value }
       });
     }
 
@@ -38,17 +48,21 @@ const BlogTask: React.FC<BlogProps> = ({ heading, paragraph, selectedLayout }) =
 
   useEffect(() => {
 
-  }, []);
+    setContent(previousState => {
+      return { ...previousState, createTaskType: createTaskType, userId: userId, taskId: taskId, blogTitle: blogTitle }
+    });
+
+    return () => console.log('');
+  }, [userId, taskId, blogTitle, blogParagraph, selectedBlog]);
 
 
   const saveContent = async () => {
     console.log('content', content);
-    // try {
-    //   const response = await axios.post('http://example.com/save', content);
-    //   console.log('Saved:', response.data);
-    // } catch (error) {
-    //   console.error('Error saving:', error);
-    // }
+    try {
+      const response = await createUserTask(content as Task, localStorage.getItem('token')!, 'blog');
+    } catch (error) {
+      console.error('Error saving:', error);
+    }
   };
 
   const changeThemeHandler = (event: React.MouseEvent<HTMLImageElement>): void => {
@@ -56,21 +70,21 @@ const BlogTask: React.FC<BlogProps> = ({ heading, paragraph, selectedLayout }) =
     if (event.currentTarget.id.toLocaleLowerCase() === 'white-theme') {
       setSelectedTheme('white-theme');
       setContent(previousState => {
-        return { ...previousState, selectedLayout: 'white-theme' }
+        return { ...previousState, selectedBlog: 'white-theme' }
       });
     }
 
     if (event.currentTarget.id.toLocaleLowerCase() === 'black-theme') {
       setSelectedTheme('black-theme');
       setContent(previousState => {
-        return { ...previousState, selectedLayout: 'black-theme' }
+        return { ...previousState, selectedBlog: 'black-theme' }
       });
     }
 
     if (event.currentTarget.id.toLocaleLowerCase() === 'pink-theme') {
       setSelectedTheme('pink-theme');
       setContent(previousState => {
-        return { ...previousState, selectedLayout: 'pink-theme' }
+        return { ...previousState, selectedBlog: 'pink-theme' }
       });
     }
 
@@ -87,9 +101,9 @@ const BlogTask: React.FC<BlogProps> = ({ heading, paragraph, selectedLayout }) =
       </div>
 
       <div id="content" className={selectedTheme}>
-        <input type='text' id='heading' className='h1' maxLength={25} minLength={5} onChange={changeHandler} value={content.heading} disabled={true} />
+        <input type='text' id='blogTitle' className='h1' maxLength={25} minLength={5} onChange={changeHandler} value={content.blogTitle} disabled={true} />
         <div>
-          <textarea id="paragraph" name="paragraph" rows={6} onChange={changeHandler} value={content.paragraph}></textarea>
+          <textarea id="blogParagraph" name="blogParagraph" rows={6} onChange={changeHandler} value={content.blogParagraph}></textarea>
         </div>
       </div>
 

@@ -52,6 +52,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
             //   "createdBy": "65d5c37aeba6623d9fad0211"
             // }
 
+            console.log(req.body);
+
             let taskData: any = {
               user: req.body.userId,
               task: req.body.taskId
