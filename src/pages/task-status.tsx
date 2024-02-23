@@ -26,26 +26,6 @@ export default function TastStatus() {
 
   useEffect(() => {
 
-    //console.log('token', localStorage.getItem('token'));
-
-    // const fetchAssignedTaskList = async () => {
-    //   const resp = await assignedTaskList(localStorage.getItem('token')!);
-    //   console.log(resp);
-    // };
-
-    // fetchAssignedTaskList();
-
-
-    // const fetchSubmittedTaskList = async () => {
-    //   const resp = await submittedTaskList(localStorage.getItem('token')!);
-    //   console.log('Subbmiited Task: ', resp);
-    // };
-
-    // fetchSubmittedTaskList();
-
-
-
-
     return () => console.log('');
   }, [router]);
 
