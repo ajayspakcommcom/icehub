@@ -2,7 +2,6 @@ import { Box, Tab } from '@mui/material';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-
 import dynamic from 'next/dynamic';
 import { fetchList } from '@/services/task';
 import { getTaskTypeImage, getTaskTypeName, getUserData } from '@/libs/common';
@@ -26,6 +25,7 @@ interface Task {
     deletedBy: string | null;
     deletedDate: Date | null;
     createdDate: Date;
+    userCreatedTask: { createdDate: Date, isSubmitted: boolean, user: string };
     __v: number;
 }
 
@@ -61,12 +61,12 @@ const TaskStatus: React.FC<TaskStatusProps> = () => {
 
                 const formattedTasks = taskData.map((task: any) => ({
                     ...task,
-                    //assignedTo: task.assignedTo.find((assignee: any) => assignee.user === getUserData()?._id)
+                    userCreatedTask: task.assignedTo.find((assignee: any) => assignee.user === getUserData()?._id)
                 }));
 
                 console.log(formattedTasks);
 
-                setTaskList(response.data.data);
+                setTaskList(formattedTasks);
                 //setLoading(false);
             } catch (error: any) {
                 setError(error.message);
@@ -103,7 +103,7 @@ const TaskStatus: React.FC<TaskStatusProps> = () => {
                                         imageUrl={getTaskTypeImage(task.taskType)!}
                                         type={getTaskTypeName(task.taskType)!}
                                         dueDate={task.dueDate}
-                                        isDisabled={false}
+                                        isDisabled={!!(task.userCreatedTask.isSubmitted)}
                                     />
                                 ))}
                             </ul>

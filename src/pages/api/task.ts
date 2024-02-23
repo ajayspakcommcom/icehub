@@ -78,13 +78,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
           break;
         case 'LIST':
           try {
-            console.log('List', req.body);
-            //const dataList = await Task.find({ 'assignedTo.user': req.body.userId, 'assignedTo.isSubmitted': false }).exec();
-
-            const dataList = await Task.find({
-              'assignedTo': { $elemMatch: { 'user': { $exists: true }, 'isSubmitted': false } }
-            }).exec();
-
+            const dataList = await Task.find({ 'assignedTo.user': req.body.userId }).exec();
             res.status(200).json({ data: dataList });
           }
           catch (error: any) {
