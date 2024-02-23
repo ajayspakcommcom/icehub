@@ -8,6 +8,7 @@ import { verifyToken } from './libs/verifyToken';
 import runMiddleware from './libs/runMiddleware';
 import Cors from 'cors';
 import { UserTask } from './models/UserTask';
+import { Task } from './models/Task';
 
 interface ApiResponse {
   message?: string;
@@ -76,7 +77,26 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                 return res.status(400).json({ error: 'Invalid createTaskType' });
             }
 
-            const task = await UserTask.create(taskData);
+            const userTask = await UserTask.create(taskData);
+
+            console.log('userTask', userTask);
+
+
+            if (userTask) {
+              await Task.findOneAndUpdate(
+                {
+                  _id: req.body.taskId,
+                  'assignedTo.user': req.body.userId
+                },
+                {
+                  $set: {
+                    'assignedTo.$.isSubmitted': true,
+                    'assignedTo.$.createdDate': new Date()
+                  }
+                },
+                { new: true }
+              );
+            }
 
             res.status(201).json({ message: 'User Task have been successfully created.' });
           }

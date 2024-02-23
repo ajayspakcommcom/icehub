@@ -19,11 +19,11 @@ const TaskStatusItem: React.FC<TaskStatusItemProps> = ({ id, title, imageUrl, ty
     const router = useRouter();
 
     const navigationHandler = (type: string) => {
-        console.log('type: ' + type.toLowerCase());
+        //console.log('type: ' + type.toLowerCase());
         router.push({
             pathname: '/create-task',
             query: {
-                type: type.toLowerCase(),
+                type: type?.toLowerCase(),
                 userId: getUserData()?._id,
                 taskId: id,
                 taskTitle: title

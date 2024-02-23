@@ -4,6 +4,9 @@ import { Button } from '@mui/material';
 import { createUserTask } from '@/services/user-task';
 import Task from '@/models/Task';
 
+import dynamic from 'next/dynamic';
+const SuccessMessage = dynamic(() => import('@/components/success-message/success-message'));
+
 
 interface BlogProps {
   userId: string;
@@ -18,7 +21,8 @@ interface BlogProps {
 const BlogTask: React.FC<BlogProps> = ({ createTaskType, userId, taskId, blogTitle, blogParagraph, selectedBlog }) => {
 
   const [content, setContent] = useState({ createTaskType, userId, taskId, blogTitle, blogParagraph, selectedBlog });
-
+  const [success, setSuccess] = React.useState<string | null>(null);
+  const [error, setError] = React.useState<any>();
 
 
   const [selectedTheme, setSelectedTheme] = useState<string>(selectedBlog);
@@ -60,7 +64,16 @@ const BlogTask: React.FC<BlogProps> = ({ createTaskType, userId, taskId, blogTit
     console.log('content', content);
     try {
       const response = await createUserTask(content as Task, localStorage.getItem('token')!, 'blog');
-    } catch (error) {
+      console.log(response);
+
+      if (response.status === 201) {
+        setSuccess(response.data.message)
+        setTimeout(() => {
+          setSuccess(null);
+        }, 3000);
+      }
+
+    } catch (error: any) {
       console.error('Error saving:', error);
     }
   };
@@ -109,6 +122,7 @@ const BlogTask: React.FC<BlogProps> = ({ createTaskType, userId, taskId, blogTit
 
       <div className='btn-wrapper'>
         <Button variant="contained" size="large" className="ice-btn" disabled={!isFormValid()} onClick={() => saveContent()}> {'Save'} </Button>
+        {success && <div className='registration-success'><SuccessMessage message={success} /></div>}
       </div>
 
     </div>

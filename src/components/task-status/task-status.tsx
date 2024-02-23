@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 import dynamic from 'next/dynamic';
 import { fetchList } from '@/services/task';
-import { getTaskTypeImage, getTaskTypeName } from '@/libs/common';
+import { getTaskTypeImage, getTaskTypeName, getUserData } from '@/libs/common';
 const TaskStatusItem = dynamic(() => import('@/components/task-status-item/task-status-item'));
 const TaskStatusItemHeader = dynamic(() => import('@/components/task-status-item/task-status-item-header'));
 
@@ -53,6 +53,19 @@ const TaskStatus: React.FC<TaskStatusProps> = () => {
         const fetchData = async () => {
             try {
                 const response = await fetchList(localStorage.getItem('token')!);
+                console.log("response", response);
+
+                const taskData = response.data.data;
+
+                console.log('taskData', taskData);
+
+                const formattedTasks = taskData.map((task: any) => ({
+                    ...task,
+                    //assignedTo: task.assignedTo.find((assignee: any) => assignee.user === getUserData()?._id)
+                }));
+
+                console.log(formattedTasks);
+
                 setTaskList(response.data.data);
                 //setLoading(false);
             } catch (error: any) {
