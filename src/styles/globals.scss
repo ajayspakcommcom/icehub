@@ -816,3 +816,41 @@ p {
 .pointer {
     cursor: pointer !important;
 }
+
+.video-task-wrapper {
+    background: #fff;
+    padding: 20px;
+    border-radius: 20px;
+    max-width: 700px;
+    margin: auto;
+    box-shadow: 1px 1px 10px rgba(128, 128, 128, 0.5);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    width: 500px;
+
+    h1 {
+        font-family: 'semi-bold';
+        margin: 0;
+        font-size: 25px;
+        border-bottom: 1px solid rgba(153, 153, 153, 0.8);
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: auto;
+    }
+
+    .btn-wrapper {
+        text-align: right;
+    }
+}
