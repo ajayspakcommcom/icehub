@@ -10,6 +10,8 @@ export const preventDefaultIfEnterHandler = (event: KeyboardEvent): void => {
 export const getSpecializations = (): string[] => ['Cardiologist', 'Dermatologist', 'Gynecologist', 'Pediatrician', 'Orthopedic Surgeon', 'Neurologist'];
 
 export const getTaskTypeImage = (taskTypeId: string): string | undefined => {
+    console.log('getTaskTypeImage', taskTypeId);
+
     switch (taskTypeId) {
         case '65d734098abbb6154ff8afea':
             return 'blog.png';

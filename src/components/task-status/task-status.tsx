@@ -159,8 +159,8 @@ const TaskStatus: React.FC<TaskStatusProps> = () => {
                                     <TaskStatusItem
                                         key={task._id}
                                         id={task._id}
-                                        title={task.blogTitle!}
-                                        imageUrl={getTaskTypeImage(task.task)!}
+                                        title={task.taskType === '65d734098abbb6154ff8afea' ? (task.blogTitle)! : task.taskType === '65d734678abbb6154ff8aff0' ? (task.caseStudyTitle)! : task.taskType === '65d734618abbb6154ff8afee' ? (task.videoTitle)! : (task.infographicTitle)!}
+                                        imageUrl={getTaskTypeImage(task.taskType)!}
                                         type={getTaskTypeName(task.taskType)!}
                                         dueDate={new Date()}
                                         isDisabled={task.approvedByAdmin}
@@ -180,8 +180,8 @@ const TaskStatus: React.FC<TaskStatusProps> = () => {
                                     <TaskStatusItem
                                         key={task._id}
                                         id={task._id}
-                                        title={task.blogTitle!}
-                                        imageUrl={getTaskTypeImage(task.task)!}
+                                        title={task.taskType === '65d734098abbb6154ff8afea' ? (task.blogTitle)! : task.taskType === '65d734678abbb6154ff8aff0' ? (task.caseStudyTitle)! : task.taskType === '65d734618abbb6154ff8afee' ? (task.videoTitle)! : (task.infographicTitle)!}
+                                        imageUrl={getTaskTypeImage(task.taskType)!}
                                         type={getTaskTypeName(task.taskType)!}
                                         dueDate={new Date()}
                                         isDisabled={false}

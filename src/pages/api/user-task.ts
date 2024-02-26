@@ -66,7 +66,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
               case 'blog':
                 taskData = { ...taskData, blogTitle: req.body.blogTitle, blogParagraph: req.body.blogParagraph, selectedBlog: req.body.selectedBlog };
                 break;
-              case 'case study':
+              case 'case-study':
                 taskData = { ...taskData, caseStudyTitle: req.body.caseStudyTitle, csDiagnosis: req.body.csDiagnosis, csTreatment: req.body.csTreatment, csQuestion1: req.body.csQuestion1, csQuestion2: req.body.csQuestion2, csDoctorName: req.body.csDoctorName };
                 break;
               case 'infographic':

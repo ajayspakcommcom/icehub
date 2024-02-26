@@ -57,26 +57,8 @@ const BlogTask: React.FC<BlogProps> = ({ createTaskType, userId, taskId, blogTit
     });
 
     return () => console.log('');
-  }, [userId, taskId, blogTitle, blogParagraph, selectedBlog]);
+  }, [userId, taskId]);
 
-
-  const saveContent = async () => {
-    console.log('content', content);
-    try {
-      const response = await createUserTask(content as Task, localStorage.getItem('token')!, 'blog');
-      console.log(response);
-
-      if (response.status === 201) {
-        setSuccess(response.data.message)
-        setTimeout(() => {
-          setSuccess(null);
-        }, 3000);
-      }
-
-    } catch (error: any) {
-      console.error('Error saving:', error);
-    }
-  };
 
   const changeThemeHandler = (event: React.MouseEvent<HTMLImageElement>): void => {
 
@@ -101,6 +83,24 @@ const BlogTask: React.FC<BlogProps> = ({ createTaskType, userId, taskId, blogTit
       });
     }
 
+  };
+
+  const saveContent = async () => {
+    console.log('content', content);
+    try {
+      const response = await createUserTask(content as Task, localStorage.getItem('token')!, 'blog');
+      console.log(response);
+
+      if (response.status === 201) {
+        setSuccess(response.data.message)
+        setTimeout(() => {
+          setSuccess(null);
+        }, 3000);
+      }
+
+    } catch (error: any) {
+      console.error('Error saving:', error);
+    }
   };
 
   return (

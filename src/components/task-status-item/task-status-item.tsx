@@ -22,6 +22,15 @@ const TaskStatusItem: React.FC<TaskStatusItemProps> = ({ id, title, imageUrl, ty
 
     useEffect(() => {
 
+        console.log('id', id);
+        console.log('title', title);
+        console.log('imageUrl', imageUrl);
+        console.log('type', type);
+        console.log('dueDate', dueDate);
+        console.log('isDisabled', isDisabled);
+        console.log('taskType', taskType);
+
+
         return () => console.log('');
     }, []);
 
