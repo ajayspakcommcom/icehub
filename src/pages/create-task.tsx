@@ -50,6 +50,7 @@ export default function CreateTask() {
                 <Container>
                     <Grid container>
                         <Grid item xs={12}>
+
                             {router.query.type === 'blog' && <BlogTask createTaskType={'blog'} userId={router.query.userId as string} taskId={router.query.taskId as string} blogTitle={router.query.taskTitle as string} blogParagraph={paragraphContent} selectedBlog={'white-theme'} />}
                             {router.query.type === 'case study' && <CaseStudyTask heading={`${router.query.taskTitle}`} diagnosis={treatmentContent} treatment={diagnosisContent} elongated={`30`} intake={`60`} />}
                             {router.query.type === 'infographic' && <h1>Infographic</h1>}

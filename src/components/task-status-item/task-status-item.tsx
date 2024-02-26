@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { formatDateToDDMMYYYY } from '@/utils/common';
 import { useRouter } from 'next/router';
@@ -20,7 +20,13 @@ const TaskStatusItem: React.FC<TaskStatusItemProps> = ({ id, title, imageUrl, ty
 
     const router = useRouter();
 
-    const navigationHandler = (type: string) => {
+    useEffect(() => {
+
+        return () => console.log('');
+    }, []);
+
+    const createTaskHandler = (type: string) => {
+        console.log(type);
 
         if (!isDisabled) {
             router.push({
@@ -35,10 +41,38 @@ const TaskStatusItem: React.FC<TaskStatusItemProps> = ({ id, title, imageUrl, ty
         }
     };
 
+    const updateTaskHandler = (type: string) => {
+        if (!isDisabled) {
+            router.push({
+                pathname: '/update-task',
+                query: {
+                    type: type?.toLowerCase(),
+                    userId: getUserData()?._id,
+                    taskId: id,
+                    taskTitle: title
+                },
+            });
+        }
+    };
+
+    const detailTaskHandler = (type: string) => {
+        if (!isDisabled) {
+            router.push({
+                pathname: '/detail-task',
+                query: {
+                    type: type?.toLowerCase(),
+                    userId: getUserData()?._id,
+                    taskId: id,
+                    taskTitle: title
+                },
+            });
+        }
+    };
+
 
     if (taskType === TaskTypeEnum.ASSIGNED) {
         return (
-            <li className={`${isDisabled ? 'disabled' : ''}`} id={`${id}`} onClick={() => navigationHandler(type)}>
+            <li className={`${isDisabled ? 'disabled' : ''}`} id={`${id}`} onClick={() => createTaskHandler(type)}>
                 <div>
                     <div>
                         <Image src={require(`../../../public/images/icons/${imageUrl}`)} alt={`${title}`} className='responsive-img' />
@@ -63,7 +97,7 @@ const TaskStatusItem: React.FC<TaskStatusItemProps> = ({ id, title, imageUrl, ty
 
     if (taskType === TaskTypeEnum.SUBMITTED) {
         return (
-            <li className={`${isDisabled ? 'disabled' : ''}`} id={`${id}`} onClick={() => navigationHandler(type)}>
+            <li className={`${isDisabled ? 'disabled' : ''}`} id={`${id}`}>
                 <div>
                     <div>
                         <Image src={require(`../../../public/images/icons/${imageUrl}`)} alt={`${title}`} className='responsive-img' />
@@ -87,7 +121,7 @@ const TaskStatusItem: React.FC<TaskStatusItemProps> = ({ id, title, imageUrl, ty
 
     if (taskType === TaskTypeEnum.APPROVED) {
         return (
-            <li className={`${isDisabled ? 'disabled' : ''}`} id={`${id}`} onClick={() => navigationHandler(type)}>
+            <li className={`${isDisabled ? 'disabled' : ''}`} id={`${id}`}>
                 <div>
                     <div>
                         <Image src={require(`../../../public/images/icons/${imageUrl}`)} alt={`${title}`} className='responsive-img' />
@@ -103,7 +137,7 @@ const TaskStatusItem: React.FC<TaskStatusItemProps> = ({ id, title, imageUrl, ty
                     </div>
                 </div>
                 <div>
-                    <Image src={require('../../../public/images/icons/edit.png')} alt={title} className='responsive-img' />
+                    <Image src={require('../../../public/images/icons/view.png')} alt={title} className='responsive-img' />
                 </div>
             </li>
         );
