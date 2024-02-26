@@ -104,6 +104,7 @@ const BlogTask: React.FC<BlogProps> = ({ createTaskType, userId, taskId, blogTit
   };
 
   return (
+
     <div className='blog-task-wrapper'>
       <div className='blog-theme-wrapper'>
         <ul>

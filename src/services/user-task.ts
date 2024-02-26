@@ -22,6 +22,19 @@ export const submittedTaskList = async (token: string): Promise<any> => {
     }
 };
 
+export const approvedTaskList = async (token: string): Promise<any> => {
+    try {
+        const response = await apiClient.post('/user-task', { type: "APPROVED-USER-TASK", userId: getUserData()?._id }, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return response;
+    } catch (error) {
+        throw error;
+    }
+};
+
 // Function to create a new customer
 export const createUserTask = async (userTask: Task, token: string, createTaskType: string): Promise<any> => {
     //console.log('createUserTask', userTask);

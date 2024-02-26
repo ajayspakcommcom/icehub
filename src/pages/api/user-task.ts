@@ -9,6 +9,7 @@ import runMiddleware from './libs/runMiddleware';
 import Cors from 'cors';
 import { UserTask } from './models/UserTask';
 import { Task } from './models/Task';
+import { fetchTaskTypeId } from './libs/utils';
 
 interface ApiResponse {
   message?: string;
@@ -118,7 +119,39 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
           break;
         case 'SUBMITTED-USER-TASK':
           try {
-            const dataList = await UserTask.find({ user: req.body.userId, submitted: true }).exec();
+
+            // const dataList = await UserTask.find({ user: req.body.userId, submitted: true, approvedByAdmin: false }).exec();
+            // console.log('dataList', dataList);
+
+            const userTaskList = await UserTask.find({ user: req.body.userId, submitted: true }).populate('task', 'taskType').exec();
+            const dataList = userTaskList.map(userTask => ({
+              ...userTask.toObject(), // Convert Mongoose document to plain JavaScript object
+              taskType: userTask.task ? userTask.task.taskType : null // Get taskType if task exists, otherwise set to null
+            }));
+
+            res.status(200).json({ data: dataList });
+          }
+          catch (error: any) {
+
+            if (error instanceof MongooseError) {
+              return res.status(500).json({ error: 'Database Error', errorDetail: error });
+            }
+            res.status(500).json({ error: 'Internal Server Error' });
+          }
+          break;
+
+        case 'APPROVED-USER-TASK':
+          try {
+
+            // const dataList = await UserTask.find({ user: req.body.userId, submitted: true, approvedByAdmin: true }).exec();
+            // console.log('dataList', dataList);
+
+            const userTaskList = await UserTask.find({ user: req.body.userId, submitted: true, approvedByAdmin: true }).populate('task', 'taskType').exec();
+            const dataList = userTaskList.map(userTask => ({
+              ...userTask.toObject(), // Convert Mongoose document to plain JavaScript object
+              taskType: userTask.task ? userTask.task.taskType : null // Get taskType if task exists, otherwise set to null
+            }));
+
             res.status(200).json({ data: dataList });
           }
           catch (error: any) {

@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { formatDateToDDMMYYYY } from '@/utils/common';
 import { useRouter } from 'next/router';
 import { getUserData } from '@/libs/common';
+import { TaskTypeEnum } from '@/libs/enums';
 
 type TaskStatusItemProps = {
     id: string;
@@ -11,10 +12,11 @@ type TaskStatusItemProps = {
     type: string;
     dueDate: Date;
     isDisabled: boolean;
+    taskType: TaskTypeEnum;
 };
 
 
-const TaskStatusItem: React.FC<TaskStatusItemProps> = ({ id, title, imageUrl, type, dueDate, isDisabled }) => {
+const TaskStatusItem: React.FC<TaskStatusItemProps> = ({ id, title, imageUrl, type, dueDate, isDisabled, taskType }) => {
 
     const router = useRouter();
 
@@ -34,27 +36,78 @@ const TaskStatusItem: React.FC<TaskStatusItemProps> = ({ id, title, imageUrl, ty
     };
 
 
-    return (
-        <li className={`${isDisabled ? 'disabled' : ''}`} id={`${id}`} onClick={() => navigationHandler(type)}>
-            <div>
+    if (taskType === TaskTypeEnum.ASSIGNED) {
+        return (
+            <li className={`${isDisabled ? 'disabled' : ''}`} id={`${id}`} onClick={() => navigationHandler(type)}>
                 <div>
-                    <Image src={require(`../../../public/images/icons/${imageUrl}`)} alt={`${title}`} className='responsive-img' />
+                    <div>
+                        <Image src={require(`../../../public/images/icons/${imageUrl}`)} alt={`${title}`} className='responsive-img' />
+                    </div>
+                    <div>
+                        <strong>{title}</strong>
+                        <p>{type}</p>
+                    </div>
                 </div>
                 <div>
-                    <strong>{title}</strong>
-                    <p>{type}</p>
+                    <div>
+                        <p>{formatDateToDDMMYYYY(dueDate)}</p>
+                    </div>
                 </div>
-            </div>
-            <div>
                 <div>
-                    <p>{formatDateToDDMMYYYY(dueDate)}</p>
+                    <Image src={require('../../../public/images/icons/edit.png')} alt={title} className='responsive-img' />
                 </div>
-            </div>
-            <div>
-                <Image src={require('../../../public/images/icons/edit.png')} alt={title} className='responsive-img' />
-            </div>
-        </li>
-    );
+            </li>
+        );
+    }
+
+
+    if (taskType === TaskTypeEnum.SUBMITTED) {
+        return (
+            <li className={`${isDisabled ? 'disabled' : ''}`} id={`${id}`} onClick={() => navigationHandler(type)}>
+                <div>
+                    <div>
+                        <Image src={require(`../../../public/images/icons/${imageUrl}`)} alt={`${title}`} className='responsive-img' />
+                    </div>
+                    <div>
+                        <strong>{title}</strong>
+                        <p>{type}</p>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <p>{formatDateToDDMMYYYY(dueDate)}</p>
+                    </div>
+                </div>
+                <div>
+                    <Image src={require('../../../public/images/icons/edit.png')} alt={title} className='responsive-img' />
+                </div>
+            </li>
+        );
+    }
+
+    if (taskType === TaskTypeEnum.APPROVED) {
+        return (
+            <li className={`${isDisabled ? 'disabled' : ''}`} id={`${id}`} onClick={() => navigationHandler(type)}>
+                <div>
+                    <div>
+                        <Image src={require(`../../../public/images/icons/${imageUrl}`)} alt={`${title}`} className='responsive-img' />
+                    </div>
+                    <div>
+                        <strong>{title}</strong>
+                        <p>{type}</p>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <p>{formatDateToDDMMYYYY(dueDate)}</p>
+                    </div>
+                </div>
+                <div>
+                    <Image src={require('../../../public/images/icons/edit.png')} alt={title} className='responsive-img' />
+                </div>
+            </li>
+        );
+    }
 };
 
 

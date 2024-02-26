@@ -5,9 +5,12 @@ import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import { assignedTaskList } from '@/services/task';
 import { getTaskTypeImage, getTaskTypeName, getUserData } from '@/libs/common';
-import { submittedTaskList } from '@/services/user-task';
+import { approvedTaskList, submittedTaskList } from '@/services/user-task';
 import { AssinedTask } from '@/pages/api/models/AssignedTask';
 import { SubmittedTask } from '@/pages/api/models/SubmittedTask';
+import { TaskTypeEnum } from '@/libs/enums';
+import { ApprovedTask } from '@/pages/api/models/ApprovedTask';
+
 const TaskStatusItem = dynamic(() => import('@/components/task-status-item/task-status-item'));
 const TaskStatusItemHeader = dynamic(() => import('@/components/task-status-item/task-status-item-header'));
 
@@ -43,6 +46,7 @@ const TaskStatus: React.FC<TaskStatusProps> = () => {
 
     const [assignedTaskListData, setAssignedTaskListData] = useState([]);
     const [submittedTaskListData, setSubmittedTaskListData] = useState([]);
+    const [approvedTaskListData, setApprovedTaskListData] = useState([]);
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -72,7 +76,7 @@ const TaskStatus: React.FC<TaskStatusProps> = () => {
             }
         };
 
-        fetchAssignedTaskList();
+
 
 
         const fetchSubmittedTaskList = async () => {
@@ -80,7 +84,8 @@ const TaskStatus: React.FC<TaskStatusProps> = () => {
             try {
                 const response = await submittedTaskList(localStorage.getItem('token')!);
                 const taskData = response.data.data;
-                console.log('taskData', taskData);
+                console.log('submitted task', taskData);
+
                 setSubmittedTaskListData(taskData);
                 //setLoading(false);
             } catch (error: any) {
@@ -89,16 +94,35 @@ const TaskStatus: React.FC<TaskStatusProps> = () => {
             }
         };
 
+
+        const fetchApprovedTaskList = async () => {
+
+            try {
+                const response = await approvedTaskList(localStorage.getItem('token')!);
+                const taskData = response.data.data;
+                setApprovedTaskListData(taskData);
+                //setLoading(false);
+            } catch (error: any) {
+                setError(error.message);
+                //setLoading(false);
+            }
+        };
+
+        fetchAssignedTaskList();
         fetchSubmittedTaskList();
+        fetchApprovedTaskList();
 
         return () => {
             setAssignedTaskListData([]);
+            setSubmittedTaskListData([]);
+            setApprovedTaskListData([]);
         };
     }, []);
 
 
     return (
         <div className='tast-status-wrapper'>
+
             <TabContext value={value}>
                 <TabList onChange={handleChange} aria-label="Example">
                     <Tab label="Assined Task" value="1" />
@@ -119,6 +143,7 @@ const TaskStatus: React.FC<TaskStatusProps> = () => {
                                         type={getTaskTypeName(task.taskType)!}
                                         dueDate={task.dueDate}
                                         isDisabled={!!(task.userCreatedTask.isSubmitted)}
+                                        taskType={TaskTypeEnum.ASSIGNED}
                                     />
                                 ))}
                             </ul>
@@ -130,21 +155,18 @@ const TaskStatus: React.FC<TaskStatusProps> = () => {
                         <TaskStatusItemHeader />
                         <div className='body'>
                             <ul>
-                                {/* <TaskStatusItem id={'1'} title={`Task 1`} imageUrl={`blog.png`} type={`Create a blog`} dueDate={new Date()} isDisabled={false} /> */}
-
                                 {submittedTaskListData.map((task: SubmittedTask) => (
                                     <TaskStatusItem
                                         key={task._id}
                                         id={task._id}
                                         title={task.blogTitle!}
                                         imageUrl={getTaskTypeImage(task.task)!}
-                                        type={getTaskTypeName(task.task)!}
+                                        type={getTaskTypeName(task.taskType)!}
                                         dueDate={new Date()}
-                                        isDisabled={false}
+                                        isDisabled={task.approvedByAdmin}
+                                        taskType={TaskTypeEnum.SUBMITTED}
                                     />
                                 ))}
-
-
                             </ul>
                         </div>
                     </div>
@@ -154,14 +176,18 @@ const TaskStatus: React.FC<TaskStatusProps> = () => {
                         <TaskStatusItemHeader />
                         <div className='body'>
                             <ul>
-                                <TaskStatusItem id={'1'} title={`Task 1`} imageUrl={`blog.png`} type={`Create a blog`} dueDate={new Date()} isDisabled={true} />
-                                <TaskStatusItem id={'2'} title={`Task 2`} imageUrl={`blog.png`} type={`Create a blog`} dueDate={new Date()} isDisabled={true} />
-                                <TaskStatusItem id={'3'} title={`Task 3`} imageUrl={`blog.png`} type={`Create a blog`} dueDate={new Date()} isDisabled={true} />
-                                <TaskStatusItem id={'4'} title={`Task 4`} imageUrl={`blog.png`} type={`Create a blog`} dueDate={new Date()} isDisabled={true} />
-                                <TaskStatusItem id={'5'} title={`Task 5`} imageUrl={`blog.png`} type={`Create a blog`} dueDate={new Date()} isDisabled={true} />
-                                <TaskStatusItem id={'6'} title={`Task 6`} imageUrl={`blog.png`} type={`Create a blog`} dueDate={new Date()} isDisabled={true} />
-                                <TaskStatusItem id={'7'} title={`Task 7`} imageUrl={`blog.png`} type={`Create a blog`} dueDate={new Date()} isDisabled={true} />
-                                <TaskStatusItem id={'8'} title={`Task 8`} imageUrl={`blog.png`} type={`Create a blog`} dueDate={new Date()} isDisabled={true} />
+                                {approvedTaskListData.map((task: ApprovedTask) => (
+                                    <TaskStatusItem
+                                        key={task._id}
+                                        id={task._id}
+                                        title={task.blogTitle!}
+                                        imageUrl={getTaskTypeImage(task.task)!}
+                                        type={getTaskTypeName(task.taskType)!}
+                                        dueDate={new Date()}
+                                        isDisabled={false}
+                                        taskType={TaskTypeEnum.APPROVED}
+                                    />
+                                ))}
                             </ul>
                         </div>
                     </div>

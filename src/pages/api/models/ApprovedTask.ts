@@ -1,5 +1,5 @@
 
-export interface SubmittedTask {
+export interface ApprovedTask {
     _id: string;
     user: string;
     task: string;
