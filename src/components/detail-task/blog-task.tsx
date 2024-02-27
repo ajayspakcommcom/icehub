@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Button } from '@mui/material';
-import { createUserTask } from '@/services/user-task';
+import { createUserTask, getUserTaskDetail } from '@/services/user-task';
 import Task from '@/models/Task';
 
 import dynamic from 'next/dynamic';
@@ -18,6 +18,7 @@ interface Content {
   taskId?: string;
   blogTitle?: string;
   blogParagraph?: string;
+  selectedBlog?: string;
 }
 
 
@@ -30,9 +31,24 @@ const BlogTask: React.FC<BlogProps> = ({ userId, taskId }) => {
 
   useEffect(() => {
 
-    setContent(previousState => {
-      return { ...previousState, blogTitle: 'Heading', blogParagraph: 'Paragraph' }
-    });
+    const fetchUserTaskDetail = async () => {
+      try {
+        const response = await getUserTaskDetail(userId as string, taskId as string, localStorage.getItem('token')!);
+        console.log('response', response.data.data);
+
+        setContent(previousState => {
+          return { ...previousState, blogTitle: response.data.data.blogTitle, blogParagraph: response.data.data.blogParagraph, selectedBlog: response.data.data.selectedBlog }
+        });
+
+        //setAssignedTaskListData(formattedTasks);
+        //setLoading(false);
+      } catch (error: any) {
+        //setError(error.message);
+        //setLoading(false);
+      }
+    };
+
+    fetchUserTaskDetail();
 
     return () => console.log('');
   }, [userId, taskId]);
@@ -40,11 +56,12 @@ const BlogTask: React.FC<BlogProps> = ({ userId, taskId }) => {
   return (
 
     <div className='blog-task-wrapper'>
-
-      <div id="content" className={'selectedTheme'}>
-        <h1>{content?.blogTitle}</h1>
+      <div id="content" className={content?.selectedBlog}>
+        <h1 className='h1'>{content?.blogTitle}</h1>
         <div>
-          {content?.blogParagraph}
+          <div id='blogParagraph'>
+            {content?.blogParagraph}
+          </div>
         </div>
       </div>
 
