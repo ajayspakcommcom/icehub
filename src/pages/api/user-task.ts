@@ -162,6 +162,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
             res.status(500).json({ error: 'Internal Server Error' });
           }
           break;
+
+        case 'DETAIL-USER-TASK':
+          try {
+
+            const dataList = await UserTask.findOne({ _id: req.body.taskId, user: req.body.userId }).exec();
+            console.log('dataList', dataList);
+
+            res.status(200).json({ data: dataList });
+          }
+          catch (error: any) {
+
+            if (error instanceof MongooseError) {
+              return res.status(500).json({ error: 'Database Error', errorDetail: error });
+            }
+            res.status(500).json({ error: 'Internal Server Error' });
+          }
+          break;
+
       }
 
     } else {
