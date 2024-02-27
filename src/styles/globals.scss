@@ -848,6 +848,11 @@ p {
         height: auto;
         display: block;
         margin: auto;
+        cursor: pointer;
+    }
+
+    input[type="file"] {
+        opacity: 0;
     }
 
     .btn-wrapper {

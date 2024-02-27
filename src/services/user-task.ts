@@ -47,6 +47,17 @@ export const createUserTask = async (userTask: Task, token: string, createTaskTy
     }
 };
 
+export const uploadUserTaskVideo = async (formData: any, token: string): Promise<any> => {
+
+    try {
+        const response = await apiClient.post<any>('/upload', { formData }, { headers: { Authorization: `Bearer ${token}` } });
+        return response;
+    } catch (err: unknown) {
+        console.error('Error creating user task:', err);
+        throw err; // or return a specific error object/response
+    }
+};
+
 // Function to update an existing customer
 export const updateUserTask = async (id: number, taskData: Partial<Task>): Promise<any> => {
     const response = await apiClient.put<Task>(`/task/${id}`, taskData);

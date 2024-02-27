@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Button } from '@mui/material';
 import axios from 'axios';
-import { createUserTask } from '@/services/user-task';
+import { createUserTask, uploadUserTaskVideo } from '@/services/user-task';
 import Task from '@/models/Task';
 
 interface CaseStudyTaskProps {
@@ -67,17 +67,56 @@ const VideoTask: React.FC<CaseStudyTaskProps> = ({ userId, taskId, heading, crea
     // }
   };
 
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('videoTitle', content.videoTitle);
+
+
+    // try {
+    //   const response = await fetch('/api/upload', {
+    //     method: 'POST',
+    //     body: formData,
+    //   });
+
+    //   if (response.ok) {
+    //     console.log('File uploaded successfully');
+    //   } else {
+    //     console.error('Failed to upload file:', response.statusText);
+    //   }
+    // } catch (error) {
+    //   console.error('Error uploading file:', error);
+    // }
+
+    try {
+      const response = await uploadUserTaskVideo(formData, localStorage.getItem('token')!);
+      console.log(response);
+      // if (response.status === 201) {
+      //   setSuccess(response.data.message)
+      //   setTimeout(() => {
+      //     setSuccess(null);
+      //   }, 3000);
+      // }
+
+    } catch (error: any) {
+      console.error('Error saving:', error);
+    }
+
+  };
+
   return (
     <div className='video-task-wrapper'>
 
       <h1>Upload your video</h1>
 
-      <Image src={require('../../../public/images/upload.png')} alt={'upload video'} />
-
-      <div className='btn-wrapper'>
-        <Button variant="contained" size="large" className="ice-btn" disabled={!isFormValid()} onClick={() => saveContent()}> {'Upload'} </Button>
-      </div>
-
+      <label htmlFor='upload'>
+        <Image src={require('../../../public/images/upload.png')} alt={'upload video'} />
+        <input type="file" id='upload' name='upload' onChange={handleFileUpload} />
+      </label>
 
     </div >
   );
