@@ -2,61 +2,35 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Button } from '@mui/material';
 import axios from 'axios';
-import { createUserTask } from '@/services/user-task';
+import { createUserTask, getUserTaskDetail } from '@/services/user-task';
 import Task from '@/models/Task';
 
 interface CaseStudyTaskProps {
   userId: string;
   taskId: string;
-  heading: string;
-  diagnosis: string;
-  treatment: string;
-  elongated: string;
-  intake: string;
-  createTaskType: string,
+}
+
+
+interface CaseStudyTask {
+  userId: string;
+  taskId: string;
+  caseStudyTitle?: string;
+  csDiagnosis?: string;
+  csTreatment?: string;
+  csQuestion1?: string;
+  csQuestion2?: string;
+  createTaskType?: string;
+  csDoctorName?: string;
 }
 
 
 
-const CaseStudyTask: React.FC<CaseStudyTaskProps> = ({ userId, taskId, heading, diagnosis, treatment, elongated, intake, createTaskType }) => {
 
-  const [content, setContent] = useState({ userId, taskId, caseStudyTitle: heading, csDiagnosis: diagnosis, csTreatment: treatment, csQuestion1: elongated, csQuestion2: intake, createTaskType, csDoctorName: 'Ramesh' });
+const CaseStudyTask: React.FC<CaseStudyTaskProps> = ({ userId, taskId }) => {
+
+  const [content, setContent] = useState<CaseStudyTask>({ userId, taskId });
   const [success, setSuccess] = React.useState<string | null>(null);
   const [error, setError] = React.useState<any>();
-
-  const changeHandler = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-
-    if (event.target.id.toLowerCase() === 'heading') {
-      setContent(previousState => {
-        return { ...previousState, caseStudyTitle: event.target.value }
-      });
-    }
-
-    if (event.target.id.toLowerCase() === 'diagnosis') {
-      setContent(previousState => {
-        return { ...previousState, csDiagnosis: event.target.value }
-      });
-    }
-
-    if (event.target.id.toLowerCase() === 'treatment') {
-      setContent(previousState => {
-        return { ...previousState, csTreatment: event.target.value }
-      });
-    }
-
-    if (event.target.id.toLowerCase() === 'elongated') {
-      setContent(previousState => {
-        return { ...previousState, csQuestion1: event.target.value }
-      });
-    }
-
-    if (event.target.id.toLowerCase() === 'intake') {
-      setContent(previousState => {
-        return { ...previousState, csQuestion2: event.target.value }
-      });
-    }
-
-  };
 
   const isFormValid = (): boolean => {
     return Object.values(content).every(value => value.trim() !== '');
@@ -64,36 +38,33 @@ const CaseStudyTask: React.FC<CaseStudyTaskProps> = ({ userId, taskId, heading, 
 
 
   useEffect(() => {
+    const fetchUserTaskDetail = async () => {
+      try {
+        const response = await getUserTaskDetail(userId as string, taskId as string, localStorage.getItem('token')!);
+        const resp = response.data.data;
+        console.log('response', response.data.data);
 
-    setContent(previousState => {
-      return { ...previousState, userId, taskId, caseStudyTitle: heading, csDiagnosis: diagnosis, csTreatment: treatment, csQuestion1: elongated, csQuestion2: intake, createTaskType, csDoctorName: 'Ramesh' }
-    });
+        setContent(previousState => {
+          return { ...previousState, caseStudyTitle: resp.caseStudyTitle, csDiagnosis: resp.csDiagnosis, csTreatment: resp.csTreatment, csQuestion1: resp.csQuestion1, csQuestion2: resp.csQuestion2, csDoctorName: 'Ram' }
+        });
+
+        //setAssignedTaskListData(formattedTasks);
+        //setLoading(false);
+      } catch (error: any) {
+        //setError(error.message);
+        //setLoading(false);
+      }
+    };
+
+    fetchUserTaskDetail();
 
   }, [userId, taskId]);
-
-
-  const saveContent = async () => {
-    console.log('content', content);
-    try {
-      const response = await createUserTask(content as Task, localStorage.getItem('token')!, 'case-study');
-      console.log(response);
-      if (response.status === 201) {
-        setSuccess(response.data.message)
-        setTimeout(() => {
-          setSuccess(null);
-        }, 3000);
-      }
-
-    } catch (error: any) {
-      console.error('Error saving:', error);
-    }
-  };
 
   return (
     <div className='case-study-task-wrapper'>
 
       <div id="content">
-        <input type='text' id='heading' className='h1' maxLength={25} minLength={5} onChange={changeHandler} value={content.caseStudyTitle} disabled={true} />
+        <h1 id='heading' className='h1'>{content.caseStudyTitle}</h1>
 
         <div className='banner-image-wrapper'>
           <table cellSpacing="0" cellPadding="0">
@@ -120,7 +91,7 @@ const CaseStudyTask: React.FC<CaseStudyTaskProps> = ({ userId, taskId, heading, 
                     <span>Diagnosis</span>
                     <span></span>
                   </h3>
-                  <textarea id="diagnosis" name="diagnosis" rows={6} onChange={changeHandler} value={content.csDiagnosis}></textarea>
+                  <div id="diagnosis">{content.csDiagnosis}</div>
                   <div></div>
                 </td>
               </tr>
@@ -134,7 +105,7 @@ const CaseStudyTask: React.FC<CaseStudyTaskProps> = ({ userId, taskId, heading, 
                     <span>Treatment (Pharmacological & Nutritional)</span>
                     <span></span>
                   </h3>
-                  <textarea id="treatment" name="treatment" rows={6} onChange={changeHandler} value={content.csTreatment}></textarea>
+                  <div id="treatment">{content.csTreatment}</div>
                   <div></div>
                 </td>
               </tr>
@@ -151,13 +122,13 @@ const CaseStudyTask: React.FC<CaseStudyTaskProps> = ({ userId, taskId, heading, 
                 <td>
                   <div>
                     <h3> What % of your patients go through an elongated recovery phase</h3>
-                    <input id='elongated' type='text' inputMode='numeric' maxLength={2} minLength={1} onChange={changeHandler} value={content.csQuestion1} placeholder='00' />
+                    <span>{content.csQuestion1}</span>
                   </div>
                 </td>
                 <td>
                   <div>
                     <h3> What % of your patients go through an elongated recovery phase</h3>
-                    <input id='intake' type='text' inputMode='numeric' maxLength={2} minLength={1} onChange={changeHandler} value={content.csQuestion2} placeholder='00' />
+                    <span>{content.csQuestion2}</span>
                   </div>
                 </td>
               </tr>
@@ -175,7 +146,7 @@ const CaseStudyTask: React.FC<CaseStudyTaskProps> = ({ userId, taskId, heading, 
                       <span>By</span>
                       <span></span>
                     </div>
-                    <b>Dr. Firstname Lastname</b>
+                    <b>{content.csDoctorName}</b>
                     <div></div>
                   </div>
                 </td>
@@ -188,11 +159,6 @@ const CaseStudyTask: React.FC<CaseStudyTaskProps> = ({ userId, taskId, heading, 
         </div>
 
       </div>
-
-      <div className='btn-wrapper'>
-        <Button variant="contained" size="large" className="ice-btn" disabled={!isFormValid()} onClick={() => saveContent()}> {'Save'} </Button>
-      </div>
-
 
     </div >
   );

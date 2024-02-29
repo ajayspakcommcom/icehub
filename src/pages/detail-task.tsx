@@ -6,9 +6,12 @@ import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 
 
+
 const Header = dynamic(() => import('@/components/header/header'));
 const Loading = dynamic(() => import('@/components/loading/loading'));
 const BlogTask = dynamic(() => import('@/components/detail-task/blog-task'));
+const CaseStudyTask = dynamic(() => import('@/components/detail-task/case-study-task'));
+const VideoTask = dynamic(() => import('@/components/detail-task/video-task'));
 
 
 export default function DetailTask() {
@@ -17,7 +20,7 @@ export default function DetailTask() {
     const router = useRouter();
 
     useEffect(() => {
-        return () => console.log('');
+        return () => console.log(router.query.type);
     }, [router]);
 
     if (status === 'loading') {
@@ -40,6 +43,8 @@ export default function DetailTask() {
                     <Grid container>
                         <Grid item xs={12}>
                             {router.query.type === 'blog' && <BlogTask userId={router.query.userId as string} taskId={router.query.taskId as string} />}
+                            {router.query.type === 'case study' && <CaseStudyTask userId={router.query.userId as string} taskId={router.query.taskId as string} />}
+                            {router.query.type === 'video' && <VideoTask userId={router.query.userId as string} taskId={router.query.taskId as string} />}
                         </Grid>
                     </Grid>
                 </Container>

@@ -4,12 +4,12 @@ import dynamic from 'next/dynamic';
 import { Container, Grid } from "@mui/material";
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
-import VideoTask from "@/components/video-task/video-task";
 
 const Header = dynamic(() => import('@/components/header/header'));
 const CaseStudyTask = dynamic(() => import('@/components/case-study-task/case-study-task'));
 const BlogTask = dynamic(() => import('@/components/blog-task/blog-task'));
 const Loading = dynamic(() => import('@/components/loading/loading'));
+const VideoTask = dynamic(() => import('@/components/video-task/video-task'));
 
 
 export default function CreateTask() {
@@ -49,7 +49,7 @@ export default function CreateTask() {
 
                             {router.query.type === 'blog' && <BlogTask createTaskType={'blog'} userId={router.query.userId as string} taskId={router.query.taskId as string} blogTitle={router.query.taskTitle as string} blogParagraph={paragraphContent} selectedBlog={'white-theme'} />}
                             {router.query.type === 'case study' && <CaseStudyTask createTaskType={'case-study'} userId={router.query.userId as string} taskId={router.query.taskId as string} heading={`${router.query.taskTitle}`} diagnosis={treatmentContent} treatment={diagnosisContent} elongated={`30`} intake={`60`} />}
-                            {router.query.type === 'video' && <VideoTask createTaskType={'video'} userId={router.query.userId as string} taskId={router.query.taskId as string} heading={router.query.taskTitle as string} />}
+                            {router.query.type === 'video' && <VideoTask userId={router.query.userId as string} taskId={router.query.taskId as string} heading={router.query.taskTitle as string} />}
                             {router.query.type === 'infographic' && <h1>Infographic</h1>}
                         </Grid>
                     </Grid>

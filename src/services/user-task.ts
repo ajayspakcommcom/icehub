@@ -50,7 +50,8 @@ export const createUserTask = async (userTask: Task, token: string, createTaskTy
 export const uploadUserTaskVideo = async (formData: any, token: string): Promise<any> => {
 
     try {
-        const response = await apiClient.post<any>('/upload', { formData }, { headers: { Authorization: `Bearer ${token}` } });
+        //const response = await apiClient.post<any>('/upload', { formData }, { headers: { Authorization: `Bearer ${token}` } });
+        const response = await apiClient.post<any>('/upload', { formData });
         return response;
     } catch (err: unknown) {
         console.error('Error creating user task:', err);

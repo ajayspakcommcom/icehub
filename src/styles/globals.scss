@@ -499,7 +499,9 @@ p {
                                     }
                                 }
 
-                                textarea {
+                                textarea,
+                                #diagnosis,
+                                #treatment {
                                     font-family: "arial";
                                     color: rgba(128, 128, 128, 0.8);
                                     font-size: 14px;
@@ -513,6 +515,11 @@ p {
                                     &::-webkit-scrollbar {
                                         background-color: transparent;
                                     }
+                                }
+
+                                #diagnosis,
+                                #treatment {
+                                    min-height: 150px;
                                 }
                             }
                         }
@@ -833,6 +840,30 @@ p {
     -ms-transform: translate(-50%, -50%);
     -webkit-transform: translate(-50%, -50%);
     width: 500px;
+
+    .detail-task-wrapper {
+        position: relative;
+        width: 100%;
+        // padding-top: 56.25%;
+        padding-top: 60%;
+        height: 50px;
+
+        h1 {
+            position: absolute;
+            top: 0;
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border: 0;
+        }
+
+        video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    }
 
     h1 {
         font-family: 'semi-bold';

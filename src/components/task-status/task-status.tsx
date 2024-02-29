@@ -77,6 +77,8 @@ const TaskStatus: React.FC<TaskStatusProps> = () => {
             try {
                 const response = await approvedTaskList(localStorage.getItem('token')!);
                 const taskData = response.data.data;
+                console.log('Approved Task', taskData);
+
                 setApprovedTaskListData(taskData);
                 //setLoading(false);
             } catch (error: any) {

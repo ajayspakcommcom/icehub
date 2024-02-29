@@ -2,6 +2,8 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { IncomingForm, File, Fields, Files } from 'formidable';
 import fs from 'fs';
 import s3 from './libs/aws-config';
+import { UserTask } from './models/UserTask';
+import { Task } from './models/Task';
 
 export const config = {
     api: {
@@ -39,14 +41,44 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             ContentType: (file as any).mimetype //file.mimetype,
         };
 
-        console.log('=========================');
         console.log('params', params);
         console.log('fields', fields);
-        console.log('=========================');
+
+        let taskData: any = {
+            user: fields.userId![0],
+            task: fields.taskId![0],
+            submitted: true
+        };
+
+        console.log('fields', fields);
+
 
         try {
             const resp = await s3.upload(params).promise();
             console.log('resp', resp);
+            taskData = { ...taskData, videoTitle: fields.videoTitle![0], videoUrl: resp.Location };
+
+            const userTask = await UserTask.create(taskData);
+
+            console.log('userTask', userTask);
+
+
+            if (userTask) {
+                await Task.findOneAndUpdate(
+                    {
+                        _id: fields.taskId![0],
+                        'assignedTo.user': fields.userId![0]
+                    },
+                    {
+                        $set: {
+                            'assignedTo.$.isSubmitted': true,
+                            'assignedTo.$.createdDate': new Date()
+                        }
+                    },
+                    { new: true }
+                );
+            }
+
             res.status(200).json({ message: 'File uploaded successfully' });
         } catch (error) {
             console.error('Error uploading file:', error);
