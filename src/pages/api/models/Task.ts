@@ -12,7 +12,7 @@ const taskSchema = new mongoose.Schema({
   },
   dueDate: {
     type: Date,
-    require: true
+    required: true
   },
   assignedTo: [{
     user: {
@@ -59,6 +59,8 @@ const taskSchema = new mongoose.Schema({
 });
 
 export const Task = mongoose.models.Task || mongoose.model('Task', taskSchema);
+
+
 
 
 

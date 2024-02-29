@@ -1,9 +1,9 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import dynamic from 'next/dynamic';
 import { Container, Grid } from "@mui/material";
 import { getSession, useSession, signOut, } from 'next-auth/react';
-
+import { feedList } from "@/services/feed";
 
 const Header = dynamic(() => import('@/components/header/header'));
 const FeedFilter = dynamic(() => import('@/components/feed-filter/feed-filter'));
@@ -20,6 +20,27 @@ export default function Feed() {
   const { data: session, status } = useSession({ required: true });
 
 
+  useEffect(() => {
+
+    const fetchFeedList = async () => {
+      try {
+        const response = await feedList(localStorage.getItem('token')!);
+        const taskData = response.data.data;
+        console.log('feed List', taskData);
+
+        //setSubmittedTaskListData(taskData);
+        //setLoading(false);
+      } catch (error: any) {
+        //setError(error.message);
+        //setLoading(false);
+      }
+    }
+
+    fetchFeedList();
+
+  }, []);
+
+
   if (status === 'loading') {
     return <Loading />;
   }
@@ -31,6 +52,7 @@ export default function Feed() {
       </>
     )
   }
+
 
   return (
     <>

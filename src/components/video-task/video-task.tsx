@@ -29,8 +29,13 @@ const VideoTask: React.FC<CaseStudyTaskProps> = ({ userId, taskId, heading }) =>
 
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+
+
     const file = e.target.files?.[0];
     if (!file) return;
+
+    console.log('file', file);
+
 
     const formData = new FormData();
     formData.append('file', file);
@@ -62,7 +67,7 @@ const VideoTask: React.FC<CaseStudyTaskProps> = ({ userId, taskId, heading }) =>
 
       <label htmlFor='file'>
         <Image src={require('../../../public/images/upload.png')} alt={'upload video'} />
-        <input type="file" name='file' id='file' onChange={handleFileUpload} />
+        <input type="file" name='file' id='file' onChange={handleFileUpload} accept="video/*" />
       </label>
 
     </div >
