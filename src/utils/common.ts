@@ -9,3 +9,4 @@ export function formatDateToDDMMYYYY(date: Date | string): string {
 
     return `${day}/${month}/${year}`;
 }
+
