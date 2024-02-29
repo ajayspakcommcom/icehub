@@ -11,6 +11,7 @@ const AnnouncementBanner = dynamic(() => import('@/components/announcement-banne
 const FeedItem = dynamic(() => import('@/components/feed-item/feed-item'));
 const LiabraryWidget = dynamic(() => import('@/components/liabrary-widget/liabrary-widget'));
 const Loading = dynamic(() => import('@/components/loading/loading'));
+import { FeedTask } from '@/models/FeedTask';
 
 
 
@@ -18,6 +19,7 @@ const Loading = dynamic(() => import('@/components/loading/loading'));
 export default function Feed() {
 
   const { data: session, status } = useSession({ required: true });
+  const [feedDataList, setFeedDataList] = React.useState<FeedTask[]>([]);
 
 
   useEffect(() => {
@@ -25,18 +27,15 @@ export default function Feed() {
     const fetchFeedList = async () => {
       try {
         const response = await feedList(localStorage.getItem('token')!);
-        const taskData = response.data.data;
-        console.log('feed List', taskData);
-
-        //setSubmittedTaskListData(taskData);
-        //setLoading(false);
+        setFeedDataList(response.data.data);
       } catch (error: any) {
-        //setError(error.message);
-        //setLoading(false);
+        //setError(error.message);        
       }
     }
 
     fetchFeedList();
+
+
 
   }, []);
 
@@ -66,9 +65,9 @@ export default function Feed() {
             <Grid item xs={6}>
               <div className="feed-center-section">
                 <AnnouncementBanner />
-                <FeedItem />
-                <FeedItem />
-                <FeedItem />
+                {feedDataList.map((feedItem, index) => (
+                  <FeedItem key={index} feedItemTask={feedItem} />
+                ))}
               </div>
             </Grid>
             <Grid item xs={3}>

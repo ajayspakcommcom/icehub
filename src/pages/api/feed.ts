@@ -37,7 +37,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       switch (req.body.type) {
         case 'FEED-LIST':
           try {
-            const dataList = await UserTask.find({}).populate('user').populate('task').exec();
+            const dataList = await UserTask.find({ approvedByAdmin: true }).populate('user').populate('task').exec();
             res.status(200).json({ data: dataList });
           } catch (error: any) {
 
