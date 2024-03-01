@@ -1,4 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
+import './Task';
+import './User';
 
 const userTaskSchema = new mongoose.Schema({
   user: {

@@ -1,15 +1,12 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import connectToMongoDB from './libs/mongodb';
 import type { NextApiRequest, NextApiResponse } from 'next';
-
-import { Error } from 'mongoose';
 import { Error as MongooseError } from 'mongoose';
 import { verifyToken } from './libs/verifyToken';
 import runMiddleware from './libs/runMiddleware';
 import Cors from 'cors';
 import { UserTask } from './models/UserTask';
-import { Task } from './models/Task';
-import { fetchTaskTypeId } from './libs/utils';
+
 
 interface ApiResponse {
   message?: string;
@@ -42,6 +39,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
           } catch (error: any) {
 
             if (error instanceof MongooseError) {
+              console.log('err', error);
               return res.status(500).json({ error: 'Database Error', errorDetail: error });
             }
             res.status(500).json({ error: 'Internal Server Error' });

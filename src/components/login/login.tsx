@@ -49,7 +49,7 @@ const LoginForm: React.FC<LoginFormProps> = () => {
                 signIn("credentials", {
                     email: user.email,
                     password: user.password,
-                    callbackUrl: "http://35.154.173.135:3000/feed",
+                    callbackUrl: "/feed",
                     redirect: true,
                 });
             } else if (resp.status == 400) {
