@@ -33,8 +33,11 @@ const filterData: FilterTask[] = [
 
 const FeedFilter: React.FC<FeedProps> = ({ setSelectedFilter }) => {
 
-    const handleFilterSelection = (filter: string) => {
-        setSelectedFilter(filter);
+    const [selectedIndex, setSelectedIndex] = React.useState<string>('65d734098abbb6154ff8afea');
+
+    const handleFilterSelection = (id: string) => {
+        setSelectedFilter(id);
+        setSelectedIndex(id);
     };
 
 
@@ -47,7 +50,7 @@ const FeedFilter: React.FC<FeedProps> = ({ setSelectedFilter }) => {
 
                         {filterData.map((item, index) =>
                             <li key={item.id} onClick={() => handleFilterSelection(item.id!)}>
-                                <div className={index === 0 ? style['active'] : ''}>
+                                <div className={item.id === selectedIndex ? style['active'] : ''}>
                                     <div>
                                         <Image src={require(`../../../public/images/icons/${item.imageType}`)} alt='' className='responsive-img' />
                                     </div>
