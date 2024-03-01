@@ -19,6 +19,7 @@ import { FeedTask } from '@/models/FeedTask';
 export default function Feed() {
 
   const { data: session, status } = useSession({ required: true });
+  const [feedOrigionalDataList, setFeedOrigionalDataList] = React.useState<FeedTask[]>([]);
   const [feedDataList, setFeedDataList] = React.useState<FeedTask[]>([]);
 
 
@@ -27,6 +28,8 @@ export default function Feed() {
     const fetchFeedList = async () => {
       try {
         const response = await feedList(localStorage.getItem('token')!);
+        console.log('list', response.data.data);
+        setFeedOrigionalDataList(response.data.data);
         setFeedDataList(response.data.data);
       } catch (error: any) {
         //setError(error.message);        
@@ -34,8 +37,6 @@ export default function Feed() {
     }
 
     fetchFeedList();
-
-
 
   }, []);
 
@@ -52,17 +53,27 @@ export default function Feed() {
     )
   }
 
+  const handleFilterSelect = (selectedFilter: string) => {
+    const origionalData = feedOrigionalDataList.filter((item: FeedTask) => item.task.taskType.toLowerCase() === selectedFilter.toLowerCase());
+    setFeedDataList(origionalData);
+  };
+
 
   return (
     <>
-      <Header />
+      <div id="feed-header">
+        <Header />
+      </div>
+
       <div className="feed-wrapper">
         <Container>
-          <Grid container>
+          <Grid container className="feed-container">
             <Grid item xs={3}>
-              <FeedFilter />
+              <div id="left">
+                <FeedFilter setSelectedFilter={handleFilterSelect} />
+              </div>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={6} id="center">
               <div className="feed-center-section">
                 <AnnouncementBanner />
                 {feedDataList.map((feedItem, index) => (
@@ -70,8 +81,10 @@ export default function Feed() {
                 ))}
               </div>
             </Grid>
-            <Grid item xs={3}>
-              <LiabraryWidget />
+            <Grid item xs={3} id="right">
+              <div id="right">
+                <LiabraryWidget />
+              </div>
             </Grid>
           </Grid>
         </Container>

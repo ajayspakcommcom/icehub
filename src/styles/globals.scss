@@ -196,6 +196,7 @@ p {
     background-repeat: no-repeat;
     background-size: contain;
     background-position: bottom;
+    margin-top: 77px;
 }
 
 .feed-center-section {
@@ -915,4 +916,22 @@ p {
     }
 
     .feed-cs-img-wrapper {}
+}
+
+.feed-container {
+
+    #left,
+    #right {
+        position: sticky;
+        position: -webkit-sticky;
+        top: 100px;
+    }
+}
+
+#feed-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 99;
 }

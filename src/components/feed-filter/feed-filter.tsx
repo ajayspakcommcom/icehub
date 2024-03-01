@@ -5,32 +5,39 @@ import FilterTask from '@/models/FiterTask';
 
 interface FeedProps {
     //title?: string;
+    setSelectedFilter: (id: string) => void;
 }
 
 const filterData: FilterTask[] = [
     {
-        id: 1,
+        id: '65d734098abbb6154ff8afea',
         imageType: 'blog.png',
         taskText: 'Blogs'
     },
     {
-        id: 2,
+        id: '65d734678abbb6154ff8aff0',
         imageType: 'case-study.png',
         taskText: 'Case Study'
     },
     {
-        id: 3,
+        id: '65d7345d8abbb6154ff8afec',
         imageType: 'infographic.png',
         taskText: 'Infographics'
     },
     {
-        id: 4,
+        id: '65d734618abbb6154ff8afee',
         imageType: 'video.png',
         taskText: 'Videos'
     },
 ];
 
-const FeedFilter: React.FC<FeedProps> = () => {
+const FeedFilter: React.FC<FeedProps> = ({ setSelectedFilter }) => {
+
+    const handleFilterSelection = (filter: string) => {
+        setSelectedFilter(filter);
+    };
+
+
     return (
         <>
             <div className={style['feed-filter-wrapper']}>
@@ -39,7 +46,7 @@ const FeedFilter: React.FC<FeedProps> = () => {
                     <ul>
 
                         {filterData.map((item, index) =>
-                            <li key={item.id}>
+                            <li key={item.id} onClick={() => handleFilterSelection(item.id!)}>
                                 <div className={index === 0 ? style['active'] : ''}>
                                     <div>
                                         <Image src={require(`../../../public/images/icons/${item.imageType}`)} alt='' className='responsive-img' />

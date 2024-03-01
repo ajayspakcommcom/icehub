@@ -1,6 +1,6 @@
 
 export default interface FilterTask {
-    id?: number,
+    id?: string,
     imageType?: string,
     taskText?: string
 }
