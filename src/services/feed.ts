@@ -1,5 +1,4 @@
 import axios from 'axios';
-import FeedTask from '../models/FeedTask';
 
 // Set the base URL for your API
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
