@@ -190,15 +190,29 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
               return res.status(404).json({ message: 'UserTask not found' });
             }
 
-            if (userTask.likes.includes(req.body.userId)) {
-              return res.status(400).json({ message: 'User has already liked this UserTask' });
+            // if (userTask.likes.includes(req.body.userId)) {
+            //   return res.status(400).json({ message: 'User has already liked this UserTask' });
+            // }
+
+            // userTask.likes.push(req.body.userId);
+
+            // await userTask.save();
+
+            //return res.status(200).json({ message: 'UserTask liked successfully' });
+
+            const userIndex = userTask.likes.indexOf(req.body.userId);
+
+            if (userIndex !== -1) {
+              userTask.likes.splice(userIndex, 1);
+              await userTask.save();
+              return res.status(200).json({ message: 'UserTask unliked successfully' });
+            } else {
+              // Add the user's ID to the likes array
+              userTask.likes.push(req.body.userId);
+              await userTask.save();
+              return res.status(200).json({ message: 'UserTask liked successfully' });
             }
 
-            userTask.likes.push(req.body.userId);
-
-            await userTask.save();
-
-            return res.status(200).json({ message: 'UserTask liked successfully' });
           }
           catch (error: any) {
 

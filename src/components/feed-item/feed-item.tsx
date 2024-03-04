@@ -4,6 +4,7 @@ import style from './feed-item.module.scss';
 import Image from 'next/image';
 import { FeedTask } from '@/models/FeedTask';
 import { formatDate } from '@/libs/format';
+import { likesDislikesUserTak } from '@/services/feed';
 
 
 
@@ -18,9 +19,24 @@ const FeedItem: React.FC<FeedItemProps> = ({ feedItemTask }) => {
 
         console.log('feedItemTask', feedItemTask);
 
-
         return () => console.log('');
     }, [feedItemTask]);
+
+    const likesDislikesHandler = async (userTaskId: string) => {
+
+        try {
+            const response = await likesDislikesUserTak(localStorage.getItem('token')!, userTaskId);
+            //const taskData = response.data.data;
+            console.log('response', response);
+            //setSubmittedTaskListData(taskData);
+            //setLoading(false);
+        } catch (error: any) {
+            //setError(error.message);
+            //setLoading(false);
+        }
+
+
+    };
 
     if (feedItemTask.task.taskType === '65d734618abbb6154ff8afee') {
         return (
@@ -51,7 +67,7 @@ const FeedItem: React.FC<FeedItemProps> = ({ feedItemTask }) => {
                     </div>
                 </div>
 
-                <div className={`${style['footer']}`}>
+                <div className={`${style['footer']}`} onClick={() => likesDislikesHandler(feedItemTask._id)}>
                     <div className={`${style['like-wrapper']}`}>
                         <Image src={require(`../../../public/images/feed/like.png`)} alt='' className={`responsive-img ${style['type']}`} />
                         <span>{feedItemTask.likes.length > 0 ? feedItemTask.likes.length : ''}</span>
