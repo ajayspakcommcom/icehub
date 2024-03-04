@@ -132,16 +132,16 @@ const userTaskSchema = new mongoose.Schema({
   }
 });
 
-userTaskSchema.methods.toggleLike = function (userId: string) {
-  const index = this.likes.indexOf(userId);
-  if (index === -1) {
-    // User hasn't liked the task yet, add like
-    this.likes.push(userId);
-  } else {
-    // User already liked the task, remove like
-    this.likes.splice(index, 1);
-  }
-};
+// userTaskSchema.methods.toggleLike = function (userId: string) {
+//   const index = this.likes.indexOf(userId);
+//   if (index === -1) {
+//     // User hasn't liked the task yet, add like
+//     this.likes.push(userId);
+//   } else {
+//     // User already liked the task, remove like
+//     this.likes.splice(index, 1);
+//   }
+// };
 
 export const UserTask = mongoose.models.UserTask || mongoose.model('UserTask', userTaskSchema);
 

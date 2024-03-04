@@ -175,6 +175,40 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
           }
           break;
 
+        case 'LIKES-DISLIKES':
+          try {
+
+            // {
+            //   "type": "LIKES-DISLIKES"
+            //   "userTaskId": "65e16b52e0cb38144c31843b"
+            //   "userId": "65d72edd5be9ee937cf60630"
+            // }
+
+            const userTask = await UserTask.findById(req.body.userTaskId);
+
+            if (!userTask) {
+              return res.status(404).json({ message: 'UserTask not found' });
+            }
+
+            if (userTask.likes.includes(req.body.userId)) {
+              return res.status(400).json({ message: 'User has already liked this UserTask' });
+            }
+
+            userTask.likes.push(req.body.userId);
+
+            await userTask.save();
+
+            return res.status(200).json({ message: 'UserTask liked successfully' });
+          }
+          catch (error: any) {
+
+            if (error instanceof MongooseError) {
+              return res.status(500).json({ error: 'Database Error', errorDetail: error });
+            }
+            res.status(500).json({ error: 'Internal Server Error' });
+          }
+          break;
+
       }
 
     } else {

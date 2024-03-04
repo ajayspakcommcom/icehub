@@ -54,7 +54,7 @@ const FeedItem: React.FC<FeedItemProps> = ({ feedItemTask }) => {
                 <div className={`${style['footer']}`}>
                     <div className={`${style['like-wrapper']}`}>
                         <Image src={require(`../../../public/images/feed/like.png`)} alt='' className={`responsive-img ${style['type']}`} />
-                        <span>123</span>
+                        <span>{feedItemTask.likes.length > 0 ? feedItemTask.likes.length : ''}</span>
                     </div>
                 </div>
             </div>
@@ -93,7 +93,7 @@ const FeedItem: React.FC<FeedItemProps> = ({ feedItemTask }) => {
                 <div className={`${style['footer']}`}>
                     <div className={`${style['like-wrapper']}`}>
                         <Image src={require(`../../../public/images/feed/like.png`)} alt='' className={`responsive-img ${style['type']}`} />
-                        <span>123</span>
+                        <span>{feedItemTask.likes.length > 0 ? feedItemTask.likes.length : ''}</span>
                     </div>
                 </div>
             </div>
@@ -130,7 +130,7 @@ const FeedItem: React.FC<FeedItemProps> = ({ feedItemTask }) => {
                 <div className={`${style['footer']}`}>
                     <div className={`${style['like-wrapper']}`}>
                         <Image src={require(`../../../public/images/feed/like.png`)} alt='' className={`responsive-img ${style['type']}`} />
-                        <span>123</span>
+                        <span>{feedItemTask.likes.length > 0 ? feedItemTask.likes.length : ''}</span>
                     </div>
                 </div>
             </div>
