@@ -5,7 +5,8 @@ import Image from 'next/image';
 import { FeedTask } from '@/models/FeedTask';
 import { formatDateAsString } from '@/utils/common';
 import { likesDislikesUserTak } from '@/services/feed';
-
+import { useRouter } from 'next/router';
+import { getTaskTypeName, getUserData } from '@/libs/common';
 
 
 
@@ -19,6 +20,8 @@ const FeedItem: React.FC<FeedItemProps> = ({ feedItemTask }) => {
 
     const [feedDataList, setFeedDataList] = React.useState<FeedTask[]>([]);
     const [likesLength, setLikesLength] = React.useState<number>(0);
+
+    const router = useRouter();
 
     React.useEffect(() => {
         //console.log('feedItemTask', feedItemTask);
@@ -37,8 +40,27 @@ const FeedItem: React.FC<FeedItemProps> = ({ feedItemTask }) => {
             //setError(error.message);
             //setLoading(false);
         }
+    };
+
+
+    const onDetailTaskHandler = (feedTask: FeedTask) => {
+        console.log('feedTask', feedTask);
+
+        const taskName = getTaskTypeName(feedTask.task.taskType)?.toLowerCase();
+        console.log(taskName);
+
+        router.push({
+            pathname: '/detail-task',
+            query: {
+                type: taskName,
+                userId: getUserData()?._id,
+                taskId: feedTask._id,
+                taskTitle: feedTask.blogTitle
+            }
+        });
 
     };
+
 
     if (feedItemTask.task.taskType === '65d734618abbb6154ff8afee') {
         return (
@@ -47,10 +69,9 @@ const FeedItem: React.FC<FeedItemProps> = ({ feedItemTask }) => {
                     <div className={style['top-content']}>
                         <div>
                             <div>
-                                <Image src={require(`../../../public/images/feed/user.png`)} alt='' className='responsive-img' />
-                                <div>
+                                <Image src={require(`../../../public/images/feed/user.png`)} alt='' className='responsive-img' onClick={onDetailTaskHandler.bind(null, feedItemTask)} />
+                                <div onClick={onDetailTaskHandler.bind(null, feedItemTask)}>
                                     <strong>{`${feedItemTask.user.firstName} ${feedItemTask.user.lastName}`}</strong>
-                                    {/* <p>{feedItemTask.createdDate.toString()}</p> */}
                                     <p>{formatDateAsString(feedItemTask.createdDate)}</p>
                                 </div>
                             </div>
@@ -59,7 +80,7 @@ const FeedItem: React.FC<FeedItemProps> = ({ feedItemTask }) => {
                             <Image src={require(`../../../public/images/icons/video.png`)} alt='' className={`responsive-img ${style['type']}`} />
                         </div>
                     </div>
-                    <h2 className='video-title'>{feedItemTask.videoTitle}</h2>
+                    <h2 className='video-title' onClick={onDetailTaskHandler.bind(null, feedItemTask)}>{feedItemTask.videoTitle}</h2>
                 </div>
 
                 <div className={`${style['content']}`}>
@@ -87,20 +108,20 @@ const FeedItem: React.FC<FeedItemProps> = ({ feedItemTask }) => {
                     <div className={style['top-content']}>
                         <div>
                             <div>
-                                <Image src={require(`../../../public/images/feed/user.png`)} alt='' className='responsive-img' />
-                                <div>
+                                <Image src={require(`../../../public/images/feed/user.png`)} alt='' className='responsive-img' onClick={onDetailTaskHandler.bind(null, feedItemTask)} />
+                                <div onClick={onDetailTaskHandler.bind(null, feedItemTask)}>
                                     <strong>{`${feedItemTask.user.firstName} ${feedItemTask.user.lastName}`}</strong>
                                     <p>{feedItemTask.createdDate.toString()}</p>
                                 </div>
                             </div>
                         </div>
-                        <div>
+                        <div onClick={onDetailTaskHandler.bind(null, feedItemTask)}>
                             <Image src={require(`../../../public/images/icons/case-study.png`)} alt='' className={`responsive-img ${style['type']}`} />
                         </div>
                     </div>
                 </div>
 
-                <div className={`${style['content']}`}>
+                <div className={`${style['content']}`} onClick={onDetailTaskHandler.bind(null, feedItemTask)}>
                     <div className="detail-case-study-wrapper">
                         <h2>{feedItemTask.caseStudyTitle}</h2>
                         <div className='feed-cs-img-wrapper'>
@@ -126,20 +147,20 @@ const FeedItem: React.FC<FeedItemProps> = ({ feedItemTask }) => {
                     <div className={style['top-content']}>
                         <div>
                             <div>
-                                <Image src={require(`../../../public/images/feed/user.png`)} alt='' className='responsive-img' />
-                                <div>
+                                <Image src={require(`../../../public/images/feed/user.png`)} alt='' className='responsive-img' onClick={onDetailTaskHandler.bind(null, feedItemTask)} />
+                                <div onClick={onDetailTaskHandler.bind(null, feedItemTask)}>
                                     <strong>{`${feedItemTask.user.firstName} ${feedItemTask.user.lastName}`}</strong>
                                     <p>{feedItemTask.createdDate.toString()}</p>
                                 </div>
                             </div>
                         </div>
-                        <div>
+                        <div onClick={onDetailTaskHandler.bind(null, feedItemTask)}>
                             <Image src={require(`../../../public/images/icons/case-study.png`)} alt='' className={`responsive-img ${style['type']}`} />
                         </div>
                     </div>
                 </div>
 
-                <div className={`${style['content']}`}>
+                <div className={`${style['content']}`} onClick={onDetailTaskHandler.bind(null, feedItemTask)}>
                     <div className={`detail-blog-wrapper ${feedItemTask.selectedBlog}`}>
                         <h2 className='h2'>{feedItemTask.blogTitle}</h2>
                         <p className='blogParagraph'>{feedItemTask.blogParagraph}</p>
