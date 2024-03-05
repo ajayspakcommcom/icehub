@@ -21,6 +21,10 @@ export default function Feed() {
   const { data: session, status } = useSession({ required: true });
   const [feedOrigionalDataList, setFeedOrigionalDataList] = React.useState<FeedTask[]>([]);
   const [feedDataList, setFeedDataList] = React.useState<FeedTask[]>([]);
+  const [selectedFilterText, setSelectedFilterText] = React.useState<string>('');
+
+  const [isFeedDataChanges, setIsFeedDataChanges] = React.useState<boolean>(false);
+
 
 
   useEffect(() => {
@@ -38,7 +42,7 @@ export default function Feed() {
 
     fetchFeedList();
 
-  }, []);
+  }, [isFeedDataChanges]);
 
 
   if (status === 'loading') {
@@ -54,9 +58,11 @@ export default function Feed() {
   }
 
   const handleFilterSelect = (selectedFilter: string) => {
+    setSelectedFilterText(selectedFilter);
     const origionalData = feedOrigionalDataList.filter((item: FeedTask) => item.task.taskType.toLowerCase() === selectedFilter.toLowerCase());
     setFeedDataList(origionalData);
   };
+
 
 
   return (

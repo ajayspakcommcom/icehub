@@ -204,13 +204,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
             if (userIndex !== -1) {
               userTask.likes.splice(userIndex, 1);
-              await userTask.save();
-              return res.status(200).json({ message: 'UserTask unliked successfully' });
+              const updatedData = await userTask.save();
+              return res.status(200).json({ message: 'UserTask unliked successfully', data: updatedData });
             } else {
               // Add the user's ID to the likes array
               userTask.likes.push(req.body.userId);
-              await userTask.save();
-              return res.status(200).json({ message: 'UserTask liked successfully' });
+              const updatedData = await userTask.save();
+              return res.status(200).json({ message: 'UserTask liked successfully', data: updatedData });
             }
 
           }

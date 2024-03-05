@@ -15,26 +15,26 @@ interface FeedItemProps {
 
 const FeedItem: React.FC<FeedItemProps> = ({ feedItemTask }) => {
 
+    const [feedDataList, setFeedDataList] = React.useState<FeedTask[]>([]);
+    const [likesLength, setLikesLength] = React.useState<number>(0);
+
     React.useEffect(() => {
-
-        console.log('feedItemTask', feedItemTask);
-
+        //console.log('feedItemTask', feedItemTask);
+        setLikesLength(feedItemTask.likes.length)
         return () => console.log('');
     }, [feedItemTask]);
 
     const likesDislikesHandler = async (userTaskId: string) => {
-
         try {
             const response = await likesDislikesUserTak(localStorage.getItem('token')!, userTaskId);
-            //const taskData = response.data.data;
-            console.log('response', response);
-            //setSubmittedTaskListData(taskData);
+            const respData = (response.data.data) as FeedTask;
+            setLikesLength(respData.likes.length);
+            console.log('respData', respData);
             //setLoading(false);
         } catch (error: any) {
             //setError(error.message);
             //setLoading(false);
         }
-
 
     };
 
@@ -67,10 +67,10 @@ const FeedItem: React.FC<FeedItemProps> = ({ feedItemTask }) => {
                     </div>
                 </div>
 
-                <div className={`${style['footer']}`} onClick={() => likesDislikesHandler(feedItemTask._id)}>
+                <div className={`${style['footer']}`}>
                     <div className={`${style['like-wrapper']}`}>
-                        <Image src={require(`../../../public/images/feed/like.png`)} alt='' className={`responsive-img ${style['type']}`} />
-                        <span>{feedItemTask.likes.length > 0 ? feedItemTask.likes.length : ''}</span>
+                        <Image src={require(`../../../public/images/feed/like.png`)} alt='' className={`responsive-img ${style['type']}`} onClick={() => likesDislikesHandler(feedItemTask._id)} />
+                        <span>{likesLength > 0 ? likesLength : ''}</span>
                     </div>
                 </div>
             </div>
@@ -108,8 +108,8 @@ const FeedItem: React.FC<FeedItemProps> = ({ feedItemTask }) => {
 
                 <div className={`${style['footer']}`}>
                     <div className={`${style['like-wrapper']}`}>
-                        <Image src={require(`../../../public/images/feed/like.png`)} alt='' className={`responsive-img ${style['type']}`} />
-                        <span>{feedItemTask.likes.length > 0 ? feedItemTask.likes.length : ''}</span>
+                        <Image src={require(`../../../public/images/feed/like.png`)} alt='' className={`responsive-img ${style['type']}`} onClick={() => likesDislikesHandler(feedItemTask._id)} />
+                        <span>{likesLength > 0 ? likesLength : ''}</span>
                     </div>
                 </div>
             </div>
@@ -145,8 +145,8 @@ const FeedItem: React.FC<FeedItemProps> = ({ feedItemTask }) => {
 
                 <div className={`${style['footer']}`}>
                     <div className={`${style['like-wrapper']}`}>
-                        <Image src={require(`../../../public/images/feed/like.png`)} alt='' className={`responsive-img ${style['type']}`} />
-                        <span>{feedItemTask.likes.length > 0 ? feedItemTask.likes.length : ''}</span>
+                        <Image src={require(`../../../public/images/feed/like.png`)} alt='' className={`responsive-img ${style['type']}`} onClick={() => likesDislikesHandler(feedItemTask._id)} />
+                        <span>{likesLength > 0 ? likesLength : ''}</span>
                     </div>
                 </div>
             </div>

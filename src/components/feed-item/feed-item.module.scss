@@ -51,7 +51,6 @@
 
         .type {
             width: 25px;
-            cursor: pointer;
         }
     }
 
@@ -71,6 +70,10 @@
             display: flex;
             justify-content: flex-start;
             align-items: center;
+
+            img {
+                cursor: pointer;
+            }
 
             span {
                 font-size: 12px;

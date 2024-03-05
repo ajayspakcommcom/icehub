@@ -4,36 +4,55 @@ import { Button, Container } from '@mui/material';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 
-export default function Test() {
+const generateDummyData = (count: any) => {
 
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  const dummyData = [];
+  for (let i = 0; i < count; i++) {
+    dummyData.push({ id: i + 1, content: `Feed item ${i + 1}`, likes: Math.floor(Math.random() * 100), dislikes: Math.floor(Math.random() * 50) });
+  }
+  return dummyData;
 
-    if (file) {
-      const video = document.createElement('video');
-      video.preload = 'metadata';
-      video.onloadedmetadata = () => {
-        console.log('Video Width:', video.videoWidth);
-        console.log('Video Height:', video.videoHeight);
+};
 
-        if (video.videoWidth > 1000) {
-          console.log('>1000');
+const FeedItem = (item: any) => {
+  const [likes, setLikes] = React.useState(item.likes || 0);
+  const [dislikes, setDislikes] = React.useState(item.dislikes || 0);
 
-        }
-
-      };
-
-      video.src = URL.createObjectURL(file);
-
-    }
+  const handleLike = () => {
+    // Update likes count
+    setLikes(likes + 1);
+    // You can also send an API request to update the backend with the like action
   };
 
+  const handleDislike = () => {
+    // Update dislikes count
+    setDislikes(dislikes + 1);
+    // You can also send an API request to update the backend with the dislike action
+  };
 
   return (
-    <>
-      <input type="file" name='file' id='file' onChange={handleFileUpload} accept="video/*" />
-    </>
-  )
+    <div className="feed-item">
+      <p>{item.content}</p>
+      <div>
+        <button onClick={handleLike}>Like ({likes})</button>
+        <button onClick={handleDislike}>Dislike ({dislikes})</button>
+      </div>
+    </div>
+  );
+};
+
+export default function Test() {
+
+  const dummyFeedItems = generateDummyData(10);
+
+  return (
+    <div className="feed">
+      {dummyFeedItems.map((item, index) => (
+        <FeedItem key={index} item={item} />
+      ))}
+    </div>
+  );
+
 
 
 
