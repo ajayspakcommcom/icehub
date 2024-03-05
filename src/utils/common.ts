@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export function formatDateToDDMMYYYY(date: Date | string): string {
     if (!(date instanceof Date)) {
         date = new Date(date);
@@ -9,4 +11,8 @@ export function formatDateToDDMMYYYY(date: Date | string): string {
 
     return `${day}/${month}/${year}`;
 }
+
+export const formatDateAsString = (date: Date, formatString: string = 'MMMM Do YYYY, h:mm:ss a'): string => {
+    return moment(date).format(formatString);
+};
 

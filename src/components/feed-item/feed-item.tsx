@@ -3,8 +3,10 @@ import React from 'react';
 import style from './feed-item.module.scss';
 import Image from 'next/image';
 import { FeedTask } from '@/models/FeedTask';
-import { formatDate } from '@/libs/format';
+import { formatDateAsString } from '@/utils/common';
 import { likesDislikesUserTak } from '@/services/feed';
+
+
 
 
 
@@ -48,7 +50,8 @@ const FeedItem: React.FC<FeedItemProps> = ({ feedItemTask }) => {
                                 <Image src={require(`../../../public/images/feed/user.png`)} alt='' className='responsive-img' />
                                 <div>
                                     <strong>{`${feedItemTask.user.firstName} ${feedItemTask.user.lastName}`}</strong>
-                                    <p>{feedItemTask.createdDate.toString()}</p>
+                                    {/* <p>{feedItemTask.createdDate.toString()}</p> */}
+                                    <p>{formatDateAsString(feedItemTask.createdDate)}</p>
                                 </div>
                             </div>
                         </div>
