@@ -47,6 +47,7 @@
     "react-toastify": "^10.0.4",
     "rippleui": "^1.12.1",
     "sass": "^1.70.0",
+    "sharp": "^0.33.2",
     "styled-components": "^6.1.8",
     "uuid": "^9.0.1",
     "yup": "^1.3.3"
