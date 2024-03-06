@@ -43,18 +43,27 @@ const LoginForm: React.FC<LoginFormProps> = () => {
 
         try {
             const resp: any = await authUser({ email: user.email, password: user.password });
+            console.log('resp', resp);
+
             if (resp.status == 200) {
-                localStorage.setItem("token", resp.data.token);
-                localStorage.setItem("userData", JSON.stringify(resp.data.data));
-                signIn("credentials", {
-                    email: user.email,
-                    password: user.password,
-                    callbackUrl: "/feed",
-                    redirect: true,
-                });
+
+                if (resp.data.data.designation.toLowerCase() === 'user') {
+                    localStorage.setItem("token", resp.data.token);
+                    localStorage.setItem("userData", JSON.stringify(resp.data.data));
+                    signIn("credentials", {
+                        email: user.email,
+                        password: user.password,
+                        callbackUrl: "/feed",
+                        redirect: true,
+                    });
+                } else {
+                    console.log('Admin');
+                }
+
             } else if (resp.status == 400) {
                 setError(resp?.errors);
             }
+
         } catch (err: any) {
             console.log(err.response.data.error);
             setError(err.response.data.error);
