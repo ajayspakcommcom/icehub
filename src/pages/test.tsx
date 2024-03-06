@@ -1,61 +1,227 @@
-import React from 'react';
-import { getSession, useSession, signOut, } from 'next-auth/react';
-import { Button, Container } from '@mui/material';
-import { useRouter } from 'next/router';
-import dynamic from 'next/dynamic';
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/DeleteOutlined';
+import SaveIcon from '@mui/icons-material/Save';
+import CancelIcon from '@mui/icons-material/Close';
+import {
+  GridRowsProp,
+  GridRowModesModel,
+  GridRowModes,
+  DataGrid,
+  GridColDef,
+  GridToolbarContainer,
+  GridActionsCellItem,
+  GridEventListener,
+  GridRowId,
+  GridRowModel,
+  GridRowEditStopReasons,
+} from '@mui/x-data-grid';
+import {
+  randomCreatedDate,
+  randomTraderName,
+  randomId,
+  randomArrayItem,
+} from '@mui/x-data-grid-generator';
 
-const generateDummyData = (count: any) => {
-
-  const dummyData = [];
-  for (let i = 0; i < count; i++) {
-    dummyData.push({ id: i + 1, content: `Feed item ${i + 1}`, likes: Math.floor(Math.random() * 100), dislikes: Math.floor(Math.random() * 50) });
-  }
-  return dummyData;
-
+const roles = ['Market', 'Finance', 'Development'];
+const randomRole = () => {
+  return randomArrayItem(roles);
 };
 
-const FeedItem = (item: any) => {
-  const [likes, setLikes] = React.useState(item.likes || 0);
-  const [dislikes, setDislikes] = React.useState(item.dislikes || 0);
+const initialRows: GridRowsProp = [
+  {
+    id: randomId(),
+    name: randomTraderName(),
+    age: 25,
+    joinDate: randomCreatedDate(),
+    role: randomRole(),
+  },
+  {
+    id: randomId(),
+    name: randomTraderName(),
+    age: 36,
+    joinDate: randomCreatedDate(),
+    role: randomRole(),
+  },
+  {
+    id: randomId(),
+    name: randomTraderName(),
+    age: 19,
+    joinDate: randomCreatedDate(),
+    role: randomRole(),
+  },
+  {
+    id: randomId(),
+    name: randomTraderName(),
+    age: 28,
+    joinDate: randomCreatedDate(),
+    role: randomRole(),
+  },
+  {
+    id: randomId(),
+    name: randomTraderName(),
+    age: 23,
+    joinDate: randomCreatedDate(),
+    role: randomRole(),
+  },
+  {
+    id: randomId(),
+    name: randomTraderName(),
+    age: 27,
+    joinDate: randomCreatedDate(),
+    role: randomRole(),
+  },
+  {
+    id: randomId(),
+    name: randomTraderName(),
+    age: 29,
+    joinDate: randomCreatedDate(),
+    role: randomRole(),
+  },
+];
 
-  const handleLike = () => {
-    // Update likes count
-    setLikes(likes + 1);
-    // You can also send an API request to update the backend with the like action
-  };
-
-  const handleDislike = () => {
-    // Update dislikes count
-    setDislikes(dislikes + 1);
-    // You can also send an API request to update the backend with the dislike action
-  };
-
-  return (
-    <div className="feed-item">
-      <p>{item.content}</p>
-      <div>
-        <button onClick={handleLike}>Like ({likes})</button>
-        <button onClick={handleDislike}>Dislike ({dislikes})</button>
-      </div>
-    </div>
-  );
-};
-
-export default function Test() {
-
-  const dummyFeedItems = generateDummyData(10);
-
-  return (
-    <div className="feed">
-      {dummyFeedItems.map((item, index) => (
-        <FeedItem key={index} item={item} />
-      ))}
-    </div>
-  );
-
-
-
-
+interface EditToolbarProps {
+  setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
+  setRowModesModel: (
+    newModel: (oldModel: GridRowModesModel) => GridRowModesModel,
+  ) => void;
 }
 
+function EditToolbar(props: EditToolbarProps) {
+  const { setRows, setRowModesModel } = props;
 
+  const handleClick = () => {
+    const id = randomId();
+    setRows((oldRows) => [...oldRows, { id, name: '', age: '', isNew: true }]);
+    setRowModesModel((oldModel) => ({
+      ...oldModel,
+      [id]: { mode: GridRowModes.Edit, fieldToFocus: 'name' },
+    }));
+  };
+
+  return (
+    <GridToolbarContainer>
+      <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
+        Add record
+      </Button>
+    </GridToolbarContainer>
+  );
+}
+
+export default function Test() {
+  const [rows, setRows] = React.useState(initialRows);
+  const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({});
+
+  const handleRowEditStop: GridEventListener<'rowEditStop'> = (params, event) => {
+    if (params.reason === GridRowEditStopReasons.rowFocusOut) {
+      event.defaultMuiPrevented = true;
+    }
+  };
+
+  const handleEditClick = (id: GridRowId) => () => {
+    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
+  };
+
+  const handleSaveClick = (id: GridRowId) => () => {
+    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
+  };
+
+  const handleDeleteClick = (id: GridRowId) => () => {
+    setRows(rows.filter((row) => row.id !== id));
+  };
+
+  const handleCancelClick = (id: GridRowId) => () => {
+    setRowModesModel({
+      ...rowModesModel,
+      [id]: { mode: GridRowModes.View, ignoreModifications: true },
+    });
+
+    const editedRow = rows.find((row) => row.id === id);
+    if (editedRow!.isNew) {
+      setRows(rows.filter((row) => row.id !== id));
+    }
+  };
+
+  const processRowUpdate = (newRow: GridRowModel) => {
+    const updatedRow = { ...newRow, isNew: false };
+    setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
+    return updatedRow;
+  };
+
+  const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {
+    setRowModesModel(newRowModesModel);
+  };
+
+  const columns: GridColDef[] = [
+    { field: 'name', headerName: 'Name', width: 180, editable: true },
+    {
+      field: 'age',
+      headerName: 'Age',
+      type: 'number',
+      width: 80,
+      align: 'left',
+      headerAlign: 'left',
+      editable: true,
+    },
+    {
+      field: 'joinDate',
+      headerName: 'Join date',
+      type: 'date',
+      width: 180,
+      editable: true,
+    },
+    {
+      field: 'role',
+      headerName: 'Department',
+      width: 220,
+      editable: true,
+      type: 'singleSelect',
+      valueOptions: ['Market', 'Finance', 'Development'],
+    },
+    {
+      field: 'actions',
+      type: 'actions',
+      headerName: 'Actions',
+      width: 100,
+      cellClassName: 'actions',
+      getActions: ({ id }) => {
+        console.log('id', id);
+
+        const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
+
+        if (isInEditMode) {
+          return [
+            <GridActionsCellItem icon={<SaveIcon />} label="Save" sx={{ color: 'primary.main' }} onClick={handleSaveClick(id)} />,
+            <GridActionsCellItem icon={<CancelIcon />} label="Cancel" className="textPrimary" onClick={handleCancelClick(id)} color="inherit" />
+          ];
+        }
+
+        return [
+          <GridActionsCellItem icon={<EditIcon />} label="Edit" className="textPrimary" onClick={handleEditClick(id)} color="inherit" />,
+          <GridActionsCellItem icon={<DeleteIcon />} label="Delete" onClick={handleDeleteClick(id)} color="inherit" />
+        ];
+      },
+    },
+  ];
+
+  return (
+    <DataGrid
+      rows={rows}
+      columns={columns}
+      editMode="row"
+      rowModesModel={rowModesModel}
+      onRowModesModelChange={handleRowModesModelChange}
+      onRowEditStop={handleRowEditStop}
+      processRowUpdate={processRowUpdate}
+      slots={{
+        toolbar: EditToolbar,
+      }}
+      slotProps={{
+        toolbar: { setRows, setRowModesModel },
+      }}
+    />
+  );
+}
