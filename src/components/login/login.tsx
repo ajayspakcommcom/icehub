@@ -34,7 +34,7 @@ const LoginForm: React.FC<LoginFormProps> = () => {
 
     /**************************ajay************************/
     const initialValues: User = {
-        email: 'ajay@spakcomm.com',
+        email: 'admin@bsv.com',
         password: '12345'
     };
 
@@ -47,18 +47,20 @@ const LoginForm: React.FC<LoginFormProps> = () => {
 
             if (resp.status == 200) {
 
-                if (resp.data.data.designation.toLowerCase() === 'user') {
-                    localStorage.setItem("token", resp.data.token);
-                    localStorage.setItem("userData", JSON.stringify(resp.data.data));
-                    signIn("credentials", {
-                        email: user.email,
-                        password: user.password,
-                        callbackUrl: "/feed",
-                        redirect: true,
-                    });
-                } else {
-                    console.log('Admin');
-                }
+                const respData = resp.data.data;
+
+                localStorage.setItem("token", resp.data.token);
+                localStorage.setItem("userData", JSON.stringify(respData));
+
+                console.log('respData', respData.designation.toLowerCase() === 'user');
+
+
+                signIn("credentials", {
+                    email: user.email,
+                    password: user.password,
+                    callbackUrl: respData.designation.toLowerCase() === 'user' ? '/feed' : '/admin',
+                    redirect: true,
+                });
 
             } else if (resp.status == 400) {
                 setError(resp?.errors);
