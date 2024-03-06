@@ -16,6 +16,7 @@
     "@mui/lab": "^5.0.0-alpha.165",
     "@mui/material": "^5.15.6",
     "@mui/styled-engine-sc": "^6.0.0-alpha.13",
+    "@mui/x-data-grid": "^6.19.6",
     "@react-email/button": "^0.0.13",
     "@react-email/heading": "^0.0.11",
     "@react-email/hr": "^0.0.7",

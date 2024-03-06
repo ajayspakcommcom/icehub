@@ -11,19 +11,18 @@ const AdminFooter: FC<FooterProps> = () => {
 
     React.useEffect(() => {
 
-        //return () => console.log('Unbind Header');
+        console.log('Bind footer Header');
+
+        return () => console.log('Unbind footer Header');
     }, []);
 
     return (
-        <footer>
-            <Container>
+        <footer className='copyright'>
+            <div>
                 <Typography variant="body2">
-                    &copy; {new Date().getFullYear()} Your Company Name
+                    Copyright &copy; {new Date().getFullYear()} Icehub Pvt. Ltd. Designed by <Link href="https://spakcomm.com/" target='_blank'>Spak Communication Pvt. Ltd.</Link>
                 </Typography>
-                <Typography variant="body2">
-                    <Link href="#">Privacy Policy</Link> | <Link href="#">Terms of Service</Link>
-                </Typography>
-            </Container>
+            </div>
         </footer>
     );
 };

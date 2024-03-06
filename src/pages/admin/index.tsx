@@ -1,11 +1,10 @@
 import React from 'react';
 import { getSession, useSession, signOut, } from 'next-auth/react';
-import { Button, Container } from '@mui/material';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
+import Typography from '@mui/material/Typography';
 
-const Header = dynamic(() => import('@/components/admin/layout/Header'));
-const Footer = dynamic(() => import('@/components/admin/layout/Footer'));
+const AdminLayout = dynamic(() => import('@/components/admin/layout/Layout'));
 const Loading = dynamic(() => import('@/components/admin/loading/loading'));
 
 
@@ -28,11 +27,10 @@ export default function Home() {
 
   return (
     <>
-      <Header />
-      <Container>
-        <h1>Admin Dashboard </h1>
-      </Container>
-      <Footer />
+
+      <AdminLayout>
+        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+      </AdminLayout>
     </>
   )
 

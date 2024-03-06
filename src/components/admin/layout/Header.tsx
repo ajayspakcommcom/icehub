@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
-import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -21,7 +20,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import Image from 'next/image';
 
 
-const drawerWidth = 240;
+const drawerWidth = 260;
 
 const openedMixin = (theme: Theme): CSSObject => ({
     width: drawerWidth,
@@ -88,6 +87,8 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
 );
 
+const navigationList = ['Task', 'Home Banner', 'Announcement Banner', 'User'];
+
 const AdminHeader = () => {
 
     const theme = useTheme();
@@ -102,7 +103,7 @@ const AdminHeader = () => {
     };
 
     return (
-        <Box sx={{ display: 'flex' }}>
+        <>
             <CssBaseline />
             <AppBar position="fixed" open={open}>
                 <Toolbar>
@@ -120,7 +121,7 @@ const AdminHeader = () => {
                 </DrawerHeader>
                 <Divider />
                 <List>
-                    {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+                    {navigationList.map((text, index) => (
                         <ListItem key={text} disablePadding sx={{ display: 'block' }}>
                             <ListItemButton sx={{ minHeight: 48, justifyContent: open ? 'initial' : 'center', px: 2.5 }}>
                                 <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : 'auto', justifyContent: 'center' }}><InboxIcon /></ListItemIcon>
@@ -131,7 +132,7 @@ const AdminHeader = () => {
                 </List>
                 <Divider />
                 <List>
-                    {['All mail', 'Trash', 'Spam'].map((text, index) => (
+                    {['Hariom Singh', 'Mrunal'].map((text, index) => (
                         <ListItem key={text} disablePadding sx={{ display: 'block' }}>
                             <ListItemButton sx={{ minHeight: 48, justifyContent: open ? 'initial' : 'center', px: 2.5 }}>
                                 <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : 'auto', justifyContent: 'center' }}><InboxIcon /></ListItemIcon>
@@ -141,20 +142,7 @@ const AdminHeader = () => {
                     ))}
                 </List>
             </Drawer>
-            <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-                <DrawerHeader />
-                <Typography paragraph>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
-                    enim praesent elementum facilisis leo vel.
-                </Typography>
-                <Typography paragraph>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
-                    enim praesent elementum facilisis leo vel.
-                </Typography>
-            </Box>
-        </Box>
+        </>
     );
 
 }
