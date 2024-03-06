@@ -80,6 +80,5 @@ export default NextAuth({
       session.token = token.accessToken;
       return session;
     }
-  },
-
+  }
 });

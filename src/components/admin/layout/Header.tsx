@@ -149,8 +149,6 @@ const Index = () => {
                                 </Menu>
                             </Box>
                         }
-
-
                     </Toolbar>
                 </Container>
             </AppBar>
