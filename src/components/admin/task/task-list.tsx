@@ -174,13 +174,6 @@ const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
         setRowModesModel(newRowModesModel);
     };
 
-    const taskTypeOptions: { [key: string]: string } = {
-        '65d734098abbb6154ff8afea': 'Task Type A',
-        '65d7345d8abbb6154ff8afec': 'Task Type B',
-        '65d734618abbb6154ff8afee': 'Task Type C',
-        '65d734678abbb6154ff8aff0': 'Task Type D',
-    };
-
     const columns: GridColDef[] = [
         { field: 'name', headerName: 'Name', width: 180, editable: true },
         { field: 'dueDate', headerName: 'Due Date', type: 'date', width: 180, editable: true },
