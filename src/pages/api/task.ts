@@ -89,6 +89,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
             res.status(500).json({ error: 'Internal Server Error' });
           }
           break;
+
+        case 'ADMIN-TASK-LIST':
+          try {
+            const dataList = await Task.find({}).exec();
+            res.status(200).json({ data: dataList });
+          }
+          catch (error: any) {
+
+            if (error instanceof MongooseError) {
+              return res.status(500).json({ error: 'Database Error', errorDetail: error });
+            }
+            res.status(500).json({ error: 'Internal Server Error' });
+          }
+          break;
+
       }
 
     } else {

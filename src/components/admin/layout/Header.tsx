@@ -18,6 +18,7 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 
 const drawerWidth = 260;
@@ -93,6 +94,7 @@ const AdminHeader = () => {
 
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
+    const router = useRouter();
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -100,6 +102,27 @@ const AdminHeader = () => {
 
     const handleDrawerClose = () => {
         setOpen(false);
+    };
+
+    const handleNavigation = (text: string): void => {
+        console.log(text);
+
+        switch (text) {
+            case 'Task':
+                router.push('/admin/task');
+                break;
+            case 'Home Banner':
+                router.push('/admin/home-banner');
+                break;
+            case 'Announcement Banner':
+                router.push('/admin/announcement-banner');
+                break;
+            case 'User':
+                router.push('/admin/user');
+                break;
+            default:
+                break;
+        }
     };
 
     return (
@@ -123,14 +146,14 @@ const AdminHeader = () => {
                 <List>
                     {navigationList.map((text, index) => (
                         <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-                            <ListItemButton sx={{ minHeight: 48, justifyContent: open ? 'initial' : 'center', px: 2.5 }}>
+                            <ListItemButton sx={{ minHeight: 48, justifyContent: open ? 'initial' : 'center', px: 2.5 }} onClick={() => handleNavigation(text)}>
                                 <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : 'auto', justifyContent: 'center' }}><InboxIcon /></ListItemIcon>
-                                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                                <ListItemText sx={{ opacity: open ? 1 : 0 }}>{text}</ListItemText>
                             </ListItemButton>
                         </ListItem>
                     ))}
                 </List>
-                <Divider />
+                {/* <Divider />
                 <List>
                     {['Hariom Singh', 'Mrunal'].map((text, index) => (
                         <ListItem key={text} disablePadding sx={{ display: 'block' }}>
@@ -140,7 +163,7 @@ const AdminHeader = () => {
                             </ListItemButton>
                         </ListItem>
                     ))}
-                </List>
+                </List> */}
             </Drawer>
         </>
     );

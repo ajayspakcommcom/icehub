@@ -22,6 +22,19 @@ export const assignedTaskList = async (token: string): Promise<any> => {
     }
 };
 
+export const getAdminTaskList = async (token: string): Promise<any> => {
+    try {
+        const response = await apiClient.post('/task', { type: "ADMIN-TASK-LIST", userId: getUserData()?._id }, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return response;
+    } catch (error) {
+        throw error;
+    }
+};
+
 // Function to create a new customer
 export const createUser = async (taskData: Task): Promise<any> => {
     try {
