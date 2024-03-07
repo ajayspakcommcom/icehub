@@ -9,6 +9,7 @@ import { verifyToken } from './libs/verifyToken';
 import runMiddleware from './libs/runMiddleware';
 import Cors from 'cors';
 import { Task } from './models/Task';
+import { getTaskTypeName } from './service/common';
 
 interface ApiResponse {
   message?: string;
@@ -50,15 +51,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
             //   "createdBy": "65d5c37aeba6623d9fad0211"
             // }
 
+            const assignedToData = Array.isArray(req.body.assignedTo) && req.body.assignedTo.length > 0
+              ? req.body.assignedTo.map((item: { user: string, isSubmitted: boolean, createdDate: Date }) => ({
+                user: new mongoose.Types.ObjectId(item.user),
+                isSubmitted: item.isSubmitted,
+                createdDate: item.createdDate
+              })) : [];
+
             const task = await Task.create({
               name: req.body.name,
               taskType: req.body.taskType,
               dueDate: req.body.dueDate,
-              assignedTo: req.body.assignedTo.map((item: { user: string, isSubmitted: boolean, createdDate: Date }) => ({
-                user: new mongoose.Types.ObjectId(item.user),
-                isSubmitted: item.isSubmitted,
-                createdDate: item.createdDate
-              })),
+              assignedTo: assignedToData,
+              // assignedTo: req.body.assignedTo.map((item: { user: string, isSubmitted: boolean, createdDate: Date }) => ({
+              //   user: new mongoose.Types.ObjectId(item.user),
+              //   isSubmitted: item.isSubmitted,
+              //   createdDate: item.createdDate
+              // })),
               createdBy: req.body.createdBy
             });
 
@@ -92,8 +101,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
         case 'ADMIN-TASK-LIST':
           try {
-            const dataList = await Task.find({}).exec();
-            res.status(200).json({ data: dataList });
+
+            const dataList = await Task.find({}).lean().exec();
+            const finalOutput = [];
+
+            for (const task of dataList) {
+              const taskTypeName = await getTaskTypeName(task.taskType);
+              task.taskTypeName = taskTypeName;
+              finalOutput.push(task);
+            }
+
+            res.status(200).json({ data: finalOutput });
           }
           catch (error: any) {
 

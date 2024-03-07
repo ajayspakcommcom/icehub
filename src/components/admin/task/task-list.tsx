@@ -8,21 +8,20 @@ import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
 import { GridRowsProp, GridRowModesModel, GridRowModes, DataGrid, GridColDef, GridToolbarContainer, GridActionsCellItem, GridEventListener, GridRowId, GridRowModel, GridRowEditStopReasons } from '@mui/x-data-grid';
 import { randomCreatedDate, randomTraderName, randomId, randomArrayItem } from '@mui/x-data-grid-generator';
-import { getAdminTaskList } from '@/services/task';
+import { createAdminTask, getAdminTaskList } from '@/services/task';
 
-const roles = ['Market', 'Finance', 'Development'];
-const randomRole = () => {
-    return randomArrayItem(roles);
+const taskTypes = ['Blog', 'Infographic', 'Video', 'Case Study'];
+
+const taskTypeRole = () => {
+    return randomArrayItem(taskTypes);
 };
 
 const initialRows: GridRowsProp = [
     {
         id: randomId(),
-        name: randomTraderName()
-    },
-    {
-        id: randomId(),
-        name: randomTraderName()
+        name: randomTraderName(),
+        dueDate: randomCreatedDate(),
+        taskType: taskTypeRole()
     }
 ];
 
@@ -34,11 +33,12 @@ interface EditToolbarProps {
 }
 
 function EditToolbar(props: EditToolbarProps) {
+
     const { setRows, setRowModesModel } = props;
 
     const handleClick = () => {
         const id = randomId();
-        setRows((oldRows) => [...oldRows, { id, name: '', age: '', isNew: true }]);
+        setRows((oldRows) => [{ id, name: '', isNew: true }, ...oldRows]);
         setRowModesModel((oldModel) => ({
             ...oldModel,
             [id]: { mode: GridRowModes.Edit, fieldToFocus: 'name' },
@@ -100,17 +100,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
                 const response = await getAdminTaskList(localStorage.getItem('token')!);
                 const taskData = response.data.data;
                 console.log('taskData', taskData);
-
-
-
-                const formattedTasks = taskData.map((task: Task) => ({
-                    ...task,
-                    id: task._id,
-                    _id: undefined
-                }));
-
-                console.log('formattedTasks', formattedTasks);
-
+                const formattedTasks = taskData.map((task: Task) => ({ ...task, id: task._id, _id: undefined, dueDate: new Date(task.dueDate) }));
                 setRows(formattedTasks);
                 //setLoading(false);
             } catch (error: any) {
@@ -155,7 +145,27 @@ const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
     };
 
     const processRowUpdate = (newRow: GridRowModel) => {
-        const updatedRow = { ...newRow, isNew: false };
+        const updatedRow = { ...newRow };
+        console.log('updatedRow', updatedRow);
+
+        // const handleCreateTask = async () => {
+        //     try {                
+        //         const token = 'your-auth-token'; 
+        //         const taskData = {
+        //             //
+        //         };
+        //         const response = await createAdminTask(token, updatedRow);
+        //         console.log('Task created successfully:', response);                
+        //     } catch (error) {
+        //         console.error('Error creating task:', error);
+        //         // Handle error
+        //     }
+        // };
+
+        // if (updatedRow.isNew === true) {
+        //     handleCreateTask();
+        // }
+
         setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
         return updatedRow;
     };
@@ -164,8 +174,17 @@ const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
         setRowModesModel(newRowModesModel);
     };
 
+    const taskTypeOptions: { [key: string]: string } = {
+        '65d734098abbb6154ff8afea': 'Task Type A',
+        '65d7345d8abbb6154ff8afec': 'Task Type B',
+        '65d734618abbb6154ff8afee': 'Task Type C',
+        '65d734678abbb6154ff8aff0': 'Task Type D',
+    };
+
     const columns: GridColDef[] = [
         { field: 'name', headerName: 'Name', width: 180, editable: true },
+        { field: 'dueDate', headerName: 'Due Date', type: 'date', width: 180, editable: true },
+        { field: 'taskTypeName', headerName: 'Task Type', width: 500, editable: true, type: 'singleSelect', valueOptions: ['Blog', 'Infographic', 'Video', 'Case Study'] },
         {
             field: 'actions', type: 'actions', headerName: 'Actions', width: 100, cellClassName: 'actions',
             getActions: ({ id }) => {
@@ -200,6 +219,12 @@ const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
             slotProps={{
                 toolbar: { setRows, setRowModesModel },
             }}
+
+            initialState={{
+                pagination: { paginationModel: { pageSize: 5 } },
+            }}
+            pageSizeOptions={[5, 10, 25]}
+
         />
     );
 };
