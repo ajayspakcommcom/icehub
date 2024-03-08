@@ -11,6 +11,7 @@ import { randomCreatedDate, randomTraderName, randomId, randomArrayItem } from '
 import { createAdminTask, deleteAdminTask, getAdminTaskList, updateAdminTask } from '@/services/task';
 import { getUserData } from '@/libs/common';
 import { getTaskTypeId } from '@/pages/api/service/common';
+import { useRouter } from 'next/router';
 
 const taskTypes = ['Blog', 'Infographic', 'Video', 'Case Study'];
 
@@ -95,6 +96,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
 
     const [rows, setRows] = React.useState(initialRows);
     const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({});
+    const router = useRouter();
 
     React.useEffect(() => {
 
@@ -230,10 +232,20 @@ const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
         setRowModesModel(newRowModesModel);
     };
 
+    const handleAssignTask = (id: GridRowId) => {
+        console.log('Assign task with ID:', id);
+
+        router.push({
+            pathname: '/admin/task/assign-task',
+            query: { taskId: id }
+        });
+    };
+
     const columns: GridColDef[] = [
         { field: 'name', headerName: 'Name', width: 180, editable: true },
         { field: 'dueDate', headerName: 'Due Date', type: 'date', width: 180, editable: true },
         { field: 'taskTypeName', headerName: 'Task Type', width: 500, editable: true, type: 'singleSelect', valueOptions: ['Blog', 'Infographic', 'Video', 'Case Study'] },
+        { field: 'assignedTask', headerName: 'Assign Task', width: 150, sortable: false, renderCell: (params) => (<Button variant="contained" onClick={() => handleAssignTask(params.row.id)}>Assign Task To</Button>) },
         {
             field: 'actions', type: 'actions', headerName: 'Actions', width: 100, cellClassName: 'actions',
             getActions: ({ id }) => {

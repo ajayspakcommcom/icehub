@@ -134,6 +134,52 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
           }
           break;
 
+        case 'ASSIGN-ADMIN-TASK':
+          try {
+            const { taskId, assignedTo, updatedBy } = req.body;
+
+            console.log('body', req.body);
+
+
+            // Check if all required fields are present
+            if (!taskId || !assignedTo || !updatedBy) {
+              return res.status(400).json({ message: 'taskId, assignedToData, and updatedBy are required fields' });
+            }
+
+            const assignedToDataList = Array.isArray(assignedTo) && assignedTo.length > 0
+              ? assignedTo.map((item: { user: string, isSubmitted: boolean, createdDate: Date }) => ({
+                user: new mongoose.Types.ObjectId(item.user),
+                isSubmitted: item.isSubmitted,
+                createdDate: item.createdDate
+              })) : [];
+
+            // Update the task
+            const updatedTask = await Task.findByIdAndUpdate(taskId, {
+              assignedTo: assignedToDataList,
+              updatedBy: updatedBy,
+              updatedDate: new Date()
+            });
+
+            if (!updatedTask) {
+              return res.status(404).json({ message: 'Task not found' });
+            }
+
+            res.status(200).json({ message: 'Task updated successfully' });
+          } catch (error: any) {
+            if (error instanceof Error.ValidationError) {
+              return res.status(400).json({ error: `Validation Error`, errorDetail: error.message });
+            }
+
+            if (error instanceof Error.CastError) {
+              return res.status(400).json({ error: `Cast Error`, errorDetail: error.message });
+            }
+
+            console.error('Error updating task:', error);
+            return res.status(500).json({ message: 'Internal server error' });
+          }
+
+          break;
+
         case 'DELETE-TASK':
           try {
             const { taskId } = req.body;

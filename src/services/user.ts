@@ -9,6 +9,22 @@ const apiClient = axios.create({
     baseURL: API_BASE_URL
 });
 
+
+
+export const fetAllUser = async (token: string): Promise<any> => {
+    try {
+        const response = await apiClient.post('/user', { type: "LIST" }, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return response;
+    } catch (error) {
+        throw error;
+    }
+};
+
+
 // Function to fetch a customer by ID
 export const fetchUser = async (id: number): Promise<User> => {
     const response = await apiClient.get<User>(`/user/${id}`);
