@@ -92,6 +92,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
           try {
             const { taskId } = req.body;
 
+            console.log('req.body', req.body);
+
+
             if (!taskId) {
               return res.status(400).json({ message: 'TaskId is required' });
             }

@@ -8,7 +8,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
 import { GridRowsProp, GridRowModesModel, GridRowModes, DataGrid, GridColDef, GridToolbarContainer, GridActionsCellItem, GridEventListener, GridRowId, GridRowModel, GridRowEditStopReasons } from '@mui/x-data-grid';
 import { randomCreatedDate, randomTraderName, randomId, randomArrayItem } from '@mui/x-data-grid-generator';
-import { createAdminTask, getAdminTaskList } from '@/services/task';
+import { createAdminTask, deleteAdminTask, getAdminTaskList } from '@/services/task';
 import { getUserData } from '@/libs/common';
 import { getTaskTypeId } from '@/pages/api/service/common';
 
@@ -134,7 +134,24 @@ const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
     };
 
     const handleDeleteClick = (id: GridRowId) => () => {
-        setRows(rows.filter((row) => row.id !== id));
+
+        const handleDeleteAdminTask = async () => {
+            try {
+                const token = localStorage.getItem('token')!;
+                const taskData = {
+                    "type": "DELETE-TASK",
+                    "taskId": id,
+                };
+                const response = await deleteAdminTask(token, taskData);
+                console.log('Task deleted successfully:', response);
+                setRows(rows.filter((row) => row.id !== id));
+            } catch (error) {
+                console.error('Error creating task:', error);
+            }
+        };
+
+        handleDeleteAdminTask();
+
     };
 
     const handleCancelClick = (id: GridRowId) => () => {
