@@ -4,6 +4,7 @@ import { DataGrid, GridColDef, GridRowId, GridValueGetterParams } from '@mui/x-d
 import { fetAllUser } from '@/services/user';
 import { Button } from '@mui/material';
 import { getUserData } from '@/libs/common';
+import { assignAdminTask } from '@/services/task';
 
 interface AssignTaskProps {
     queryTaskId: string;
@@ -55,7 +56,7 @@ const rows = [
 const AssignTask: React.FC<AssignTaskProps> = ({ queryTaskId }) => {
 
     const [userData, setUserData] = React.useState<User[] | null>(null);
-    const [taskDetails, setTaskDetails] = React.useState<{ type: string, taskId: string, assignedTo: any[], updatedBy: string, updatedDate: Date } | null>(null);
+    const [taskDetails, setTaskDetails] = React.useState<{ assignedTo: any[], updatedBy: string, updatedDate: Date } | null>(null);
 
     const onRowsSelectionHandler = (ids: any[]) => {
 
@@ -113,13 +114,33 @@ const AssignTask: React.FC<AssignTaskProps> = ({ queryTaskId }) => {
         }));
 
         console.log('taskDetails', taskDetails);
+
+        const taskData = {
+            "type": "ASSIGN-ADMIN-TASK",
+            "taskId": queryTaskId,
+            "updatedBy": getUserData()?._id!,
+            ...taskDetails,
+        };
+
+
+        const handleAssignAdminTask = async () => {
+            try {
+                const token = localStorage.getItem('token')!;
+                const response = await assignAdminTask(token, taskData);
+                console.log('Task updated successfully:', response);
+            } catch (error) {
+                console.error('Error creating task:', error);
+            }
+        };
+
+        handleAssignAdminTask();
+
     };
 
     return (
         <>
             {userData && userData.length > 0 &&
                 <>
-                    <p>{JSON.stringify(taskDetails)}</p>
                     <DataGrid
                         rows={userData}
                         columns={columns}

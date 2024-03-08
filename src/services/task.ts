@@ -61,6 +61,19 @@ export const updateAdminTask = async (token: string, taskData: any): Promise<any
     }
 };
 
+export const assignAdminTask = async (token: string, taskData: any): Promise<any> => {
+    try {
+        const response = await apiClient.post('/task', { ...taskData }, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return response;
+    } catch (error) {
+        throw error;
+    }
+};
+
 export const deleteAdminTask = async (token: string, taskData: any): Promise<any> => {
     try {
         const response = await apiClient.post(`/task`, { ...taskData }, {
