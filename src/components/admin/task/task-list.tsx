@@ -8,7 +8,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
 import { GridRowsProp, GridRowModesModel, GridRowModes, DataGrid, GridColDef, GridToolbarContainer, GridActionsCellItem, GridEventListener, GridRowId, GridRowModel, GridRowEditStopReasons } from '@mui/x-data-grid';
 import { randomCreatedDate, randomTraderName, randomId, randomArrayItem } from '@mui/x-data-grid-generator';
-import { createAdminTask, deleteAdminTask, getAdminTaskList } from '@/services/task';
+import { createAdminTask, deleteAdminTask, getAdminTaskList, updateAdminTask } from '@/services/task';
 import { getUserData } from '@/libs/common';
 import { getTaskTypeId } from '@/pages/api/service/common';
 
@@ -169,12 +169,6 @@ const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
         const updatedRow = { ...newRow };
         //console.log('updatedRow', updatedRow);
 
-        if (newRow.isNew) {
-            console.log("New record:", newRow);
-        } else {
-            console.log("Updated record:", newRow);
-        }
-
         const handleCreateTask = async () => {
             try {
                 const token = localStorage.getItem('token')!;
@@ -193,10 +187,40 @@ const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
             }
         };
 
-        if (updatedRow.isNew === true) {
+        if (newRow.isNew) {
+            //console.log("New record:", newRow);
             handleCreateTask();
+        } else {
+            console.log("Updated record:", newRow);
+
+            const handleUpdateTask = async () => {
+                try {
+                    const token = localStorage.getItem('token')!;
+                    const taskData = {
+                        "type": "UPDATE-TASK",
+                        "taskId": newRow.id,
+                        "name": newRow.name,
+                        "taskTypeId": newRow.taskType,
+                        "dueDate": newRow.dueDate,
+                        "assignedTo": [],
+                        "updatedBy": getUserData()?._id
+                    };
+                    console.log('taskData', taskData);
+
+                    //const response = await updateAdminTask(token, taskData);
+                    //console.log('Task updated successfully:', response);
+                } catch (error) {
+                    console.error('Error creating task:', error);
+                }
+            };
+
+            handleUpdateTask();
+
         }
 
+        // if (updatedRow.isNew === true) {
+        //     handleCreateTask();
+        // }
 
         const foundRow = rows.find(row => row.id === newRow.id)
         console.log('foundRow', foundRow);
