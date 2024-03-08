@@ -9,6 +9,8 @@ import CancelIcon from '@mui/icons-material/Close';
 import { GridRowsProp, GridRowModesModel, GridRowModes, DataGrid, GridColDef, GridToolbarContainer, GridActionsCellItem, GridEventListener, GridRowId, GridRowModel, GridRowEditStopReasons } from '@mui/x-data-grid';
 import { randomCreatedDate, randomTraderName, randomId, randomArrayItem } from '@mui/x-data-grid-generator';
 import { createAdminTask, getAdminTaskList } from '@/services/task';
+import { getUserData } from '@/libs/common';
+import { getTaskTypeId } from '@/pages/api/service/common';
 
 const taskTypes = ['Blog', 'Infographic', 'Video', 'Case Study'];
 
@@ -123,6 +125,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
     };
 
     const handleEditClick = (id: GridRowId) => () => {
+        console.log(rowModesModel);
         setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
     };
 
@@ -147,25 +150,39 @@ const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
 
     const processRowUpdate = (newRow: GridRowModel) => {
         const updatedRow = { ...newRow };
-        console.log('updatedRow', updatedRow);
+        //console.log('updatedRow', updatedRow);
 
-        // const handleCreateTask = async () => {
-        //     try {                
-        //         const token = 'your-auth-token'; 
-        //         const taskData = {
-        //             //
-        //         };
-        //         const response = await createAdminTask(token, updatedRow);
-        //         console.log('Task created successfully:', response);                
-        //     } catch (error) {
-        //         console.error('Error creating task:', error);
-        //         // Handle error
-        //     }
-        // };
+        if (newRow.isNew) {
+            console.log("New record:", newRow);
+        } else {
+            console.log("Updated record:", newRow);
+        }
 
-        // if (updatedRow.isNew === true) {
-        //     handleCreateTask();
-        // }
+        const handleCreateTask = async () => {
+            try {
+                const token = localStorage.getItem('token')!;
+                const taskData = {
+                    "type": "CREATE",
+                    "name": newRow.name,
+                    "taskTypeName": newRow.taskTypeName,
+                    "dueDate": newRow.dueDate,
+                    "assignedTo": [],
+                    "createdBy": getUserData()?._id
+                };
+                const response = await createAdminTask(token, taskData);
+                console.log('Task created successfully:', response);
+            } catch (error) {
+                console.error('Error creating task:', error);
+            }
+        };
+
+        if (updatedRow.isNew === true) {
+            handleCreateTask();
+        }
+
+
+        const foundRow = rows.find(row => row.id === newRow.id)
+        console.log('foundRow', foundRow);
 
         setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
         return updatedRow;

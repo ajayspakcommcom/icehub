@@ -13,4 +13,12 @@ export async function getTaskTypeName(taskTypeId: mongoose.Types.ObjectId): Prom
     }
 }
 
-
+export async function getTaskTypeId(taskTypeName: string): Promise<string | null> {
+    try {
+        const taskType = await TaskType.findOne({ name: taskTypeName });
+        return taskType ? taskType._id : null;
+    } catch (error) {
+        console.error('Error while fetching task type name:', error);
+        return null;
+    }
+}

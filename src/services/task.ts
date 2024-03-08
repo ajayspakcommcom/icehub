@@ -35,9 +35,9 @@ export const getAdminTaskList = async (token: string): Promise<any> => {
     }
 };
 
-export const createAdminTask = async (token: string, taskData: Task): Promise<any> => {
+export const createAdminTask = async (token: string, taskData: any): Promise<any> => {
     try {
-        const response = await apiClient.post('/task', { ...taskData, type: "CREATE", }, {
+        const response = await apiClient.post('/task', { ...taskData }, {
             headers: {
                 Authorization: `Bearer ${token}`
             }

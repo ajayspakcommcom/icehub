@@ -9,7 +9,7 @@ import { verifyToken } from './libs/verifyToken';
 import runMiddleware from './libs/runMiddleware';
 import Cors from 'cors';
 import { Task } from './models/Task';
-import { getTaskTypeName } from './service/common';
+import { getTaskTypeId, getTaskTypeName } from './service/common';
 
 interface ApiResponse {
   message?: string;
@@ -51,6 +51,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
             //   "createdBy": "65d5c37aeba6623d9fad0211"
             // }
 
+            const taskTypeName = await getTaskTypeId(req.body.taskTypeName)
+
             const assignedToData = Array.isArray(req.body.assignedTo) && req.body.assignedTo.length > 0
               ? req.body.assignedTo.map((item: { user: string, isSubmitted: boolean, createdDate: Date }) => ({
                 user: new mongoose.Types.ObjectId(item.user),
@@ -60,7 +62,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
             const task = await Task.create({
               name: req.body.name,
-              taskType: req.body.taskType,
+              taskType: taskTypeName,
               dueDate: req.body.dueDate,
               assignedTo: assignedToData,
               // assignedTo: req.body.assignedTo.map((item: { user: string, isSubmitted: boolean, createdDate: Date }) => ({
@@ -85,6 +87,28 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
           }
 
           break;
+
+        case 'DELETE-TASK':
+          try {
+            const { taskId } = req.body;
+
+            if (!taskId) {
+              return res.status(400).json({ message: 'TaskId is required' });
+            }
+
+            const deletedTask = await Task.findByIdAndDelete(taskId);
+
+            if (!deletedTask) {
+              return res.status(404).json({ message: 'Task not found' });
+            } else {
+              res.status(200).json({ message: 'Task deleted successfully' });
+            }
+          } catch (error) {
+            console.error('Error deleting task:', error);
+            return res.status(500).json({ message: 'Internal server error' });
+          }
+          break;
+
         case 'ASSIGEND-TASK-LIST':
           try {
             const dataList = await Task.find({ 'assignedTo.user': req.body.userId }).exec();
