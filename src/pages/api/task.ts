@@ -91,9 +91,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
         case 'UPDATE-TASK':
           try {
-            const { taskId, name, taskTypeId, dueDate, assignedTo, updatedBy } = req.body;
+            const { taskId, name, taskTypeName, dueDate, assignedTo, updatedBy } = req.body;
 
             console.log('req.body', req.body);
+
+            const taskTypeId = await getTaskTypeId(taskTypeName)
 
             const assignedToData = Array.isArray(assignedTo) && assignedTo.length > 0
               ? assignedTo.map((item: { user: string, isSubmitted: boolean, createdDate: Date }) => ({

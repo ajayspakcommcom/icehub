@@ -167,7 +167,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
 
     const processRowUpdate = (newRow: GridRowModel) => {
         const updatedRow = { ...newRow };
-        //console.log('updatedRow', updatedRow);
+        console.log('updatedRow', updatedRow);
 
         const handleCreateTask = async () => {
             try {
@@ -200,15 +200,13 @@ const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
                         "type": "UPDATE-TASK",
                         "taskId": newRow.id,
                         "name": newRow.name,
-                        "taskTypeId": newRow.taskType,
+                        "taskTypeName": newRow.taskTypeName,
                         "dueDate": newRow.dueDate,
                         "assignedTo": [],
                         "updatedBy": getUserData()?._id
                     };
-                    console.log('taskData', taskData);
-
-                    //const response = await updateAdminTask(token, taskData);
-                    //console.log('Task updated successfully:', response);
+                    const response = await updateAdminTask(token, taskData);
+                    console.log('Task updated successfully:', response);
                 } catch (error) {
                     console.error('Error creating task:', error);
                 }
@@ -223,7 +221,6 @@ const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
         // }
 
         const foundRow = rows.find(row => row.id === newRow.id)
-        console.log('foundRow', foundRow);
 
         setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
         return updatedRow;
