@@ -50,9 +50,9 @@ function EditToolbar(props: EditToolbarProps) {
 
     return (
         <GridToolbarContainer style={{ justifyContent: 'flex-end' }}>
-            <Button variant="contained" color="success" startIcon={<AddIcon />} onClick={handleClick}>
+            {/* <Button variant="contained" color="success" startIcon={<AddIcon />} onClick={handleClick}>
                 Add record
-            </Button>
+            </Button> */}
         </GridToolbarContainer>
     );
 }

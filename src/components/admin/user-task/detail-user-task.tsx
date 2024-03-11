@@ -1,16 +1,16 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import { DataGrid, GridColDef, GridRowId, GridValueGetterParams } from '@mui/x-data-grid';
-import { fetAllUser } from '@/services/user';
+import { GridColDef } from '@mui/x-data-grid';
 import { Button, Container, Grid } from '@mui/material';
-import { getUserData } from '@/libs/common';
-import { assignAdminTask } from '@/services/task';
-import { adminDetailUserTaskList } from '@/services/user-task';
+
 
 import dynamic from 'next/dynamic';
 const BlogTask = dynamic(() => import('@/components/detail-task/blog-task'));
 const CaseStudyTask = dynamic(() => import('@/components/detail-task/case-study-task'));
 const VideoTask = dynamic(() => import('@/components/detail-task/video-task'));
+const ApproveRejectButtons = dynamic(() => import('@/components/admin/ApproveRejectButtons/ApproveRejectButtons'));
+
+
+
 
 interface AssignTaskProps {
     queryUserTaskId: string;
@@ -120,6 +120,14 @@ const DetailUserTask: React.FC<AssignTaskProps> = ({ queryUserTaskId, queryTaskT
         return () => console.log();
     }, [queryUserTaskId, queryTaskTypeId, queryUserId]);
 
+    const handleAccept = () => {
+        console.log('Accepted');
+    };
+
+    const handleReject = (reason?: string) => {
+        console.log('Rejected with reason:', reason);
+    };
+
     if (taskTypeIdd === '65d734098abbb6154ff8afea') {
         return (
             <>
@@ -128,6 +136,7 @@ const DetailUserTask: React.FC<AssignTaskProps> = ({ queryUserTaskId, queryTaskT
                     <Grid container>
                         <Grid item xs={12}>
                             <BlogTask userId={queryUserId as string} taskId={queryUserTaskId as string} />
+                            <ApproveRejectButtons onAccept={handleAccept} onReject={handleReject} />
                         </Grid>
                     </Grid>
                 </Container>
@@ -146,7 +155,13 @@ const DetailUserTask: React.FC<AssignTaskProps> = ({ queryUserTaskId, queryTaskT
     if (taskTypeIdd === '65d734618abbb6154ff8afee') {
         return (
             <>
-                <VideoTask userId={queryUserId as string} taskId={queryUserTaskId as string} />
+                <Container>
+                    <Grid container>
+                        <Grid item xs={12}>
+                            <VideoTask userId={queryUserId as string} taskId={queryUserTaskId as string} />
+                        </Grid>
+                    </Grid>
+                </Container>
             </>
         );
     }
@@ -154,7 +169,13 @@ const DetailUserTask: React.FC<AssignTaskProps> = ({ queryUserTaskId, queryTaskT
     if (taskTypeIdd === '65d734678abbb6154ff8aff0') {
         return (
             <>
-                <CaseStudyTask userId={queryUserId as string} taskId={queryUserTaskId as string} />
+                <Container>
+                    <Grid container>
+                        <Grid item xs={12}>
+                            <CaseStudyTask userId={queryUserId as string} taskId={queryUserTaskId as string} />
+                        </Grid>
+                    </Grid>
+                </Container>
             </>
         );
     }
