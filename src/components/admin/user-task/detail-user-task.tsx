@@ -4,6 +4,7 @@ import { Button, Container, Grid } from '@mui/material';
 
 
 import dynamic from 'next/dynamic';
+import { approvedRejectedAdminUserTaskList } from '@/services/user-task';
 const BlogTask = dynamic(() => import('@/components/detail-task/blog-task'));
 const CaseStudyTask = dynamic(() => import('@/components/detail-task/case-study-task'));
 const VideoTask = dynamic(() => import('@/components/detail-task/video-task'));
@@ -88,9 +89,9 @@ const DetailUserTask: React.FC<AssignTaskProps> = ({ queryUserTaskId, queryTaskT
 
     React.useEffect(() => {
 
-        console.log('queryUserTaskId', queryUserTaskId);
-        console.log('queryTaskTypeId', queryTaskTypeId);
-        console.log('queryUserId', queryUserId);
+        // console.log('queryUserTaskId', queryUserTaskId);
+        // console.log('queryTaskTypeId', queryTaskTypeId);
+        // console.log('queryUserId', queryUserId);
 
 
         //setTaskTypeIdd(queryTaskTypeId);
@@ -120,8 +121,22 @@ const DetailUserTask: React.FC<AssignTaskProps> = ({ queryUserTaskId, queryTaskT
         return () => console.log();
     }, [queryUserTaskId, queryTaskTypeId, queryUserId]);
 
-    const handleAccept = () => {
+    const handleAccept = async () => {
         console.log('Accepted');
+
+
+        try {
+            const response = await approvedRejectedAdminUserTaskList(localStorage.getItem('token')!, queryUserTaskId, true, '');
+            const respUserData = response.data.data;
+            console.log('respUserData', respUserData);
+
+            //setUserTaskData(modifiedUserData);
+            //setLoading(false);
+        } catch (error: any) {
+            //setError(error.message);
+            //setLoading(false);
+        }
+
     };
 
     const handleReject = (reason?: string) => {
@@ -159,6 +174,7 @@ const DetailUserTask: React.FC<AssignTaskProps> = ({ queryUserTaskId, queryTaskT
                     <Grid container>
                         <Grid item xs={12}>
                             <VideoTask userId={queryUserId as string} taskId={queryUserTaskId as string} />
+                            <ApproveRejectButtons onAccept={handleAccept} onReject={handleReject} />
                         </Grid>
                     </Grid>
                 </Container>
@@ -173,6 +189,7 @@ const DetailUserTask: React.FC<AssignTaskProps> = ({ queryUserTaskId, queryTaskT
                     <Grid container>
                         <Grid item xs={12}>
                             <CaseStudyTask userId={queryUserId as string} taskId={queryUserTaskId as string} />
+                            <ApproveRejectButtons onAccept={handleAccept} onReject={handleReject} />
                         </Grid>
                     </Grid>
                 </Container>

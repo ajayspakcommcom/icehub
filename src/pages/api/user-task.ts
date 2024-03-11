@@ -259,6 +259,38 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
           }
           break;
 
+        case 'APPROVE-REJECT-USER-TASK':
+
+          console.log('Approved', req.body);
+
+
+          try {
+
+            const filter = { _id: req.body.userTaskId };
+            const update = { approvedByAdmin: req.body.approvedByAdmin };
+            const options = { new: true };
+
+            console.log('Approved', req.body);
+
+            if (req.body.approvedByAdmin) {
+              const updatedData = await UserTask.findOneAndUpdate(filter, update, options).exec();
+              res.status(200).json({ data: updatedData });
+
+            } else {
+              const options = { rejectionReason: req.body.req.body.rejectionReason };
+              const updatedData = await UserTask.findOneAndUpdate(filter, update, options).exec();
+              res.status(200).json({ data: updatedData });
+            }
+
+          } catch (error: any) {
+            if (error instanceof MongooseError) {
+              return res.status(500).json({ error: 'Database Error', errorDetail: error });
+            }
+            res.status(500).json({ error: 'Internal Server Error' });
+          }
+
+          break;
+
       }
 
     } else {

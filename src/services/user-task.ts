@@ -110,6 +110,19 @@ export const adminDetailUserTaskList = async (token: string, userTaskId: string)
     }
 };
 
+export const approvedRejectedAdminUserTaskList = async (token: string, userTaskId: string, approvedByAdmin: boolean, rejectionReason?: string): Promise<any> => {
+    try {
+        const response = await apiClient.post('/user-task', { type: "APPROVE-REJECT-USER-TASK", userTaskId: userTaskId, approvedByAdmin, rejectionReason }, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return response;
+    } catch (error) {
+        throw error;
+    }
+};
+
 
 
 
