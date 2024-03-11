@@ -13,7 +13,7 @@ export default function Home() {
   const { data: session, status } = useSession({ required: true });
   const router = useRouter();
 
-  const { userTaskId, taskTypeId } = router.query;
+  const { userTaskId, taskTypeId, userId } = router.query;
 
   if (status === 'loading') {
     return <Loading />;
@@ -31,7 +31,7 @@ export default function Home() {
   return (
     <>
       <AdminLayout>
-        <DetailUserTask queryUserTaskId={userTaskId as string} queryTaskTypeId={taskTypeId as string} />
+        <DetailUserTask queryUserTaskId={userTaskId as string} queryTaskTypeId={taskTypeId as string} queryUserId={userId as string} />
       </AdminLayout>
     </>
   )

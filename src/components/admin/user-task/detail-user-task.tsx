@@ -2,14 +2,20 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef, GridRowId, GridValueGetterParams } from '@mui/x-data-grid';
 import { fetAllUser } from '@/services/user';
-import { Button } from '@mui/material';
+import { Button, Container, Grid } from '@mui/material';
 import { getUserData } from '@/libs/common';
 import { assignAdminTask } from '@/services/task';
 import { adminDetailUserTaskList } from '@/services/user-task';
 
+import dynamic from 'next/dynamic';
+const BlogTask = dynamic(() => import('@/components/detail-task/blog-task'));
+const CaseStudyTask = dynamic(() => import('@/components/detail-task/case-study-task'));
+const VideoTask = dynamic(() => import('@/components/detail-task/video-task'));
+
 interface AssignTaskProps {
     queryUserTaskId: string;
     queryTaskTypeId: string;
+    queryUserId: string;
 }
 
 interface User {
@@ -54,7 +60,7 @@ const rows = [
     { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
 ];
 
-const DetailUserTask: React.FC<AssignTaskProps> = ({ queryUserTaskId, queryTaskTypeId }) => {
+const DetailUserTask: React.FC<AssignTaskProps> = ({ queryUserTaskId, queryTaskTypeId, queryUserId }) => {
 
     const [userTaskData, setUserTaskData] = React.useState<User[] | null>(null);
     const [taskTypeIdd, setTaskTypeIdd] = React.useState<string>(queryTaskTypeId);
@@ -82,9 +88,12 @@ const DetailUserTask: React.FC<AssignTaskProps> = ({ queryUserTaskId, queryTaskT
 
     React.useEffect(() => {
 
-        //console.log('queryUserTaskId', queryUserTaskId);
-        //console.log('queryTaskTypeId', queryTaskTypeId);
-        setTaskTypeIdd(queryTaskTypeId);
+        console.log('queryUserTaskId', queryUserTaskId);
+        console.log('queryTaskTypeId', queryTaskTypeId);
+        console.log('queryUserId', queryUserId);
+
+
+        //setTaskTypeIdd(queryTaskTypeId);
 
         // const fetchAdminUserTaskDetail = async () => {
 
@@ -109,12 +118,19 @@ const DetailUserTask: React.FC<AssignTaskProps> = ({ queryUserTaskId, queryTaskT
         // fetchAdminUserTaskDetail();
 
         return () => console.log();
-    }, [queryUserTaskId, queryTaskTypeId]);
+    }, [queryUserTaskId, queryTaskTypeId, queryUserId]);
 
     if (taskTypeIdd === '65d734098abbb6154ff8afea') {
         return (
             <>
                 <h1>Blog</h1>
+                <Container>
+                    <Grid container>
+                        <Grid item xs={12}>
+                            <BlogTask userId={queryUserId as string} taskId={queryUserTaskId as string} />
+                        </Grid>
+                    </Grid>
+                </Container>
             </>
         );
     }
@@ -130,7 +146,7 @@ const DetailUserTask: React.FC<AssignTaskProps> = ({ queryUserTaskId, queryTaskT
     if (taskTypeIdd === '65d734618abbb6154ff8afee') {
         return (
             <>
-                <h1>Video</h1>
+                <VideoTask userId={queryUserId as string} taskId={queryUserTaskId as string} />
             </>
         );
     }
@@ -138,7 +154,7 @@ const DetailUserTask: React.FC<AssignTaskProps> = ({ queryUserTaskId, queryTaskT
     if (taskTypeIdd === '65d734678abbb6154ff8aff0') {
         return (
             <>
-                <h1>Case Study</h1>
+                <CaseStudyTask userId={queryUserId as string} taskId={queryUserTaskId as string} />
             </>
         );
     }

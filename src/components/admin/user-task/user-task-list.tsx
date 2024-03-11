@@ -186,12 +186,12 @@ const UserTaskList = () => {
 
     const detailUserTask = (id: GridRowId, row: any) => {
         //console.log('User task detail with ID:', id);
-        console.log(row.task.taskType);
+        console.log(row.user._id);
 
 
         router.push({
             pathname: '/admin/user-task/detail-task',
-            query: { userTaskId: id, taskTypeId: row.task.taskType }
+            query: { userTaskId: id, taskTypeId: row.task.taskType, userId: row.user._id }
         });
     };
 
