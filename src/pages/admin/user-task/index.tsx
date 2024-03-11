@@ -4,11 +4,9 @@ import { Button, Container } from '@mui/material';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 
-const Header = dynamic(() => import('@/components/admin/layout/Header'));
-const Footer = dynamic(() => import('@/components/admin/layout/Footer'));
+const AdminLayout = dynamic(() => import('@/components/admin/layout/Layout'));
 const Loading = dynamic(() => import('@/components/admin/loading/loading'));
-
-
+const UserTaskList = dynamic(() => import('@/components/admin/user-task/user-task-list'));
 
 
 
@@ -31,11 +29,9 @@ export default function Home() {
 
   return (
     <>
-      <Header />
-      <Container>
-        <h1>User</h1>
-      </Container>
-      <Footer />
+      <AdminLayout>
+        <UserTaskList />
+      </AdminLayout>
     </>
   )
 

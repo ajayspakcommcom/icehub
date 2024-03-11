@@ -88,7 +88,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
 );
 
-const navigationList = ['Task', 'Home Banner', 'Announcement Banner', 'User'];
+const navigationList = ['Task', 'User Task', 'Home Banner', 'Announcement Banner', 'User'];
 
 const AdminHeader = () => {
 
@@ -110,6 +110,9 @@ const AdminHeader = () => {
         switch (text) {
             case 'Task':
                 router.push('/admin/task');
+                break;
+            case 'User Task':
+                router.push('/admin/user-task');
                 break;
             case 'Home Banner':
                 router.push('/admin/home-banner');

@@ -62,7 +62,7 @@ const FeedItem: React.FC<FeedItemProps> = ({ feedItemTask }) => {
     };
 
 
-    if (feedItemTask.task.taskType === '65d734618abbb6154ff8afee') {
+    if (feedItemTask.task?.taskType === '65d734618abbb6154ff8afee') {
         return (
             <div className={style['feed-item-wrapper']}>
                 <div className={style['header']}>
@@ -101,7 +101,7 @@ const FeedItem: React.FC<FeedItemProps> = ({ feedItemTask }) => {
         );
     }
 
-    if (feedItemTask.task.taskType === '65d734678abbb6154ff8aff0') {
+    if (feedItemTask.task?.taskType === '65d734678abbb6154ff8aff0') {
         return (
             <div className={style['feed-item-wrapper']}>
                 <div className={style['header']}>
@@ -140,7 +140,7 @@ const FeedItem: React.FC<FeedItemProps> = ({ feedItemTask }) => {
         );
     }
 
-    if (feedItemTask.task.taskType === '65d734098abbb6154ff8afea') {
+    if (feedItemTask.task?.taskType === '65d734098abbb6154ff8afea') {
         return (
             <div className={style['feed-item-wrapper']}>
                 <div className={style['header']}>

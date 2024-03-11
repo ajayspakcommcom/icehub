@@ -84,3 +84,17 @@ export const deleteUserTask = async (id: number): Promise<void> => {
 };
 
 
+export const adminTaskList = async (token: string): Promise<any> => {
+    try {
+        const response = await apiClient.post('/user-task', { type: "ADMIN-USER-TASK", userId: getUserData()?._id }, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return response;
+    } catch (error) {
+        throw error;
+    }
+};
+
+
