@@ -225,10 +225,27 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
           }
           break;
 
-        case 'ADMIN-USER-TASK':
+        case 'ADMIN-USER-TASK-LIST':
           try {
 
             const dataList = await UserTask.find({}).populate('user').populate('task').exec();
+            console.log('dataList', dataList);
+
+            res.status(200).json({ data: dataList });
+          }
+          catch (error: any) {
+
+            if (error instanceof MongooseError) {
+              return res.status(500).json({ error: 'Database Error', errorDetail: error });
+            }
+            res.status(500).json({ error: 'Internal Server Error' });
+          }
+          break;
+
+        case 'ADMIN-DETAIL-USER-TASK':
+          try {
+
+            const dataList = await UserTask.findOne({ _id: req.body.userTaskId }).exec();
             console.log('dataList', dataList);
 
             res.status(200).json({ data: dataList });

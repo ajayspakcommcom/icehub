@@ -84,9 +84,9 @@ export const deleteUserTask = async (id: number): Promise<void> => {
 };
 
 
-export const adminTaskList = async (token: string): Promise<any> => {
+export const adminUserTaskList = async (token: string): Promise<any> => {
     try {
-        const response = await apiClient.post('/user-task', { type: "ADMIN-USER-TASK", userId: getUserData()?._id }, {
+        const response = await apiClient.post('/user-task', { type: "ADMIN-USER-TASK-LIST", userId: getUserData()?._id }, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -96,5 +96,21 @@ export const adminTaskList = async (token: string): Promise<any> => {
         throw error;
     }
 };
+
+export const adminDetailUserTaskList = async (token: string, userTaskId: string): Promise<any> => {
+    try {
+        const response = await apiClient.post('/user-task', { type: "ADMIN-DETAIL-USER-TASK", userTaskId: userTaskId }, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return response;
+    } catch (error) {
+        throw error;
+    }
+};
+
+
+
 
 

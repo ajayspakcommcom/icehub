@@ -16,9 +16,11 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { Box, Menu, MenuItem } from '@mui/material';
+import { GridMoreVertIcon } from '@mui/x-data-grid';
+import { signOut, useSession } from 'next-auth/react';
 
 
 const drawerWidth = 260;
@@ -96,6 +98,8 @@ const AdminHeader = () => {
     const [open, setOpen] = React.useState(false);
     const router = useRouter();
 
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -128,6 +132,21 @@ const AdminHeader = () => {
         }
     };
 
+    const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+    };
+
+    const logoutHandler = () => {
+        window.localStorage.removeItem('token');
+        window.localStorage.removeItem('userData');
+        signOut({ callbackUrl: '/login', redirect: true });
+        handleMenuClose();
+    };
+
     return (
         <>
             <CssBaseline />
@@ -137,6 +156,20 @@ const AdminHeader = () => {
                     <Typography variant="h6" noWrap component="div" className='flex'>
                         <Image src={require('../../../../public/images/feed-logo.png')} alt="icehub logo" width={168} height={57} />
                     </Typography>
+
+                    <Box sx={{ marginLeft: 'auto' }}>
+                        <IconButton color="inherit" onClick={handleMenuOpen}>
+                            <GridMoreVertIcon />
+                        </IconButton>
+                        <Menu
+                            anchorEl={anchorEl}
+                            open={Boolean(anchorEl)}
+                            onClose={handleMenuClose}>
+                            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+                            <MenuItem onClick={logoutHandler}>Logout</MenuItem>
+                        </Menu>
+                    </Box>
+
                 </Toolbar>
             </AppBar>
             <Drawer variant="permanent" open={open}>
