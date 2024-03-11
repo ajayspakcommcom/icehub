@@ -50,11 +50,19 @@ function EditToolbar(props: EditToolbarProps) {
     };
 
     return (
-        <GridToolbarContainer style={{ justifyContent: 'flex-end' }}>
-            <Button variant="contained" color="success" startIcon={<AddIcon />} onClick={handleClick}>
-                Add record
-            </Button>
-        </GridToolbarContainer>
+        <>
+            <div className='admin-create-btn-wrapper'>
+                <div className='left-content'>
+                    <h2>Task</h2>
+                </div>
+                <div className='right-content'>
+                    <Button variant="contained" color="success" startIcon={<AddIcon />} onClick={handleClick}> Create Task</Button>
+                </div>
+            </div>
+            {/* <GridToolbarContainer style={{ justifyContent: 'flex-end' }}>
+             <Button variant="contained" color="success" startIcon={<AddIcon />} onClick={handleClick}> Create Task</Button>
+            </GridToolbarContainer> */}
+        </>
     );
 }
 

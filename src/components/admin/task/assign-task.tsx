@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import { DataGrid, GridColDef, GridRowId, GridValueGetterParams } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRowId, GridRowModesModel, GridRowsProp, GridValueGetterParams } from '@mui/x-data-grid';
 import { fetAllUser } from '@/services/user';
 import { Button } from '@mui/material';
 import { getUserData } from '@/libs/common';
@@ -53,10 +53,39 @@ const rows = [
     { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
 ];
 
+interface EditToolbarProps {
+    setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
+    setRowModesModel: (
+        newModel: (oldModel: GridRowModesModel) => GridRowModesModel,
+    ) => void;
+}
+
+
+function EditToolbar(props: EditToolbarProps) {
+
+    return (
+        <>
+            <div className='admin-create-btn-wrapper'>
+                <div className='left-content'>
+                    <h2>Assign Task To User</h2>
+                </div>
+                <div className='right-content'>
+
+                </div>
+            </div>
+            {/* <GridToolbarContainer style={{ justifyContent: 'flex-end' }}>
+             <Button variant="contained" color="success" startIcon={<AddIcon />} onClick={handleClick}> Create Task</Button>
+            </GridToolbarContainer> */}
+        </>
+    );
+}
+
 const AssignTask: React.FC<AssignTaskProps> = ({ queryTaskId }) => {
 
     const [userData, setUserData] = React.useState<User[] | null>(null);
     const [taskDetails, setTaskDetails] = React.useState<{ assignedTo: any[], updatedBy: string, updatedDate: Date } | null>(null);
+
+
 
     const onRowsSelectionHandler = (ids: any[]) => {
 
@@ -149,6 +178,7 @@ const AssignTask: React.FC<AssignTaskProps> = ({ queryTaskId }) => {
                         checkboxSelection
                         disableRowSelectionOnClick
                         onRowSelectionModelChange={(ids) => onRowsSelectionHandler(ids)}
+                        slots={{ toolbar: EditToolbar }}
                     />
                     <div className='right mt-15'>
                         <Button variant="contained" color='success' onClick={assignedTaskHandler}>Assign</Button>

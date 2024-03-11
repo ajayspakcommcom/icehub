@@ -1053,3 +1053,19 @@ p {
         }
     }
 }
+
+.admin-create-btn-wrapper {
+    display: flex;
+    justify-content: space-between;
+    background: rgba(128, 128, 128, 0.1);
+    padding: 15px 15px;
+    align-items: center;
+
+    .left-content {
+        h2 {
+            margin: 0 0;
+        }
+    }
+
+    .right-content {}
+}
