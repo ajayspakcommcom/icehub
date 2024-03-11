@@ -3,8 +3,8 @@ import Box from '@mui/material/Box';
 import { styled } from '@mui/material';
 import dynamic from 'next/dynamic';
 
-const AdminHeader = dynamic(() => import('@/components/admin/layout/header'));
-const AdminFooter = dynamic(() => import('@/components/admin/layout/footer'));
+const AdminHeader = dynamic(() => import('@/components/admin/layout/Header'));
+const AdminFooter = dynamic(() => import('@/components/admin/layout/Footer'));
 
 const DrawerHeader = styled('div')(({ theme }) => ({
     display: 'flex',

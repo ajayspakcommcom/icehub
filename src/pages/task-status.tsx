@@ -7,7 +7,6 @@ import { useRouter } from "next/router";
 
 
 const Header = dynamic(() => import('@/components/header/header'));
-const FeedItem = dynamic(() => import('@/components/feed-item/feed-item'));
 const TaskStatusComp = dynamic(() => import('@/components/task-status/task-status'));
 const Loading = dynamic(() => import('@/components/loading/loading'));
 
