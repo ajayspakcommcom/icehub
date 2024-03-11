@@ -139,8 +139,22 @@ const DetailUserTask: React.FC<AssignTaskProps> = ({ queryUserTaskId, queryTaskT
 
     };
 
-    const handleReject = (reason?: string) => {
+    const handleReject = async (text?: string, reason?: string) => {
         console.log('Rejected with reason:', reason);
+
+        try {
+            const response = await approvedRejectedAdminUserTaskList(localStorage.getItem('token')!, queryUserTaskId, false, reason);
+            const respUserData = response.data.data;
+            console.log('respUserData', respUserData);
+
+            //setUserTaskData(modifiedUserData);
+            //setLoading(false);
+        } catch (error: any) {
+            //setError(error.message);
+            //setLoading(false);
+        }
+
+
     };
 
     if (taskTypeIdd === '65d734098abbb6154ff8afea') {

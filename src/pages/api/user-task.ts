@@ -261,23 +261,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
         case 'APPROVE-REJECT-USER-TASK':
 
-          console.log('Approved', req.body);
-
-
           try {
 
             const filter = { _id: req.body.userTaskId };
-            const update = { approvedByAdmin: req.body.approvedByAdmin };
             const options = { new: true };
 
-            console.log('Approved', req.body);
-
             if (req.body.approvedByAdmin) {
+              const update = { approvedByAdmin: req.body.approvedByAdmin, rejectionReason: null };
               const updatedData = await UserTask.findOneAndUpdate(filter, update, options).exec();
               res.status(200).json({ data: updatedData });
 
             } else {
-              const options = { rejectionReason: req.body.req.body.rejectionReason };
+              console.log('Rejected....');
+
+              const update = { rejectionReason: req.body.rejectionReason, approvedByAdmin: req.body.approvedByAdmin };
               const updatedData = await UserTask.findOneAndUpdate(filter, update, options).exec();
               res.status(200).json({ data: updatedData });
             }
