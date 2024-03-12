@@ -9,6 +9,7 @@ const BlogTask = dynamic(() => import('@/components/detail-task/blog-task'));
 const CaseStudyTask = dynamic(() => import('@/components/detail-task/case-study-task'));
 const VideoTask = dynamic(() => import('@/components/detail-task/video-task'));
 const ApproveRejectButtons = dynamic(() => import('@/components/admin/ApproveRejectButtons/ApproveRejectButtons'));
+const SuccessMessage = dynamic(() => import('@/components/success-message/success-message'));
 
 
 
@@ -66,6 +67,7 @@ const DetailUserTask: React.FC<AssignTaskProps> = ({ queryUserTaskId, queryTaskT
 
     const [userTaskData, setUserTaskData] = React.useState<User[] | null>(null);
     const [taskTypeIdd, setTaskTypeIdd] = React.useState<string>(queryTaskTypeId);
+    const [success, setSuccess] = React.useState<string | null>(null);
 
     const onRowsSelectionHandler = (ids: any[]) => {
 
@@ -131,6 +133,13 @@ const DetailUserTask: React.FC<AssignTaskProps> = ({ queryUserTaskId, queryTaskT
             const respUserData = response.data.data;
             console.log('respUserData', respUserData);
 
+            if(respUserData) {
+                    setSuccess('Task Approved Successfully')
+                    setTimeout(() => {
+                      setSuccess(null);
+                    }, 3000);
+            }
+
             //setUserTaskData(modifiedUserData);
             //setLoading(false);
         } catch (error: any) {
@@ -147,6 +156,13 @@ const DetailUserTask: React.FC<AssignTaskProps> = ({ queryUserTaskId, queryTaskT
             const response = await approvedRejectedAdminUserTaskList(localStorage.getItem('token')!, queryUserTaskId, false, reason);
             const respUserData = response.data.data;
             console.log('respUserData', respUserData);
+
+            if (respUserData) {
+                setSuccess('Task Rejected Successfully')
+                setTimeout(() => {
+                    setSuccess(null);
+                }, 3000);
+            }
 
             //setUserTaskData(modifiedUserData);
             //setLoading(false);
@@ -173,6 +189,9 @@ const DetailUserTask: React.FC<AssignTaskProps> = ({ queryUserTaskId, queryTaskT
                         <Grid item xs={12}>
                             <BlogTask userId={queryUserId as string} taskId={queryUserTaskId as string} onGetTitleName={getTitleNameHandler} />
                             <ApproveRejectButtons onAccept={handleAccept} onReject={handleReject} />
+                            <div className='success-message-admin-wrapper'>   
+                                {success && <div className='admin-success'><SuccessMessage message={success} /></div>}
+                            </div>
                         </Grid>
                     </Grid>
                 </Container>
@@ -188,6 +207,9 @@ const DetailUserTask: React.FC<AssignTaskProps> = ({ queryUserTaskId, queryTaskT
                         <Grid item xs={12}>
                             <VideoTask userId={queryUserId as string} taskId={queryUserTaskId as string} onGetTitleName={getTitleNameHandler} />
                             <ApproveRejectButtons onAccept={handleAccept} onReject={handleReject} />
+                            <div className='success-message-admin-wrapper'>   
+                                {success && <div className='admin-success'><SuccessMessage message={success} /></div>}
+                            </div>
                         </Grid>
                     </Grid>
                 </Container>
@@ -203,6 +225,9 @@ const DetailUserTask: React.FC<AssignTaskProps> = ({ queryUserTaskId, queryTaskT
                         <Grid item xs={12}>
                             <CaseStudyTask userId={queryUserId as string} taskId={queryUserTaskId as string} onGetTitleName={getTitleNameHandler} />
                             <ApproveRejectButtons onAccept={handleAccept} onReject={handleReject} />
+                            <div className='success-message-admin-wrapper'>   
+                                {success && <div className='admin-success'><SuccessMessage message={success} /></div>}
+                            </div>
                         </Grid>
                     </Grid>
                 </Container>
