@@ -4,6 +4,8 @@ import { Button } from '@mui/material';
 import axios from 'axios';
 import { createUserTask, uploadUserTaskVideo } from '@/services/user-task';
 import Task from '@/models/Task';
+import dynamic from 'next/dynamic';
+const SuccessMessage = dynamic(() => import('@/components/success-message/success-message'));
 
 interface CaseStudyTaskProps {
   userId: string;
@@ -18,6 +20,7 @@ const VideoTask: React.FC<CaseStudyTaskProps> = ({ userId, taskId, heading }) =>
   const [content, setContent] = useState({ userId, taskId, videoTitle: heading });
   const [success, setSuccess] = React.useState<string | null>(null);
   const [error, setError] = React.useState<any>();
+  
 
   useEffect(() => {
 
@@ -50,7 +53,13 @@ const VideoTask: React.FC<CaseStudyTaskProps> = ({ userId, taskId, heading }) =>
       });
 
       if (response.ok) {
-        console.log('File uploaded successfully');
+        //console.log('File uploaded successfully');
+        setSuccess('File uploaded successfully')
+        setTimeout(() => {
+          setSuccess(null);
+        }, 3000);
+
+
       } else {
         console.error('Failed to upload file:', response.statusText);
       }
@@ -61,16 +70,18 @@ const VideoTask: React.FC<CaseStudyTaskProps> = ({ userId, taskId, heading }) =>
   };
 
   return (
-    <div className='video-task-wrapper'>
-
-      <h1>Upload your video</h1>
-
-      <label htmlFor='file'>
-        <Image src={require('../../../public/images/upload.png')} alt={'upload video'} />
-        <input type="file" name='file' id='file' onChange={handleFileUpload} accept="video/*" />
-      </label>
-
-    </div >
+    <div className='video-task-main-wrapper'>
+      <div className='video-task-wrapper'>
+        <h1>Upload your video</h1>
+        <label htmlFor='file'>
+          <Image src={require('../../../public/images/upload.png')} alt={'upload video'} />
+          <input type="file" name='file' id='file' onChange={handleFileUpload} accept="video/*" />
+        </label>
+      </div>
+      <div className='success-message-admin-wrapper'>   
+          {success && <div className='admin-success'><SuccessMessage message={success} /></div>}
+      </div>
+    </div>
   );
 };
 
