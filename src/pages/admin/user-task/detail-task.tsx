@@ -14,6 +14,7 @@ export default function Home() {
   const { data: session, status } = useSession({ required: true });
   const router = useRouter();
   const [taskTypeName, setTaskTypeName] = React.useState<string>('');
+  const [taskName, setTaskName] = React.useState<string>('');
 
   const { userTaskId, taskTypeId, userId } = router.query;
 
@@ -56,19 +57,26 @@ export default function Home() {
   const breadcrumbLinks = [
     { label: 'User Task', href: '/admin/user-task' },
   ];
-  const currentPage = 'User Created Task Detail';
+
 
 
   const handleBreadcrumbClick = (href: string) => {
     router.push(href);
   };
 
+  const getTitleNameHandler = (name?: string) => {
+    console.log(name);
+    setTaskName(name as string);
+  };
+
+
+
 
   return (
     <>
       <AdminLayout>
-         <BasicBreadcrumbs links={breadcrumbLinks} currentPage={currentPage} onClick={handleBreadcrumbClick} rightContent={taskTypeName} />
-         <DetailUserTask queryUserTaskId={userTaskId as string} queryTaskTypeId={taskTypeId as string} queryUserId={userId as string}  />
+         <BasicBreadcrumbs links={breadcrumbLinks} currentPage={taskName} onClick={handleBreadcrumbClick} rightContent={taskTypeName} />
+         <DetailUserTask queryUserTaskId={userTaskId as string} queryTaskTypeId={taskTypeId as string} queryUserId={userId as string} onGetTaskTypeName={getTitleNameHandler}  />
       </AdminLayout>
     </>
   )

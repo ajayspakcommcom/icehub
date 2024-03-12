@@ -41,8 +41,8 @@ const VideoTask: React.FC<CaseStudyTaskProps> = ({ userId, taskId, onGetTitleNam
 
   return (
     <div className='video-task-wrapper'>
-      <div className='detail-task-wrapper'>
-        {content && <h1>{content.videoTitle}</h1>}
+      <div className='detail-task-wrapper admin-video-detail-wrapper'>
+        {/* {content && <h1>{content.videoTitle}</h1>} */}
         <video controls width="600">
           {content && <source src={content.videoUrl} type="video/mp4" />}
         </video>
