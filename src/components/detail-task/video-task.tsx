@@ -5,10 +5,11 @@ import { getUserTaskDetail } from '@/services/user-task';
 interface CaseStudyTaskProps {
   userId: string;
   taskId: string;
+  onGetTitleName: (name:string) => void;
 }
 
 
-const VideoTask: React.FC<CaseStudyTaskProps> = ({ userId, taskId }) => {
+const VideoTask: React.FC<CaseStudyTaskProps> = ({ userId, taskId, onGetTitleName }) => {
 
   const [content, setContent] = useState<any>();
   const [success, setSuccess] = React.useState<string | null>(null);
@@ -22,6 +23,7 @@ const VideoTask: React.FC<CaseStudyTaskProps> = ({ userId, taskId }) => {
         const response = await getUserTaskDetail(userId as string, taskId as string, localStorage.getItem('token')!);
         const resp = response.data.data;
         console.log('response', resp);
+        onGetTitleName(response.data.data.videoTitle)
         setContent(resp);
         //setAssignedTaskListData(formattedTasks);
         //setLoading(false);

@@ -173,14 +173,6 @@ const DetailUserTask: React.FC<AssignTaskProps> = ({ queryUserTaskId, queryTaskT
         );
     }
 
-    if (taskTypeIdd === '65d7345d8abbb6154ff8afec') {
-        return (
-            <>
-                <h1>Infographic</h1>
-            </>
-        );
-    }
-
     if (taskTypeIdd === '65d734618abbb6154ff8afee') {
         return (
             <>
@@ -207,6 +199,14 @@ const DetailUserTask: React.FC<AssignTaskProps> = ({ queryUserTaskId, queryTaskT
                         </Grid>
                     </Grid>
                 </Container>
+            </>
+        );
+    }
+
+    if (taskTypeIdd === '65d7345d8abbb6154ff8afec') {
+        return (
+            <>
+                <h1>Infographic</h1>
             </>
         );
     }

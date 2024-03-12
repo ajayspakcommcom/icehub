@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import { Container, Grid } from "@mui/material";
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
-
+const BasicBreadcrumbs = dynamic(() => import('@/components/admin/custom-breadcrumbs/basic-breadcrumbs'));
 
 
 const Header = dynamic(() => import('@/components/header/header'));
@@ -17,6 +17,8 @@ const VideoTask = dynamic(() => import('@/components/detail-task/video-task'));
 export default function DetailTask() {
 
     const { data: session, status } = useSession({ required: true });
+    const [currentPage, setCurrentPage] = React.useState<string>();
+
     const router = useRouter();
 
     useEffect(() => {
@@ -35,16 +37,29 @@ export default function DetailTask() {
         )
     }
 
+
+    const breadcrumbLinks = [ { label: 'Feed', href: '/feed' }];
+    
+    
+    const handleBreadcrumbClick = (href: string) => {
+    router.push(href);
+    };
+
+    const geGetTitleNameHandler = (name: string) => {
+        setCurrentPage(name);
+    };
+
     return (
         <>
             <Header />
-            <div className="create-task-wrapper">
+            <div className="detail-task-wrapper">
                 <Container>
                     <Grid container>
                         <Grid item xs={12}>
-                            {router.query.type === 'blog' && <BlogTask userId={router.query.userId as string} taskId={router.query.taskId as string} />}
-                            {router.query.type === 'case study' && <CaseStudyTask userId={router.query.userId as string} taskId={router.query.taskId as string} />}
-                            {router.query.type === 'video' && <VideoTask userId={router.query.userId as string} taskId={router.query.taskId as string} />}
+                            {currentPage && <BasicBreadcrumbs links={breadcrumbLinks} currentPage={currentPage} onClick={handleBreadcrumbClick} />} 
+                            {router.query.type === 'blog' && <BlogTask userId={router.query.userId as string} taskId={router.query.taskId as string} onGetTitleName={geGetTitleNameHandler} />}
+                            {router.query.type === 'case study' && <CaseStudyTask userId={router.query.userId as string} taskId={router.query.taskId as string} onGetTitleName={geGetTitleNameHandler} />}
+                            {router.query.type === 'video' && <VideoTask userId={router.query.userId as string} taskId={router.query.taskId as string} onGetTitleName={geGetTitleNameHandler} />}
                         </Grid>
                     </Grid>
                 </Container>

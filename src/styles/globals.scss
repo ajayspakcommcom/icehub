@@ -188,7 +188,7 @@ p {
 }
 
 .feed-wrapper,
-.create-task-wrapper {
+.create-task-wrapper, .detail-task-wrapper {
     background-color: #f0f2f5;
     min-height: calc(100% - 77px);
     padding-top: 20px;
@@ -197,6 +197,10 @@ p {
     background-size: contain;
     background-position: bottom;
     margin-top: 77px;
+}
+
+.detail-task-wrapper {
+    margin-top: 0;
 }
 
 .feed-center-section {
@@ -409,7 +413,7 @@ p {
 }
 
 .case-study-task-wrapper {
-    background-color: #fff;
+    background-color: transparent;
     padding: 30px 0;
 
     #content {
@@ -417,6 +421,10 @@ p {
         min-width: 700px;
         margin: auto auto;
         border: 1px solid rgba(0, 0, 0, 0.1);
+
+        background-color: rgba(128, 128, 128, 0.1);
+        border-radius: 5px;
+        box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.5);
 
         h1,
         .h1 {
@@ -674,8 +682,9 @@ p {
 }
 
 .blog-task-wrapper {
-    background-color: #fff;
+    background-color: transparent;
     padding: 30px 0;
+    border-radius: 4px;
 
     .blog-theme-wrapper {
         min-width: 700px;
@@ -709,6 +718,9 @@ p {
         min-height: 700px;
         width: 100%;
         border-radius: 10px;
+        background-color: rgba(128, 128, 128, 0.1);
+        border-radius: 5px;
+        box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.5);
 
         .h1 {
             font-family: "arial";
@@ -826,7 +838,7 @@ p {
 }
 
 .video-task-wrapper {
-    background: #fff;
+    background: transparent;
     padding: 20px;
     border-radius: 20px;
     max-width: 700px;

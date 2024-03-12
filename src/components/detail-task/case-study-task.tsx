@@ -8,6 +8,7 @@ import Task from '@/models/Task';
 interface CaseStudyTaskProps {
   userId: string;
   taskId: string;
+  onGetTitleName: (name:string) => void;
 }
 
 
@@ -26,7 +27,7 @@ interface CaseStudyTask {
 
 
 
-const CaseStudyTask: React.FC<CaseStudyTaskProps> = ({ userId, taskId }) => {
+const CaseStudyTask: React.FC<CaseStudyTaskProps> = ({ userId, taskId, onGetTitleName }) => {
 
   const [content, setContent] = useState<CaseStudyTask>({ userId, taskId });
   const [success, setSuccess] = React.useState<string | null>(null);
@@ -43,6 +44,8 @@ const CaseStudyTask: React.FC<CaseStudyTaskProps> = ({ userId, taskId }) => {
         const response = await getUserTaskDetail(userId as string, taskId as string, localStorage.getItem('token')!);
         const resp = response.data.data;
         console.log('response', response.data.data);
+
+        onGetTitleName(resp.caseStudyTitle)
 
         setContent(previousState => {
           return { ...previousState, caseStudyTitle: resp.caseStudyTitle, csDiagnosis: resp.csDiagnosis, csTreatment: resp.csTreatment, csQuestion1: resp.csQuestion1, csQuestion2: resp.csQuestion2, csDoctorName: 'Ram' }

@@ -11,6 +11,7 @@ const SuccessMessage = dynamic(() => import('@/components/success-message/succes
 interface BlogProps {
   userId: string;
   taskId: string;
+  onGetTitleName: (name:string) => void;
 }
 
 interface Content {
@@ -22,7 +23,7 @@ interface Content {
 }
 
 
-const BlogTask: React.FC<BlogProps> = ({ userId, taskId }) => {
+const BlogTask: React.FC<BlogProps> = ({ userId, taskId, onGetTitleName }) => {
 
   const [content, setContent] = useState<Content>();
   const [success, setSuccess] = React.useState<string | null>(null);
@@ -35,6 +36,8 @@ const BlogTask: React.FC<BlogProps> = ({ userId, taskId }) => {
       try {
         const response = await getUserTaskDetail(userId as string, taskId as string, localStorage.getItem('token')!);
         console.log('response', response.data.data);
+
+        onGetTitleName(response.data.data.blogTitle);
 
         setContent(previousState => {
           return { ...previousState, blogTitle: response.data.data.blogTitle, blogParagraph: response.data.data.blogParagraph, selectedBlog: response.data.data.selectedBlog }
@@ -51,7 +54,7 @@ const BlogTask: React.FC<BlogProps> = ({ userId, taskId }) => {
     fetchUserTaskDetail();
 
     return () => console.log('');
-  }, [userId, taskId]);
+  }, [userId, taskId, onGetTitleName]);
 
   return (
 
