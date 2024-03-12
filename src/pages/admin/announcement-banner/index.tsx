@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 
 const AdminLayout = dynamic(() => import('@/components/admin/layout/Layout'));
 const Loading = dynamic(() => import('@/components/admin/loading/loading'));
-
+const AnnouncementBannerList = dynamic(() => import('@/components/admin/announcement-banner/announcement-banner-list'));
 
 
 
@@ -29,7 +29,7 @@ const index = () => {
   return (
     <>
       <AdminLayout>
-        <h1>Announcement Banner List</h1>
+        <AnnouncementBannerList />
       </AdminLayout>
     </>
   )
