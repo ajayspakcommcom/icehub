@@ -3,10 +3,10 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 
+
 const AdminLayout = dynamic(() => import('@/components/admin/layout/Layout'));
 const Loading = dynamic(() => import('@/components/admin/loading/loading'));
 const AssignTaskComp = dynamic(() => import('@/components/admin/task/assign-task'));
-
 const BasicBreadcrumbs = dynamic(() => import('@/components/admin/custom-breadcrumbs/basic-breadcrumbs'));
 
 
@@ -29,17 +29,16 @@ export default function Home() {
     )
   }
 
+  const breadcrumbLinks = [
+    { label: 'Task', href: '/admin/task' },
+  ];
+  const currentPage = 'Assign Task';
 
-  const handleBreadcrumbClick = (label: string) => {
-    console.log(`Clicked on ${label}`);
-    // Handle breadcrumb click logic here
+
+  const handleBreadcrumbClick = (href: string) => {
+    router.push(href);
   };
 
-  const breadcrumbLinks = [
-    { label: 'Home', href: '/' },
-    { label: 'Getting Started', href: '/getting-started/installation/' }
-  ];
-  const currentPage = 'Installation';
 
 
   return (

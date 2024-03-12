@@ -10,11 +10,12 @@ interface BasicBreadcrumbsProps {
 }
 
 const BasicBreadcrumbs: React.FC<BasicBreadcrumbsProps> = ({ links, currentPage, onClick }) => {
-    const handleClick = (event: MouseEvent<HTMLAnchorElement>, label: string) => {
+
+    const handleClick = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
         event.preventDefault();
-        console.info(`You clicked the "${label}" breadcrumb.`);
+        console.info(`You clicked the "${href}" breadcrumb.`);
         if (onClick) {
-            onClick(label);
+            onClick(href);
         }
     }
 
@@ -22,7 +23,7 @@ const BasicBreadcrumbs: React.FC<BasicBreadcrumbsProps> = ({ links, currentPage,
         <div className='basic-breadcrumbs-wrapper'>
             <Breadcrumbs aria-label="breadcrumb">
                 {links.map((link, index) => (
-                    <Link key={index} underline="hover" color="inherit" href={link.href} onClick={(e) => handleClick(e, link.label)}>{link.label}</Link>
+                    <Link key={index} underline="hover" color="inherit" href={link.href} onClick={(e) => handleClick(e, link.href)}>{link.label}</Link>
                 ))}
                 <Typography color="text.primary">{currentPage}</Typography>
             </Breadcrumbs>

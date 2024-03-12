@@ -250,9 +250,9 @@ const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
     };
 
     const columns: GridColDef[] = [
-        { field: 'name', headerName: 'Name', width: 180, editable: true },
+        { field: 'name', headerName: 'Name', width: 300, editable: true },
         { field: 'dueDate', headerName: 'Due Date', type: 'date', width: 180, editable: true },
-        { field: 'taskTypeName', headerName: 'Task Type', width: 500, editable: true, type: 'singleSelect', valueOptions: ['Blog', 'Infographic', 'Video', 'Case Study'] },
+        { field: 'taskTypeName', headerName: 'Task Type', width: 150, editable: true, type: 'singleSelect', valueOptions: ['Blog', 'Infographic', 'Video', 'Case Study'] },
         { field: 'assignedTask', headerName: 'Assign Task', width: 150, sortable: false, renderCell: (params) => (<Button variant="contained" onClick={() => handleAssignTask(params.row.id)}>Assign Task To</Button>) },
         {
             field: 'actions', type: 'actions', headerName: 'Actions', width: 100, cellClassName: 'actions',
@@ -262,7 +262,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
 
                 if (isInEditMode) {
                     return [
-                        <GridActionsCellItem icon={<SaveIcon />} label="Save" sx={{ color: 'primary.main' }} onClick={handleSaveClick(id)} />,
+                        <GridActionsCellItem icon={<SaveIcon />} label="Save" sx={{ color: '#000' }} onClick={handleSaveClick(id)} />,
                         <GridActionsCellItem icon={<CancelIcon />} label="Cancel" className="textPrimary" onClick={handleCancelClick(id)} color="inherit" />
                     ];
                 }
