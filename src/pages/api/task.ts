@@ -164,7 +164,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
               return res.status(404).json({ message: 'Task not found' });
             }
 
-            res.status(200).json({ message: 'Task updated successfully' });
+            res.status(200).json({ message: 'Task Assigned Successfully' });
           } catch (error: any) {
             if (error instanceof Error.ValidationError) {
               return res.status(400).json({ error: `Validation Error`, errorDetail: error.message });

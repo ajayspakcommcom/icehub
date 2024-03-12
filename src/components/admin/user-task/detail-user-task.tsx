@@ -17,6 +17,7 @@ interface AssignTaskProps {
     queryUserTaskId: string;
     queryTaskTypeId: string;
     queryUserId: string;
+    onGetTaskTypeName?:(name?:string) => void
 }
 
 interface User {
@@ -61,7 +62,7 @@ const rows = [
     { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
 ];
 
-const DetailUserTask: React.FC<AssignTaskProps> = ({ queryUserTaskId, queryTaskTypeId, queryUserId }) => {
+const DetailUserTask: React.FC<AssignTaskProps> = ({ queryUserTaskId, queryTaskTypeId, queryUserId, onGetTaskTypeName }) => {
 
     const [userTaskData, setUserTaskData] = React.useState<User[] | null>(null);
     const [taskTypeIdd, setTaskTypeIdd] = React.useState<string>(queryTaskTypeId);
@@ -157,14 +158,20 @@ const DetailUserTask: React.FC<AssignTaskProps> = ({ queryUserTaskId, queryTaskT
 
     };
 
+    const getTitleNameHandler = (name: string) => {
+        console.log(name);
+        if(onGetTaskTypeName) {
+            onGetTaskTypeName(name);
+        }
+      };
+
     if (taskTypeIdd === '65d734098abbb6154ff8afea') {
         return (
             <>
-                <h1>Blog</h1>
                 <Container>
                     <Grid container>
                         <Grid item xs={12}>
-                            <BlogTask userId={queryUserId as string} taskId={queryUserTaskId as string} />
+                            <BlogTask userId={queryUserId as string} taskId={queryUserTaskId as string} onGetTitleName={getTitleNameHandler} />
                             <ApproveRejectButtons onAccept={handleAccept} onReject={handleReject} />
                         </Grid>
                     </Grid>
@@ -179,7 +186,7 @@ const DetailUserTask: React.FC<AssignTaskProps> = ({ queryUserTaskId, queryTaskT
                 <Container>
                     <Grid container>
                         <Grid item xs={12}>
-                            <VideoTask userId={queryUserId as string} taskId={queryUserTaskId as string} />
+                            <VideoTask userId={queryUserId as string} taskId={queryUserTaskId as string} onGetTitleName={getTitleNameHandler} />
                             <ApproveRejectButtons onAccept={handleAccept} onReject={handleReject} />
                         </Grid>
                     </Grid>
@@ -194,7 +201,7 @@ const DetailUserTask: React.FC<AssignTaskProps> = ({ queryUserTaskId, queryTaskT
                 <Container>
                     <Grid container>
                         <Grid item xs={12}>
-                            <CaseStudyTask userId={queryUserId as string} taskId={queryUserTaskId as string} />
+                            <CaseStudyTask userId={queryUserId as string} taskId={queryUserTaskId as string} onGetTitleName={getTitleNameHandler} />
                             <ApproveRejectButtons onAccept={handleAccept} onReject={handleReject} />
                         </Grid>
                     </Grid>

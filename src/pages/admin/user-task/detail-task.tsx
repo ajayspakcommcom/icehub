@@ -13,8 +13,32 @@ export default function Home() {
 
   const { data: session, status } = useSession({ required: true });
   const router = useRouter();
+  const [taskTypeName, setTaskTypeName] = React.useState<string>('');
 
   const { userTaskId, taskTypeId, userId } = router.query;
+
+
+  React.useEffect(() => {
+
+    function getTaskTypeName(id: string): string {
+      switch(id) {
+        case '65d734098abbb6154ff8afea':
+          return 'Blog';
+        case '65d734618abbb6154ff8afee':
+          return 'Video';
+        case '65d734678abbb6154ff8aff0':
+          return 'Case Study';
+        case '65d7345d8abbb6154ff8afec':
+          return 'Infographic';
+        default:
+          return '';
+      }
+    }
+
+    setTaskTypeName(getTaskTypeName(taskTypeId as string));
+
+  }, []);
+
 
   if (status === 'loading') {
     return <Loading />;
@@ -40,12 +64,11 @@ export default function Home() {
   };
 
 
-
   return (
     <>
       <AdminLayout>
-         <BasicBreadcrumbs links={breadcrumbLinks} currentPage={currentPage} onClick={handleBreadcrumbClick} />
-         <DetailUserTask queryUserTaskId={userTaskId as string} queryTaskTypeId={taskTypeId as string} queryUserId={userId as string} />
+         <BasicBreadcrumbs links={breadcrumbLinks} currentPage={currentPage} onClick={handleBreadcrumbClick} rightContent={taskTypeName} />
+         <DetailUserTask queryUserTaskId={userTaskId as string} queryTaskTypeId={taskTypeId as string} queryUserId={userId as string}  />
       </AdminLayout>
     </>
   )

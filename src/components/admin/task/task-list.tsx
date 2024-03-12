@@ -10,8 +10,10 @@ import { GridRowsProp, GridRowModesModel, GridRowModes, DataGrid, GridColDef, Gr
 import { randomCreatedDate, randomTraderName, randomId, randomArrayItem } from '@mui/x-data-grid-generator';
 import { createAdminTask, deleteAdminTask, getAdminTaskList, updateAdminTask } from '@/services/task';
 import { getUserData } from '@/libs/common';
-import { getTaskTypeId } from '@/pages/api/service/common';
 import { useRouter } from 'next/router';
+
+import dynamic from 'next/dynamic';
+const SuccessMessage = dynamic(() => import('@/components/success-message/success-message'));
 
 const taskTypes = ['Blog', 'Infographic', 'Video', 'Case Study'];
 
@@ -106,6 +108,8 @@ const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
     const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({});
     const router = useRouter();
 
+    const [success, setSuccess] = React.useState<string | null>(null);
+
     React.useEffect(() => {
 
         const getAdminTaskListData = async () => {
@@ -154,6 +158,15 @@ const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
                 };
                 const response = await deleteAdminTask(token, taskData);
                 console.log('Task deleted successfully:', response);
+
+                if (response.status === 200) {
+                    setSuccess(response.data.message)
+                    setTimeout(() => {
+                      setSuccess(null);
+                    }, 3000);
+                  }
+
+
                 setRows(rows.filter((row) => row.id !== id));
             } catch (error) {
                 console.error('Error creating task:', error);
@@ -191,7 +204,14 @@ const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
                     "createdBy": getUserData()?._id
                 };
                 const response = await createAdminTask(token, taskData);
-                console.log('Task created successfully:', response);
+              
+                if (response.status === 201) {
+                    setSuccess(response.data.message);
+                    setTimeout(() => {
+                      setSuccess(null);
+                    }, 3000);
+                  }
+
             } catch (error) {
                 console.error('Error creating task:', error);
             }
@@ -217,6 +237,14 @@ const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
                     };
                     const response = await updateAdminTask(token, taskData);
                     console.log('Task updated successfully:', response);
+
+                    if (response.status === 200) {
+                        setSuccess(response.data.message);
+                        setTimeout(() => {
+                          setSuccess(null);
+                        }, 3000);
+                      }
+
                 } catch (error) {
                     console.error('Error creating task:', error);
                 }
@@ -276,6 +304,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
     ];
 
     return (
+        <>
         <DataGrid
             rows={rows}
             columns={columns}
@@ -295,6 +324,11 @@ const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
             pageSizeOptions={[5, 10, 25]}
 
         />
+            <div className='success-message-admin-wrapper'>   
+                {success && <div className='admin-success'><SuccessMessage message={success} /></div>}
+            </div>
+        </>
+        
     );
 };
 

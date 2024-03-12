@@ -7,9 +7,10 @@ interface BasicBreadcrumbsProps {
     links: { label: string, href: string }[]; // Array of objects containing label and href for each link
     currentPage: string; // Current page label
     onClick?: (label: string) => void; // Optional click handler
+    rightContent?:string;
 }
 
-const BasicBreadcrumbs: React.FC<BasicBreadcrumbsProps> = ({ links, currentPage, onClick }) => {
+const BasicBreadcrumbs: React.FC<BasicBreadcrumbsProps> = ({ links, currentPage, onClick, rightContent }) => {
 
     const handleClick = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
         event.preventDefault();
@@ -27,6 +28,7 @@ const BasicBreadcrumbs: React.FC<BasicBreadcrumbsProps> = ({ links, currentPage,
                 ))}
                 <Typography color="text.primary">{currentPage}</Typography>
             </Breadcrumbs>
+            {rightContent && <div>{rightContent}</div>} 
         </div>
     );
 }

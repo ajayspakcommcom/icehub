@@ -1,10 +1,11 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import { DataGrid, GridColDef, GridRowId, GridRowModesModel, GridRowsProp, GridValueGetterParams } from '@mui/x-data-grid';
 import { fetAllUser } from '@/services/user';
 import { Button } from '@mui/material';
 import { getUserData } from '@/libs/common';
 import { assignAdminTask } from '@/services/task';
+import dynamic from 'next/dynamic';
+const SuccessMessage = dynamic(() => import('@/components/success-message/success-message'));
 
 interface AssignTaskProps {
     queryTaskId: string;
@@ -84,6 +85,7 @@ const AssignTask: React.FC<AssignTaskProps> = ({ queryTaskId }) => {
 
     const [userData, setUserData] = React.useState<User[] | null>(null);
     const [taskDetails, setTaskDetails] = React.useState<{ assignedTo: any[], updatedBy: string, updatedDate: Date } | null>(null);
+    const [success, setSuccess] = React.useState<string | null>(null);
 
 
 
@@ -156,7 +158,15 @@ const AssignTask: React.FC<AssignTaskProps> = ({ queryTaskId }) => {
             try {
                 const token = localStorage.getItem('token')!;
                 const response = await assignAdminTask(token, taskData);
-                console.log('Task updated successfully:', response);
+                console.log('Task updated successfully:...', response);
+
+                if (response.status === 200) {
+                    setSuccess(response.data.message)
+                    setTimeout(() => {
+                      setSuccess(null);
+                    }, 3000);
+                  }
+
             } catch (error) {
                 console.error('Error creating task:', error);
             }
@@ -182,6 +192,10 @@ const AssignTask: React.FC<AssignTaskProps> = ({ queryTaskId }) => {
                     />
                     <div className='right mt-15'>
                         <Button variant="contained" color='success' onClick={assignedTaskHandler}>Assign</Button>
+                    </div>
+
+                    <div className='success-message-admin-wrapper'>   
+                        {success && <div className='admin-success'><SuccessMessage message={success} /></div>}
                     </div>
                 </>
             }
