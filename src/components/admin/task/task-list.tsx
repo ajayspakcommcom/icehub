@@ -162,9 +162,9 @@ const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
                 if (response.status === 200) {
                     setSuccess(response.data.message)
                     setTimeout(() => {
-                      setSuccess(null);
+                        setSuccess(null);
                     }, 3000);
-                  }
+                }
 
 
                 setRows(rows.filter((row) => row.id !== id));
@@ -204,13 +204,13 @@ const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
                     "createdBy": getUserData()?._id
                 };
                 const response = await createAdminTask(token, taskData);
-              
+
                 if (response.status === 201) {
                     setSuccess(response.data.message);
                     setTimeout(() => {
-                      setSuccess(null);
+                        setSuccess(null);
                     }, 3000);
-                  }
+                }
 
             } catch (error) {
                 console.error('Error creating task:', error);
@@ -241,9 +241,9 @@ const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
                     if (response.status === 200) {
                         setSuccess(response.data.message);
                         setTimeout(() => {
-                          setSuccess(null);
+                            setSuccess(null);
                         }, 3000);
-                      }
+                    }
 
                 } catch (error) {
                     console.error('Error creating task:', error);
@@ -305,30 +305,30 @@ const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
 
     return (
         <>
-        <DataGrid
-            rows={rows}
-            columns={columns}
-            editMode="row"
-            rowModesModel={rowModesModel}
-            onRowModesModelChange={handleRowModesModelChange}
-            onRowEditStop={handleRowEditStop}
-            processRowUpdate={processRowUpdate}
-            slots={{ toolbar: EditToolbar }}
-            slotProps={{
-                toolbar: { setRows, setRowModesModel },
-            }}
+            <DataGrid
+                rows={rows}
+                columns={columns}
+                editMode="row"
+                rowModesModel={rowModesModel}
+                onRowModesModelChange={handleRowModesModelChange}
+                onRowEditStop={handleRowEditStop}
+                processRowUpdate={processRowUpdate}
+                slots={{ toolbar: EditToolbar }}
+                slotProps={{
+                    toolbar: { setRows, setRowModesModel },
+                }}
 
-            initialState={{
-                pagination: { paginationModel: { pageSize: 5 } },
-            }}
-            pageSizeOptions={[5, 10, 25]}
+                initialState={{
+                    pagination: { paginationModel: { pageSize: 5 } },
+                }}
+                pageSizeOptions={[5, 10, 25]}
 
-        />
-            <div className='success-message-admin-wrapper'>   
+            />
+            <div className='success-message-admin-wrapper'>
                 {success && <div className='admin-success'><SuccessMessage message={success} /></div>}
             </div>
         </>
-        
+
     );
 };
 

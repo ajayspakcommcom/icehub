@@ -188,7 +188,8 @@ p {
 }
 
 .feed-wrapper,
-.create-task-wrapper, .detail-task-wrapper {
+.create-task-wrapper,
+.detail-task-wrapper {
     background-color: #f0f2f5;
     min-height: calc(100% - 77px);
     padding-top: 20px;
@@ -821,7 +822,8 @@ p {
     color: #d32f2f;
 }
 
-.registration-success, .admin-success {
+.registration-success,
+.admin-success {
     margin-top: 20px;
     padding-left: 15px;
     width: 100%;
@@ -848,14 +850,14 @@ p {
 
 .video-task-main-wrapper {
 
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        -o-transform: translate(-50%, -50%);
-        -moz-transform: translate(-50%, -50%);
-        -ms-transform: translate(-50%, -50%);
-        -webkit-transform: translate(-50%, -50%);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
 
     .video-task-wrapper {
         background: transparent;
@@ -865,14 +867,14 @@ p {
         margin: auto;
         box-shadow: 1px 1px 10px rgba(128, 128, 128, 0.5);
         width: 500px;
-    
+
         .detail-task-wrapper {
             position: relative;
             width: 100%;
             // padding-top: 56.25%;
             padding-top: 60%;
             height: 50px;
-    
+
             h1 {
                 position: absolute;
                 top: 0;
@@ -880,7 +882,7 @@ p {
                 padding-bottom: 0;
                 border: 0;
             }
-    
+
             video {
                 position: absolute;
                 top: 0;
@@ -889,7 +891,7 @@ p {
                 height: 100%;
             }
         }
-    
+
         h1 {
             font-family: 'semi-bold';
             margin: 0;
@@ -898,7 +900,7 @@ p {
             padding-bottom: 20px;
             margin-bottom: 20px;
         }
-    
+
         img {
             max-width: 100%;
             height: auto;
@@ -906,11 +908,11 @@ p {
             margin: auto;
             cursor: pointer;
         }
-    
+
         input[type="file"] {
             opacity: 0;
         }
-    
+
         .btn-wrapper {
             text-align: right;
         }
@@ -1126,4 +1128,8 @@ p {
     justify-content: center;
     background-color: transparent;
     margin-bottom: 20px;
+}
+
+.red {
+    background-color: red;
 }
