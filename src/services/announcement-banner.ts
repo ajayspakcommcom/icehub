@@ -32,6 +32,19 @@ export const createAnnouncementBanner = async (formData: any, token: string): Pr
     }
 };
 
+export const deleteAnnouncementBanner = async (formData: any, token: string,): Promise<any> => {
+    try {
+        const response = await apiClient.post(`/announcement-banner`, formData, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return response;
+    } catch (error) {
+        throw error;
+    }
+};
+
 
 
 

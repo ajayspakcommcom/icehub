@@ -96,7 +96,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                     case 'DELETE':
                         try {
 
+                            console.log('Deleted');
+
+
                             const annId = fields.announcementId![0];
+
+                            console.log('annId', annId);
 
                             if (!annId) {
                                 return res.status(400).json({ message: 'announcement Id is required' });

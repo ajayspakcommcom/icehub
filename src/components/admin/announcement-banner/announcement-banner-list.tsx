@@ -14,7 +14,7 @@ import CancelIcon from '@mui/icons-material/Close';
 
 
 import dynamic from 'next/dynamic';
-import { createAnnouncementBanner, getAnnouncementList } from '@/services/announcement-banner';
+import { createAnnouncementBanner, deleteAnnouncementBanner, getAnnouncementList } from '@/services/announcement-banner';
 const FileUploadInput = dynamic(() => import('@/components/file-upload-input/file-upload-input'));
 
 type FileState = File;
@@ -224,6 +224,34 @@ const AnnouncementBannerList = () => {
 
 
     const handleDeleteClick = (id: GridRowId) => () => {
+
+        const deleteAnnouncementHandler = async () => {
+            try {
+                const token = localStorage.getItem('token')!;
+
+                const formData = new FormData();
+                formData.append('type', 'DELETE');
+                formData.append('announcementId', `${id}`)
+
+                const response = await deleteAnnouncementBanner(formData, token);
+                console.log('Task deleted successfully:', response);
+
+                if (response.status === 200) {
+                    // setSuccess(response.data.message)
+                    // setTimeout(() => {
+                    //     setSuccess(null);
+                    // }, 3000);
+                }
+
+
+                setRows(rows.filter((row) => row.id !== id));
+            } catch (error) {
+                console.error('Error creating task:', error);
+            }
+        };
+
+        deleteAnnouncementHandler();
+
     };
 
 
