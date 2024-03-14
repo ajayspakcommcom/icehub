@@ -13,6 +13,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
 
 import dynamic from 'next/dynamic';
+import { createAnnouncementBanner, getAnnouncementList } from '@/services/announcement-banner';
 const FileUploadInput = dynamic(() => import('@/components/file-upload-input/file-upload-input'));
 
 type FileState = File;
@@ -70,6 +71,26 @@ const AnnouncementBannerList = () => {
 
     React.useEffect(() => {
 
+        const fetchAnnouncementDataList = async () => {
+
+            try {
+
+                const formData = new FormData();
+                formData.append('type', 'LIST');
+
+                const response = await getAnnouncementList(formData, localStorage.getItem('token')!);
+                console.log('Resp Data', response.data.data);
+
+                //setSubmittedTaskListData(taskData);
+                //setLoading(false);
+            } catch (error: any) {
+                //setError(error.message);
+                //setLoading(false);
+            }
+        };
+
+        fetchAnnouncementDataList();
+
         return () => console.log('');
     }, []);
 
@@ -88,34 +109,26 @@ const AnnouncementBannerList = () => {
         if (newRow.isNew) {
             console.log('New', newRow);
 
-        } else {
-            console.log('updated', updatedRow);
-
             const handleFileUpload = async () => {
-
                 if (file) {
                     const formData = new FormData();
                     formData.append('file', file);
-                    formData.append('title', updatedRow?.title);
-                    formData.append('link', updatedRow?.link);
+                    formData.append('title', newRow?.title);
+                    formData.append('link', newRow?.link);
+                    formData.append('type', 'CREATE');
                     try {
-                        const response = await fetch('/api/announcement-banner', {
-                            method: 'POST',
-                            body: formData,
-                        });
-
-                        if (response.ok) {
-
-                        } else {
-                            console.error('Failed to upload file:', response.statusText);
-                        }
-                    } catch (error) {
-                        console.error('Error uploading file:', error);
+                        const response = await createAnnouncementBanner(formData, localStorage.getItem('token')!);
+                        console.log(response);
+                    } catch (error: any) {
+                        console.error('Error saving:', error);
                     }
                 }
             };
 
             handleFileUpload();
+
+        } else {
+            console.log('updated', updatedRow);
 
         }
 
