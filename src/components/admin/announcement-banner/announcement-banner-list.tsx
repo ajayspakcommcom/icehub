@@ -12,6 +12,7 @@ import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
 
+
 import dynamic from 'next/dynamic';
 import { createAnnouncementBanner, getAnnouncementList } from '@/services/announcement-banner';
 const FileUploadInput = dynamic(() => import('@/components/file-upload-input/file-upload-input'));
@@ -22,7 +23,8 @@ const initialRows: GridRowsProp = [
     {
         id: randomId(),
         title: 'Chindi',
-        link: 'https:www.example.com'
+        link: 'https:www.example.com',
+        file: ''
     }
 ];
 
@@ -59,7 +61,19 @@ function EditToolbar(props: EditToolbarProps) {
     );
 }
 
-
+interface Announcement {
+    _id: string;
+    heading: string;
+    imgUrl: string;
+    imgLink: string;
+    createdBy: null | string;
+    updatedBy: null | string;
+    updatedDate: null | string;
+    deletedBy: null | string;
+    deletedDate: null | string;
+    createdDate: string;
+    __v: number;
+}
 
 const AnnouncementBannerList = () => {
 
@@ -78,8 +92,47 @@ const AnnouncementBannerList = () => {
                 const formData = new FormData();
                 formData.append('type', 'LIST');
 
-                const response = await getAnnouncementList(formData, localStorage.getItem('token')!);
-                console.log('Resp Data', response.data.data);
+                try {
+                    const response = await getAnnouncementList(formData, localStorage.getItem('token')!);
+                    const responseData = response.data.data;
+                    console.log('responseData', responseData);
+                    const formattedUserTaskList = responseData.map((item: Announcement) => ({
+                        ...item,
+                        id: item._id,
+                        title: item.heading,
+                        link: item.imgLink,
+                        file: item.imgUrl,
+                        _id: undefined
+                    }));
+
+                    setRows(formattedUserTaskList);
+                    //setSubmittedTaskListData(taskData);
+                    //setLoading(false);
+                } catch (error: any) {
+                    //setError(error.message);
+                    //setLoading(false);
+                }
+
+
+
+
+                // try {
+                //     const response = await getAnnouncementList(formData, localStorage.getItem('token')!);
+                //     const userTaskData = response.data.data;
+                //     const formattedUserTaskList = userTaskData.map((userTask: UserTask) => ({
+                //         ...userTask,
+                //         id: userTask._id,
+                //         userName: userTask.user.firstName + ' ' + userTask.user.lastName,
+                //         taskName: userTask.task.name,
+                //         dueDate: new Date(userTask.task.dueDate),
+                //         taskTypeId: userTask.task.taskType,
+                //         _id: undefined
+                //     }));
+                //     setRows(formattedUserTaskList);
+                //     console.log('user submitted task', formattedUserTaskList);
+                // } catch (error: any) {
+                //     console.log('Error', error);
+                // }
 
                 //setSubmittedTaskListData(taskData);
                 //setLoading(false);
@@ -183,7 +236,7 @@ const AnnouncementBannerList = () => {
             width: 200,
             editable: true,
             renderCell: (params: GridCellParams) => {
-                return ((params.value as string) ? (params.value as string) : 'No File');
+                return <a target='_blank' href={params.value as string}><img src={params.value as string} alt="Description of Image" className='cell-img' /></a>
             },
 
             renderEditCell: (params: GridCellParams) => {

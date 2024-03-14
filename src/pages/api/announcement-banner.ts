@@ -80,7 +80,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                     case 'LIST':
                         try {
                             console.log('List');
-                            //const dataList = await UserTask.find({ user: req.body.userId, submitted: true, approvedByAdmin: true }).exec();
                             const dataList = await Announcement.find({}).exec();
                             console.log('dataList', dataList);
                             res.status(200).json({ data: dataList });
@@ -94,6 +93,27 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                         }
                         break;
 
+                    case 'DELETE':
+                        try {
+
+                            const annId = fields.announcementId![0];
+
+                            if (!annId) {
+                                return res.status(400).json({ message: 'announcement Id is required' });
+                            }
+
+                            const deleteAnnouncement = await Announcement.findByIdAndDelete(annId);
+
+                            if (!deleteAnnouncement) {
+                                return res.status(404).json({ message: 'Announcement Banner not found' });
+                            } else {
+                                res.status(200).json({ message: 'Task deleted successfully' });
+                            }
+                        } catch (error) {
+                            console.error('Error deleting task:', error);
+                            return res.status(500).json({ message: 'Internal server error' });
+                        }
+                        break;
                 }
 
             });
