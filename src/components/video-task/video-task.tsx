@@ -20,7 +20,7 @@ const VideoTask: React.FC<CaseStudyTaskProps> = ({ userId, taskId, heading }) =>
   const [content, setContent] = useState({ userId, taskId, videoTitle: heading });
   const [success, setSuccess] = React.useState<string | null>(null);
   const [error, setError] = React.useState<any>();
-  
+
 
   useEffect(() => {
 
@@ -38,7 +38,6 @@ const VideoTask: React.FC<CaseStudyTaskProps> = ({ userId, taskId, heading }) =>
     if (!file) return;
 
     console.log('file', file);
-
 
     const formData = new FormData();
     formData.append('file', file);
@@ -78,8 +77,8 @@ const VideoTask: React.FC<CaseStudyTaskProps> = ({ userId, taskId, heading }) =>
           <input type="file" name='file' id='file' onChange={handleFileUpload} accept="video/*" />
         </label>
       </div>
-      <div className='success-message-admin-wrapper'>   
-          {success && <div className='admin-success'><SuccessMessage message={success} /></div>}
+      <div className='success-message-admin-wrapper'>
+        {success && <div className='admin-success'><SuccessMessage message={success} /></div>}
       </div>
     </div>
   );

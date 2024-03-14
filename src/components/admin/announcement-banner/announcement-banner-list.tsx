@@ -15,10 +15,13 @@ import CancelIcon from '@mui/icons-material/Close';
 import dynamic from 'next/dynamic';
 const FileUploadInput = dynamic(() => import('@/components/file-upload-input/file-upload-input'));
 
+type FileState = File;
+
 const initialRows: GridRowsProp = [
     {
         id: randomId(),
-        name: 'Chindi'
+        title: 'Chindi',
+        link: 'https:www.example.com'
     }
 ];
 
@@ -35,10 +38,10 @@ function EditToolbar(props: EditToolbarProps) {
 
     const handleClick = () => {
         const id = randomId();
-        setRows((oldRows) => [{ id, name: '', isNew: true }, ...oldRows]);
+        setRows((oldRows) => [{ id, title: '', isNew: true }, ...oldRows]);
         setRowModesModel((oldModel) => ({
             ...oldModel,
-            [id]: { mode: GridRowModes.Edit, fieldToFocus: 'name' },
+            [id]: { mode: GridRowModes.Edit, fieldToFocus: 'title' },
         }));
     };
 
@@ -46,7 +49,7 @@ function EditToolbar(props: EditToolbarProps) {
 
         <div className='admin-create-btn-wrapper'>
             <div className='left-content'>
-                <h2>User Created Task</h2>
+                <h2>Announcement Banner List</h2>
             </div>
             <div className='right-content'>
                 <Button variant="contained" color="success" startIcon={<AddIcon />} onClick={handleClick}> Create Task</Button>
@@ -55,11 +58,15 @@ function EditToolbar(props: EditToolbarProps) {
     );
 }
 
+
+
 const AnnouncementBannerList = () => {
 
     const [rows, setRows] = React.useState(initialRows);
     const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({});
+    const [file, setFile] = React.useState<FileState>();
     const router = useRouter();
+
 
     React.useEffect(() => {
 
@@ -74,16 +81,42 @@ const AnnouncementBannerList = () => {
     };
 
     const processRowUpdate = (newRow: GridRowModel) => {
-        const updatedRow = { ...newRow };
+        const updatedRow = { ...newRow, isNew: undefined, title: newRow.title, link: newRow.link };
 
         setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
 
-
         if (newRow.isNew) {
             console.log('New', newRow);
-            
+
         } else {
-            console.log('updated', newRow);
+            console.log('updated', updatedRow);
+
+            const handleFileUpload = async () => {
+
+                if (file) {
+                    const formData = new FormData();
+                    formData.append('file', file);
+                    formData.append('title', updatedRow?.title);
+                    formData.append('link', updatedRow?.link);
+                    try {
+                        const response = await fetch('/api/announcement-banner', {
+                            method: 'POST',
+                            body: formData,
+                        });
+
+                        if (response.ok) {
+
+                        } else {
+                            console.error('Failed to upload file:', response.statusText);
+                        }
+                    } catch (error) {
+                        console.error('Error uploading file:', error);
+                    }
+                }
+            };
+
+            handleFileUpload();
+
         }
 
         return updatedRow;
@@ -94,17 +127,18 @@ const AnnouncementBannerList = () => {
     };
 
 
-
     const handleFileUpload = (file: File, id: string) => {
         console.log('Uploaded file :', file);
-        console.log('Id :', id);
+        setFile(file);
         handleSaveClick(id);
     };
 
-
     const handleEditClick = (id: GridRowId) => () => {
-        console.log(rowModesModel);
-        setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
+
+        setRowModesModel(prevRowModesModel => ({
+            ...prevRowModesModel,
+            [id]: { mode: GridRowModes.Edit }
+        }));
     };
 
     const handleSaveClick = (id: GridRowId) => () => {
@@ -122,27 +156,26 @@ const AnnouncementBannerList = () => {
         }
     };
 
-    
+
     const handleDeleteClick = (id: GridRowId) => () => {
     };
 
 
     const columns: GridColDef[] = [
-        { field: 'name', headerName: 'Task Name', type: 'text', width: 180, editable: true },
-        { 
-            field: 'file', 
-            headerName: 'Upload File', 
-            width: 200, 
+        { field: 'title', headerName: 'Title', type: 'text', width: 180, editable: true },
+        { field: 'link', headerName: 'Link', type: 'text', width: 180, editable: true },
+        {
+            field: 'file',
+            headerName: 'Upload File',
+            width: 200,
+            editable: true,
             renderCell: (params: GridCellParams) => {
-                
-                const isInEditMode = params.cellMode === GridRowModes.Edit;
-                if (isInEditMode) {
-                  return <FileUploadInput onChange={(file) => handleFileUpload(file, params.id as string)} />;
-                } 
-                else {
-                  return  (params.value as string) || null; 
-                }
-              },
+                return ((params.value as string) ? (params.value as string) : 'No File');
+            },
+
+            renderEditCell: (params: GridCellParams) => {
+                return <FileUploadInput onChange={(file) => handleFileUpload(file, params.id as string)} />;
+            }
         },
         {
             field: 'actions', type: 'actions', headerName: 'Actions', width: 100, cellClassName: 'actions',
@@ -152,8 +185,7 @@ const AnnouncementBannerList = () => {
 
                 if (isInEditMode) {
                     return [
-                        <FileUploadInput onChange={(file) => handleFileUpload(file, id as string)} />,
-                        //<GridActionsCellItem icon={<SaveIcon />} label="Save" sx={{ color: '#000' }} onClick={handleSaveClick(id)} />,
+                        <GridActionsCellItem icon={<SaveIcon />} label="Save" sx={{ color: '#000' }} onClick={handleSaveClick(id)} />,
                         <GridActionsCellItem icon={<CancelIcon />} label="Cancel" className="textPrimary" onClick={handleCancelClick(id)} color="inherit" />
                     ];
                 }
@@ -169,24 +201,24 @@ const AnnouncementBannerList = () => {
     return (
         <>
             <DataGrid
-            rows={rows}
-            columns={columns}
-            editMode="row"
-            rowModesModel={rowModesModel}
-            onRowModesModelChange={handleRowModesModelChange}
-            onRowEditStop={handleRowEditStop}
-            processRowUpdate={processRowUpdate}
-            slots={{ toolbar: EditToolbar }}
-            slotProps={{
-                toolbar: { setRows, setRowModesModel },
-            }}
+                rows={rows}
+                columns={columns}
+                editMode="row"
+                rowModesModel={rowModesModel}
+                onRowModesModelChange={handleRowModesModelChange}
+                onRowEditStop={handleRowEditStop}
+                processRowUpdate={processRowUpdate}
+                slots={{ toolbar: EditToolbar }}
+                slotProps={{
+                    toolbar: { setRows, setRowModesModel },
+                }}
 
-            initialState={{
-                pagination: { paginationModel: { pageSize: 5 } },
-            }}
-            pageSizeOptions={[5, 10, 25]}
+                initialState={{
+                    pagination: { paginationModel: { pageSize: 5 } },
+                }}
+                pageSizeOptions={[5, 10, 25]}
 
-        />
+            />
         </>
     );
 };
