@@ -96,8 +96,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                     case 'DELETE':
                         try {
 
-                            console.log('Deleted');
 
+                            // const deleteParams = {
+                            //     Bucket: params.Bucket, // The name of the bucket
+                            //     Key: params.Key, // The key of the object you want to delete
+                            // };
+
+                            // try {
+                            //     const deleteResp = await s3.deleteObject(deleteParams).promise();
+                            //     console.log('Successfully deleted', deleteResp);
+                            // } catch (error) {
+                            //     console.error('Error deleting object:', error);
+                            // }
 
                             const annId = fields.announcementId![0];
 
