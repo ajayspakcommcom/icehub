@@ -5,11 +5,11 @@ import Image from 'next/image';
 import { formatDateToDDMMYYYY } from '@/utils/common';
 
 type TaskStatusItemHeaderProps = {
-
+    isRejectedFeild?: boolean
 };
 
 
-const TaskStatusItemHeader: React.FC<TaskStatusItemHeaderProps> = ({ }) => {
+const TaskStatusItemHeader: React.FC<TaskStatusItemHeaderProps> = ({ isRejectedFeild = false }) => {
 
 
     return (
@@ -18,6 +18,12 @@ const TaskStatusItemHeader: React.FC<TaskStatusItemHeaderProps> = ({ }) => {
                 <li>
                     <div>Task Name</div>
                 </li>
+                {
+                    isRejectedFeild &&
+                    <li>
+                        <div>Rejected Reason</div>
+                    </li>
+                }
                 <li>
                     <div>Due Date</div>
                 </li>

@@ -403,6 +403,32 @@ p {
             }
         }
     }
+
+    &.submitted-wrapper {
+        .header {
+            &>ul {
+                display: grid;
+                grid-template-columns: 25% 25% 25% 25%;
+
+                &>li {
+                    width: auto;
+                }
+            }
+        }
+
+        .body {
+            &>ul {
+                &>li {
+                    display: grid;
+                    grid-template-columns: 25% 25% 25% 25%;
+
+                    &>div {
+                        width: auto;
+                    }
+                }
+            }
+        }
+    }
 }
 
 .flex-h-end {
@@ -1139,4 +1165,10 @@ p {
     height: auto;
     margin: 15px 0;
     display: block;
+}
+
+.tast-status-wrapper {
+    .css-heg063-MuiTabs-flexContainer {
+        justify-content: space-between;
+    }
 }

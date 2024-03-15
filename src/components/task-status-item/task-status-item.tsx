@@ -13,10 +13,11 @@ type TaskStatusItemProps = {
     dueDate: Date;
     isDisabled: boolean;
     taskType: TaskTypeEnum;
+    rejectionReason?: string;
 };
 
 
-const TaskStatusItem: React.FC<TaskStatusItemProps> = ({ id, title, imageUrl, type, dueDate, isDisabled, taskType }) => {
+const TaskStatusItem: React.FC<TaskStatusItemProps> = ({ id, title, imageUrl, type, dueDate, isDisabled, taskType, rejectionReason }) => {
 
     const router = useRouter();
 
@@ -107,6 +108,11 @@ const TaskStatusItem: React.FC<TaskStatusItemProps> = ({ id, title, imageUrl, ty
                     <div>
                         <strong>{title}</strong>
                         <p>{type}</p>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        {rejectionReason}
                     </div>
                 </div>
                 <div>

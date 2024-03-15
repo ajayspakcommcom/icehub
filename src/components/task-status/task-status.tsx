@@ -130,8 +130,8 @@ const TaskStatus: React.FC<TaskStatusProps> = () => {
                     </div>
                 </TabPanel>
                 <TabPanel value="2">
-                    <div className='task-content'>
-                        <TaskStatusItemHeader />
+                    <div className='task-content submitted-wrapper'>
+                        <TaskStatusItemHeader isRejectedFeild={true} />
                         <div className='body'>
                             <ul>
                                 {submittedTaskListData.map((task: SubmittedTask) => (
@@ -144,6 +144,7 @@ const TaskStatus: React.FC<TaskStatusProps> = () => {
                                         dueDate={new Date()}
                                         isDisabled={task.approvedByAdmin}
                                         taskType={TaskTypeEnum.SUBMITTED}
+                                        rejectionReason={task.rejectionReason as string}
                                     />
                                 ))}
                             </ul>
