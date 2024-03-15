@@ -11,11 +11,12 @@ interface CaseStudyTaskProps {
   userId: string;
   taskId: string;
   heading: string;
+  isEditMode?: boolean;
 }
 
 
 
-const VideoTask: React.FC<CaseStudyTaskProps> = ({ userId, taskId, heading }) => {
+const VideoTask: React.FC<CaseStudyTaskProps> = ({ userId, taskId, heading, isEditMode }) => {
 
   const [content, setContent] = useState({ userId, taskId, videoTitle: heading });
   const [success, setSuccess] = React.useState<string | null>(null);

@@ -15,10 +15,11 @@ interface BlogProps {
   blogParagraph: string;
   selectedBlog: string;
   createTaskType: string,
+  isEditMode?: boolean;
 }
 
 
-const BlogTask: React.FC<BlogProps> = ({ createTaskType, userId, taskId, blogTitle, blogParagraph, selectedBlog }) => {
+const BlogTask: React.FC<BlogProps> = ({ createTaskType, userId, taskId, blogTitle, blogParagraph, selectedBlog, isEditMode }) => {
 
   const [content, setContent] = useState({ createTaskType, userId, taskId, blogTitle, blogParagraph, selectedBlog });
   const [success, setSuccess] = React.useState<string | null>(null);

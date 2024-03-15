@@ -42,7 +42,8 @@ const TaskStatusItem: React.FC<TaskStatusItemProps> = ({ id, title, imageUrl, ty
         }
     };
 
-    const updateTaskHandler = (type: string) => {
+    const updateTaskHandler = (id: string) => {
+
         if (!isDisabled) {
             router.push({
                 pathname: '/update-task',
@@ -100,7 +101,7 @@ const TaskStatusItem: React.FC<TaskStatusItemProps> = ({ id, title, imageUrl, ty
 
     if (taskType === TaskTypeEnum.SUBMITTED) {
         return (
-            <li className={`${isDisabled ? 'disabled' : ''}`} id={`${id}`}>
+            <li className={`${isDisabled ? 'disabled' : ''}`} id={`${id}`} onClick={() => updateTaskHandler(id)}>
                 <div>
                     <div>
                         <Image src={require(`../../../public/images/icons/${imageUrl}`)} alt={`${title}`} className='responsive-img' />

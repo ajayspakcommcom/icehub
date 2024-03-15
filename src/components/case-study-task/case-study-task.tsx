@@ -14,11 +14,12 @@ interface CaseStudyTaskProps {
   elongated: string;
   intake: string;
   createTaskType: string,
+  isEditMode?: boolean;
 }
 
 
 
-const CaseStudyTask: React.FC<CaseStudyTaskProps> = ({ userId, taskId, heading, diagnosis, treatment, elongated, intake, createTaskType }) => {
+const CaseStudyTask: React.FC<CaseStudyTaskProps> = ({ userId, taskId, heading, diagnosis, treatment, elongated, intake, createTaskType, isEditMode }) => {
 
   const [content, setContent] = useState({ userId, taskId, caseStudyTitle: heading, csDiagnosis: diagnosis, csTreatment: treatment, csQuestion1: elongated, csQuestion2: intake, createTaskType, csDoctorName: 'Ramesh' });
   const [success, setSuccess] = React.useState<string | null>(null);
