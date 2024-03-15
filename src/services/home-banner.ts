@@ -7,6 +7,14 @@ const apiClient = axios.create({
     baseURL: API_BASE_URL
 });
 
+export const getHomeListUserLevel = async (formData: any): Promise<any> => {
+    try {
+        const response = await apiClient.post('/home-banner-list', formData);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+};
 
 export const getHomeList = async (formData: any, token: string): Promise<any> => {
     try {

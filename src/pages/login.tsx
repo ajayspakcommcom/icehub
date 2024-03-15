@@ -3,7 +3,7 @@ import React from "react";
 import BannerCarouselImage from "@/models/BannerCarouselImage";
 import Image from "next/image";
 import dynamic from 'next/dynamic';
-import { getHomeList } from "@/services/home-banner";
+import { getHomeListUserLevel } from "@/services/home-banner";
 
 const BannerCarousel = dynamic(() => import('@/components/carousel/banner-carousel'));
 const LoginForm = dynamic(() => import('@/components/login/login'));
@@ -26,7 +26,7 @@ export default function SignInOne() {
 
         const formData = new FormData();
         formData.append('type', 'LIST');
-        const response = await getHomeList(formData, localStorage.getItem('token')!);
+        const response = await getHomeListUserLevel(formData);
         const responseData = response.data.data;
         setBannerCarousels(responseData);
       } catch (error: any) {

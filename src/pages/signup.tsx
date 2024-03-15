@@ -2,7 +2,7 @@ import * as React from 'react';
 import dynamic from 'next/dynamic';
 import Image from "next/image";
 import BannerCarouselImage from "@/models/BannerCarouselImage";
-import { getHomeList } from "@/services/home-banner";
+import { getHomeListUserLevel } from "@/services/home-banner";
 
 const BannerCarousel = dynamic(() => import('@/components/carousel/banner-carousel'));
 const FormHeading = dynamic(() => import('@/components/form-heading/form-heading'));
@@ -23,7 +23,7 @@ export default function ComboBox() {
 
         const formData = new FormData();
         formData.append('type', 'LIST');
-        const response = await getHomeList(formData, localStorage.getItem('token')!);
+        const response = await getHomeListUserLevel(formData);
         const responseData = response.data.data;
         setBannerCarousels(responseData);
       } catch (error: any) {
