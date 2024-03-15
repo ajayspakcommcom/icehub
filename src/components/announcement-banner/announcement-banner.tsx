@@ -6,19 +6,14 @@ import ReactDOM from 'react-dom';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 import AnnouncementCarouselImage from '@/models/AnnouncementCarouselImage';
+import { getAnnouncementList } from '@/services/announcement-banner';
 
 interface AnnouncementBannerProps {
-    //title?: string;
 }
 
-const images: AnnouncementCarouselImage[] = [
-    { id: 1, imageUrl: '1.png', text: 'Announcement Banner 1' },
-    { id: 2, imageUrl: '1.png', text: 'Announcement Banner 2' },
-    { id: 3, imageUrl: '1.png', text: 'Announcement Banner 3' }
-];
-
-
 const AnnouncementBanner: React.FC<AnnouncementBannerProps> = () => {
+
+    const [announcements, setAnnouncements] = React.useState<AnnouncementCarouselImage[]>([]);
 
     const setting = {
         showThumbs: false,
@@ -27,7 +22,22 @@ const AnnouncementBanner: React.FC<AnnouncementBannerProps> = () => {
     };
 
     useEffect(() => {
-        console.log(images);
+
+        const fetchAnnouncementDataList = async () => {
+            try {
+
+                const formData = new FormData();
+                formData.append('type', 'LIST');
+                const response = await getAnnouncementList(formData, localStorage.getItem('token')!);
+                const responseData = response.data.data;
+                console.log('responseData', responseData);
+                setAnnouncements(responseData);
+            } catch (error: any) {
+                console.log('Error', error);
+            }
+        };
+
+        fetchAnnouncementDataList();
 
         return () => console.log('unbind carousel images');
     }, []);
@@ -36,11 +46,13 @@ const AnnouncementBanner: React.FC<AnnouncementBannerProps> = () => {
         <>
             <div className={'announcement-banner-wrapper'}>
                 <Carousel {...setting}>
-                    {images.map((image) => (
-                        <div key={image.id} className={`content`}>
-                            <img key={image.id} src={`../../../images/announcement-banner/1.png`} />
-                            <div className="text-part"><p>Announcement Banner</p></div>
-                        </div>
+                    {announcements.map((image: AnnouncementCarouselImage) => (
+                        <a key={image._id} href={image.imgLink} target='_blank'>
+                            <div className={`content`}>
+                                <img key={image._id} src={image.imgUrl} />
+                                <div className="text-part"><p>{image.heading}</p></div>
+                            </div>
+                        </a>
                     ))}
                 </Carousel>
 

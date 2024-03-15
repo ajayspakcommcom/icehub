@@ -1,0 +1,17 @@
+User Section
+
+Home Banner Implementation
+Announcement Banner Implementation
+Task Status Page 
+    After rejection 
+        After Task Submitted the it removed from Assigned Task
+        After Task Approved the it removed from Submitted Task
+        Edit the task
+User Profile
+    Detail
+    Edit 
+
+
+
+
+
