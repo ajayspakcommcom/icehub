@@ -6,12 +6,12 @@ const homeBannerSchema = new mongoose.Schema({
     default: null,
     required: true
   },
-  paragraph: {
+  imgUrl: {
     type: String,
     default: null,
     required: true
   },
-  imgUrl: {
+  imgLink: {
     type: String,
     default: null,
     required: true

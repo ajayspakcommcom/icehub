@@ -1,15 +1,14 @@
 import React from 'react';
-import { getSession, useSession, signOut, } from 'next-auth/react';
-import { Button, Container } from '@mui/material';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 
-const Header = dynamic(() => import('@/components/admin/layout/Header'));
-const Footer = dynamic(() => import('@/components/admin/layout/Footer'));
+const AdminLayout = dynamic(() => import('@/components/admin/layout/Layout'));
 const Loading = dynamic(() => import('@/components/admin/loading/loading'));
+const HomeBannerList = dynamic(() => import('@/components/admin/home-banner/home-banner-list'));
 
 
-export default function Home() {
+const index = () => {
 
   const { data: session, status } = useSession({ required: true });
   const router = useRouter();
@@ -28,16 +27,13 @@ export default function Home() {
 
   return (
     <>
-      <Header />
-      <Container>
-        <h1>Home Banner List</h1>
-      </Container>
-      <Footer />
+      <AdminLayout>
+        <HomeBannerList />
+      </AdminLayout>
     </>
   )
-
-
-
 }
+
+export default index;
 
 
