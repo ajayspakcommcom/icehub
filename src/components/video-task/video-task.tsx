@@ -25,11 +25,9 @@ const VideoTask: React.FC<CaseStudyTaskProps> = ({ userId, taskId, heading, isEd
 
   useEffect(() => {
 
-    // setContent(previousState => {
-    //   return { ...previousState }
-    // });
-
-    console.log('isEditMode', isEditMode);
+    if (isEditMode) {
+      console.log('Edit mode');
+    }
 
 
   }, [userId, taskId]);
