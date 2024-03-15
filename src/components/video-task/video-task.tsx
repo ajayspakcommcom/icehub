@@ -133,7 +133,7 @@ const VideoTask: React.FC<CaseStudyTaskProps> = ({ userId, taskId, heading, isEd
           </video>
         </div>
       }
-      <div className='video-task-main-wrapper'>
+      <div className={`video-task-main-wrapper ${isEditMode && 'relative-edit-wrapper'}`}>
         <div className='video-task-wrapper'>
           <h1>Upload your video</h1>
           <label htmlFor='file'>

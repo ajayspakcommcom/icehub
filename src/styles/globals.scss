@@ -950,6 +950,13 @@ p {
         }
     }
 
+    &.relative-edit-wrapper {
+        position: relative;
+        transform: none;
+        top: auto;
+        left: auto;
+    }
+
 }
 
 
@@ -1179,6 +1186,10 @@ p {
     width: 500px;
     margin: auto;
     margin-bottom: 30px;
+    margin-top: 50px;
+    box-shadow: 1px 1px 10px rgba(128, 128, 128, 0.5);
+    padding: 15px;
+    border-radius: 10px;
 
     video {
         width: 100%;
