@@ -29,6 +29,9 @@ const VideoTask: React.FC<CaseStudyTaskProps> = ({ userId, taskId, heading, isEd
     //   return { ...previousState }
     // });
 
+    console.log('isEditMode', isEditMode);
+
+
   }, [userId, taskId]);
 
 
@@ -37,8 +40,6 @@ const VideoTask: React.FC<CaseStudyTaskProps> = ({ userId, taskId, heading, isEd
 
     const file = e.target.files?.[0];
     if (!file) return;
-
-    console.log('file', file);
 
     const formData = new FormData();
     formData.append('file', file);
@@ -53,7 +54,6 @@ const VideoTask: React.FC<CaseStudyTaskProps> = ({ userId, taskId, heading, isEd
       });
 
       if (response.ok) {
-        //console.log('File uploaded successfully');
         setSuccess('File uploaded successfully')
         setTimeout(() => {
           setSuccess(null);

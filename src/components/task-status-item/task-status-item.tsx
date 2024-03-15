@@ -51,7 +51,8 @@ const TaskStatusItem: React.FC<TaskStatusItemProps> = ({ id, title, imageUrl, ty
                     type: type?.toLowerCase(),
                     userId: getUserData()?._id,
                     taskId: id,
-                    taskTitle: title
+                    taskTitle: title,
+                    isEditMode: true
                 },
             });
         }
