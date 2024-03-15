@@ -199,6 +199,8 @@ const HomeBannerList = () => {
 
     const handleDeleteClick = (id: GridRowId, row: Announcement) => () => {
 
+        console.log('homeBannerId', id);
+
 
         const deleteHomeHandler = async () => {
             try {
@@ -229,7 +231,7 @@ const HomeBannerList = () => {
 
     const columns: GridColDef[] = [
         { field: 'title', headerName: 'Title', type: 'text', width: 180, editable: true },
-        { field: 'para', headerName: 'Link', type: 'text', width: 180, editable: true },
+        { field: 'para', headerName: 'Paragraph', type: 'text', width: 180, editable: true },
         {
             field: 'file',
             headerName: 'Upload File',
