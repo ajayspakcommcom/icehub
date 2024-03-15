@@ -96,22 +96,22 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                     case 'DELETE':
                         try {
 
+                            console.clear();
+                            console.log('fields.imgUrl![0]', fields.imgUrl![0]);
 
-                            // const deleteParams = {
-                            //     Bucket: params.Bucket, // The name of the bucket
-                            //     Key: params.Key, // The key of the object you want to delete
-                            // };
+                            const deleteParams = {
+                                Bucket: 'spak-latest-data',
+                                Key: fields.imgUrl![0],
+                            };
 
-                            // try {
-                            //     const deleteResp = await s3.deleteObject(deleteParams).promise();
-                            //     console.log('Successfully deleted', deleteResp);
-                            // } catch (error) {
-                            //     console.error('Error deleting object:', error);
-                            // }
+                            try {
+                                const deleteResp = await s3.deleteObject(deleteParams).promise();
+                                console.log('Successfully deleted', deleteResp);
+                            } catch (error) {
+                                console.error('Error deleting object:', error);
+                            }
 
                             const annId = fields.announcementId![0];
-
-                            console.log('annId', annId);
 
                             if (!annId) {
                                 return res.status(400).json({ message: 'announcement Id is required' });

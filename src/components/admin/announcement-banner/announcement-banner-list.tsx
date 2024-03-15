@@ -155,12 +155,11 @@ const AnnouncementBannerList = () => {
     };
 
     const processRowUpdate = (newRow: GridRowModel) => {
-        const updatedRow = { ...newRow, isNew: undefined, title: newRow.title, link: newRow.link };
+        const updatedRow = { ...newRow, isNew: undefined, title: newRow.title, link: newRow.link, file: `manish` };
 
         setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
 
         if (newRow.isNew) {
-            console.log('New', newRow);
 
             const handleFileUpload = async () => {
                 if (file) {
@@ -171,7 +170,6 @@ const AnnouncementBannerList = () => {
                     formData.append('type', 'CREATE');
                     try {
                         const response = await createAnnouncementBanner(formData, localStorage.getItem('token')!);
-                        console.log(response);
                     } catch (error: any) {
                         console.error('Error saving:', error);
                     }
@@ -182,7 +180,6 @@ const AnnouncementBannerList = () => {
 
         } else {
             console.log('updated', updatedRow);
-
         }
 
         return updatedRow;
@@ -223,7 +220,9 @@ const AnnouncementBannerList = () => {
     };
 
 
-    const handleDeleteClick = (id: GridRowId) => () => {
+    const handleDeleteClick = (id: GridRowId, row: Announcement) => () => {
+
+        console.log('row', row);
 
         const deleteAnnouncementHandler = async () => {
             try {
@@ -231,18 +230,15 @@ const AnnouncementBannerList = () => {
 
                 const formData = new FormData();
                 formData.append('type', 'DELETE');
-                formData.append('announcementId', `${id}`)
+                formData.append('announcementId', `${id}`);
+                formData.append('imgUrl', row.imgUrl);
 
                 const response = await deleteAnnouncementBanner(formData, token);
                 console.log('Task deleted successfully:', response);
 
                 if (response.status === 200) {
-                    // setSuccess(response.data.message)
-                    // setTimeout(() => {
-                    //     setSuccess(null);
-                    // }, 3000);
-                }
 
+                }
 
                 setRows(rows.filter((row) => row.id !== id));
             } catch (error) {
@@ -264,11 +260,12 @@ const AnnouncementBannerList = () => {
             width: 200,
             editable: true,
             renderCell: (params: GridCellParams) => {
-                return <a target='_blank' href={params.value as string}><img src={params.value as string} alt="Description of Image" className='cell-img' /></a>
+                return file ? <img src={URL.createObjectURL(file)} alt="Description of Image" className='cell-img' /> : <a target='_blank' href={params.value as string}><img src={params.value as string} alt="Description of Image" className='cell-img' /></a>
             },
 
             renderEditCell: (params: GridCellParams) => {
-                return <FileUploadInput onChange={(file) => handleFileUpload(file, params.id as string)} />;
+                console.log('file', file);
+                return file ? <img src={URL.createObjectURL(file)} alt="Selected" className='cell-img' /> : <FileUploadInput onChange={(file) => handleFileUpload(file, params.id as string)} />;
             }
         },
         {
@@ -285,8 +282,8 @@ const AnnouncementBannerList = () => {
                 }
 
                 return [
-                    <GridActionsCellItem icon={<EditIcon />} label="Edit" className="textPrimary" onClick={handleEditClick(id)} color="inherit" />,
-                    <GridActionsCellItem icon={<DeleteIcon />} label="Delete" onClick={handleDeleteClick(id)} color="inherit" />
+                    // <GridActionsCellItem icon={<EditIcon />} label="Edit" className="textPrimary" onClick={handleEditClick(id)} color="inherit" />,
+                    <GridActionsCellItem icon={<DeleteIcon />} label="Delete" onClick={handleDeleteClick(id, row)} color="inherit" />
                 ];
             },
         },
